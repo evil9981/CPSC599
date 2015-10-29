@@ -16,9 +16,7 @@
 		CE6EAE861BD889300004DAD8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE841BD889300004DAD8 /* LaunchScreen.storyboard */; };
 		CE6EAE911BD889300004DAD8 /* GameAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE901BD889300004DAD8 /* GameAppTests.swift */; };
 		CE6EAE9C1BD88A3A0004DAD8 /* AttackerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE9B1BD88A3A0004DAD8 /* AttackerScene.swift */; settings = {ASSET_TAGS = (); }; };
-		CE6EAE9E1BD88A470004DAD8 /* DefenderScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE9D1BD88A470004DAD8 /* DefenderScene.swift */; settings = {ASSET_TAGS = (); }; };
 		CE6EAEA11BD89B670004DAD8 /* AttackerScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE9F1BD89A960004DAD8 /* AttackerScene.sks */; settings = {ASSET_TAGS = (); }; };
-		CE6EAEA51BD8A8CB0004DAD8 /* DefenderScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAEA41BD8A8CB0004DAD8 /* DefenderScene.sks */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,9 +43,7 @@
 		CE6EAE901BD889300004DAD8 /* GameAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameAppTests.swift; sourceTree = "<group>"; };
 		CE6EAE921BD889300004DAD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE6EAE9B1BD88A3A0004DAD8 /* AttackerScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackerScene.swift; sourceTree = "<group>"; };
-		CE6EAE9D1BD88A470004DAD8 /* DefenderScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderScene.swift; sourceTree = "<group>"; };
 		CE6EAE9F1BD89A960004DAD8 /* AttackerScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AttackerScene.sks; sourceTree = "<group>"; };
-		CE6EAEA41BD8A8CB0004DAD8 /* DefenderScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefenderScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +95,6 @@
 				CE6EAE871BD889300004DAD8 /* Info.plist */,
 				CE6EAE9B1BD88A3A0004DAD8 /* AttackerScene.swift */,
 				CE6EAE9F1BD89A960004DAD8 /* AttackerScene.sks */,
-				CE6EAE9D1BD88A470004DAD8 /* DefenderScene.swift */,
-				CE6EAEA41BD8A8CB0004DAD8 /* DefenderScene.sks */,
 			);
 			path = GameApp;
 			sourceTree = "<group>";
@@ -201,7 +195,6 @@
 				CE6EAEA11BD89B670004DAD8 /* AttackerScene.sks in Resources */,
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
 				CE6EAE811BD889300004DAD8 /* Main.storyboard in Resources */,
-				CE6EAEA51BD8A8CB0004DAD8 /* DefenderScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +212,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6EAE9E1BD88A470004DAD8 /* DefenderScene.swift in Sources */,
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,
 				CE6EAE7E1BD889300004DAD8 /* GameViewController.swift in Sources */,
 				CE6EAE9C1BD88A3A0004DAD8 /* AttackerScene.swift in Sources */,
@@ -414,6 +406,7 @@
 				CE6EAE971BD889300004DAD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE6EAE981BD889300004DAD8 /* Build configuration list for PBXNativeTarget "GameAppTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +415,7 @@
 				CE6EAE9A1BD889300004DAD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
