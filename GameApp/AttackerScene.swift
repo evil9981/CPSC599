@@ -1,7 +1,6 @@
 //
 //  AttackScene.swift
 //  GameApp
-//  Luke's Comment
 //  Created by User on 2015-10-21.
 //  Copyright © 2015 Eric. All rights reserved.
 //
