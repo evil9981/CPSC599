@@ -35,6 +35,14 @@ class AttackerScene: SKScene
         sceneCamera.yScale = 0.5
         self.addChild(sceneCamera)
         
+        let node = SKNode()
+        node.position = CGPointMake(500, 500)
+        
+        let moveLeft = SKAction(named: "moveLeft")
+        node.runAction(SKAction.repeatAction(moveLeft!, count: 10))
+        
+        self.addChild(node)
+        
         let camera_viewport_width = self.scene!.frame.width * sceneCamera.xScale
         let camera_viewport_height = self.scene!.frame.height * sceneCamera.yScale
         

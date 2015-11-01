@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE3793001BE2BEDC003A4DAC /* myActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE3792FF1BE2BEDC003A4DAC /* myActions.sks */; settings = {ASSET_TAGS = (); }; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
 		CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE7B1BD889300004DAD8 /* MainMenuScene.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE3792FF1BE2BEDC003A4DAC /* myActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = myActions.sks; path = /Users/User/CPSC599/GameApp/../myActions.sks; sourceTree = "<absolute>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		CE6EAE761BD889300004DAD8 /* GameApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE3792FF1BE2BEDC003A4DAC /* myActions.sks */,
 				CE6EAE771BD889300004DAD8 /* AppDelegate.swift */,
 				CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */,
 				CE6EAE7B1BD889300004DAD8 /* MainMenuScene.swift */,
@@ -192,6 +195,7 @@
 			files = (
 				CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */,
 				CE6EAE861BD889300004DAD8 /* LaunchScreen.storyboard in Resources */,
+				CE3793001BE2BEDC003A4DAC /* myActions.sks in Resources */,
 				CE6EAEA11BD89B670004DAD8 /* AttackerScene.sks in Resources */,
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
 				CE6EAE811BD889300004DAD8 /* Main.storyboard in Resources */,

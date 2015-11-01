@@ -15,7 +15,7 @@ class MainMenuScene: SKScene
         backgroundColor = SKColor.redColor()
         
         let myLabel = SKLabelNode(fontNamed: "Chalkduster")
-        myLabel.text = "Hello World! Scene 1"
+        myLabel.text = "Tap to get into the game scene"
         myLabel.fontSize = 70
         myLabel.position = CGPoint(x: frame.width/2, y: frame.height/2)
         
