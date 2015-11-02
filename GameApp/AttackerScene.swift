@@ -60,6 +60,8 @@ class AttackerScene: SKScene
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
+        getJSONFile()
+        
     }
     
     var prevLocation: CGPoint = CGPointMake(0, 0)
@@ -122,6 +124,30 @@ class AttackerScene: SKScene
             
             sceneCamera.position = CGPointMake( new_x, new_y )
             
+        }
+    }
+    
+    func getJSONFile()
+    {
+        let filePath = NSBundle.mainBundle().pathForResource("TowerMap", ofType: "json")
+        
+        do
+        {
+            let text = try NSString(contentsOfFile: filePath!, encoding: NSUTF8StringEncoding)
+            
+            let parsedText = try NSJSONSerialization.JSONObjectWithData(text.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions.AllowFragments)
+            
+            if let jsonContent = parsedText as? NSDictionary
+            {
+                if let height = jsonContent["height"]
+                {
+                    debugPrint(height)
+                }
+            }
+        }
+        catch
+        {
+            debugPrint("Error reading JSON file")
         }
     }
 }
