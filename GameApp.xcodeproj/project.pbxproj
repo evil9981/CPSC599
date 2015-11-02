@@ -30,7 +30,7 @@
 		CED265061BE773930022C033 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265051BE773930022C033 /* TileType.swift */; };
 		CED265081BE774040022C033 /* TileOpts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265071BE774040022C033 /* TileOpts.swift */; };
 		CED2650A1BE77D310022C033 /* TreasureTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265091BE77D310022C033 /* TreasureTile.swift */; };
-		CED2650E1BE78D510022C033 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CED2650D1BE78D510022C033 /* TowerMap.json */; };
+		CED265101BE799A30022C033 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CED2650F1BE799A30022C033 /* TowerMap.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 		CED265051BE773930022C033 /* TileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		CED265071BE774040022C033 /* TileOpts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileOpts.swift; sourceTree = "<group>"; };
 		CED265091BE77D310022C033 /* TreasureTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreasureTile.swift; sourceTree = "<group>"; };
-		CED2650D1BE78D510022C033 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TowerMap.json; path = ../TowerMap.json; sourceTree = "<group>"; };
+		CED2650F1BE799A30022C033 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TowerMap.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 				CE9A76551BE754B000DDBF11 /* Components */,
 				CE9A76521BE7545E00DDBF11 /* Entities */,
 				CE9A764B1BE702B000DDBF11 /* Tiles */,
-				CED2650D1BE78D510022C033 /* TowerMap.json */,
+				CED2650F1BE799A30022C033 /* TowerMap.json */,
 				CE6EAE771BD889300004DAD8 /* AppDelegate.swift */,
 				CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */,
 				CE6EAE7B1BD889300004DAD8 /* MainMenuScene.swift */,
@@ -261,7 +261,7 @@
 			files = (
 				CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */,
 				CE6EAE861BD889300004DAD8 /* LaunchScreen.storyboard in Resources */,
-				CED2650E1BE78D510022C033 /* TowerMap.json in Resources */,
+				CED265101BE799A30022C033 /* TowerMap.json in Resources */,
 				CE6EAEA11BD89B670004DAD8 /* GameScene.sks in Resources */,
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
 				CE6EAE811BD889300004DAD8 /* Main.storyboard in Resources */,

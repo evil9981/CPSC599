@@ -52,4 +52,38 @@ public class Tile
         
         return NonUsableTile(position: pos)
     }
+    
+    static let left_arrow = 369
+    static let up_arrow = 370
+    static let right_arrow = 371
+    static let down_arrow = 372
+    
+    static public func parseTileOpts(type: Int) -> TileOpts
+    {
+        switch (type)
+        {
+        case left_arrow:
+            return TileOpts.MoveLeft
+            
+        case up_arrow:
+            return TileOpts.MoveUp
+            
+        case right_arrow:
+            return TileOpts.MoveRight
+            
+        case down_arrow:
+            return TileOpts.MoveDown
+            
+        default:
+            return TileOpts.None
+        }
+    }
+    
+    static public func getTile(tiles : [[Tile]], pos: int2) -> Tile
+    {
+        let row = tiles.count - 1 - Int(pos.y)
+        let column = Int(pos.x)
+        
+        return tiles[row][column]
+    }
 }

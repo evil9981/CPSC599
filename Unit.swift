@@ -12,14 +12,18 @@ import GameplayKit
 
 class Unit: GKEntity
 {
+    var scene: GameScene
+    
     var movementComp: MovementComponent!
     var visualComp: VisualComponent!
     var logicComp: LogicComponent!
     
     var entity_id: Int = -1
     
-    init(scene: GameScene, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval)
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval)
     {
+        self.scene = scene
+        
         super.init()
         // Inc static entity id and set current
         entity_id = Unit.get_next_id()
@@ -32,7 +36,7 @@ class Unit: GKEntity
         self.addComponent(visualComp)
         
         // Add the logical component that moves creatures on the tiles set
-        self.logicComp = LogicComponent()
+        self.logicComp = LogicComponent(tiles: scene.tiles, unit: self, pos: grid_position)
         self.addComponent(logicComp)
     }
     
@@ -41,7 +45,11 @@ class Unit: GKEntity
         if (!movementComp.is_moving)
         {
             visualComp.node!.runAction(movementComp.current_movement, completion: { self.movementComp.finishedMovement() })
+            
+            logicComp.update()
+            
             movementComp.is_moving = true
+            
         }
     }
     
@@ -68,5 +76,11 @@ class Unit: GKEntity
     {
         Unit.next_entity_id++;
         return Unit.next_entity_id;
+    }
+    
+    func destroy()
+    {
+        scene.removeChildrenInArray([self.visualComp.node])
+        scene.all_units.removeValueForKey(self.entity_id)
     }
 }

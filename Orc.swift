@@ -19,9 +19,9 @@ class Orc: Unit
     
     static let downTextures = [SKTexture(imageNamed: "down_0"), SKTexture(imageNamed: "down_1"), SKTexture(imageNamed: "down_0"), SKTexture(imageNamed: "down_2")]
     
-    init(scene: GameScene, world_position: CGPoint, speed: NSTimeInterval)
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
-        super.init(scene: scene, world_position: world_position,
+        super.init(scene: scene, grid_position: grid_position, world_position: world_position,
             leftTextures: Orc.leftTextures, rightTextures: Orc.rightTextures,
             upTextures: Orc.upTextures, downTextures: Orc.downTextures,
             speed: speed)

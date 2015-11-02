@@ -20,6 +20,7 @@ public class MovementComponent: GKComponent
     public var moveDown: SKAction!
 
     var current_movement: SKAction!
+    var current_mov_option: TileOpts!
     var is_moving: Bool = false
     
     init(unit:Unit, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval)
@@ -30,11 +31,13 @@ public class MovementComponent: GKComponent
         self.updateActions(leftTextures, rightTextures: rightTextures, upTextures: upTextures, downTextures: downTextures, speed: speed)
         
         current_movement = moveRight
+        current_mov_option = TileOpts.MoveRight
     }
     
     func finishedMovement()
     {
         is_moving = false
+        
         unit.update()
     }
     

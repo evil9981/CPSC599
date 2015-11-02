@@ -72,23 +72,32 @@ class GameScene: SKScene
             spawnOrc(scenePoint)
             let pos_on_grid = coordinateForPoint(scenePoint)
             
-            debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) ")
-            debugPrint( getTile(pos_on_grid))
+            let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
+            debugPrint( tile )
         }
     }
     
     func spawnOrc(point: CGPoint)
     {
-        debugPrint(point)
-        
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPoint(point)
-        debugPrint(pos_on_grid)
         
+        // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
-        let orc = Orc(scene: self, world_position: fixed_pos, speed: 1)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is MazeTile)
+        {
+            // Init the orc
+            let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
         
-        all_units[orc.entity_id] = orc
+            // Keep track of it in a dictionary
+            all_units[orc.entity_id] = orc
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
     }
     
     override func update(currentTime: NSTimeInterval)
@@ -222,19 +231,31 @@ class GameScene: SKScene
                     }
                 }
                 
+                
+                // Fill it with tile direction events parsed from the JSON element directly
+                let arrows_layer = layers[3] as! NSDictionary
+                let arrows_layer_data = arrows_layer["data"] as! NSArray
+                
+                for row in 0...(map_height-1)
+                {
+                    for column in 0...(map_width-1)
+                    {
+                        let flat_index = column + row * map_width
+                        let type: Int = arrows_layer_data[flat_index] as! Int
+                        let option: TileOpts = Tile.parseTileOpts(type)
+                        
+                        if (option != TileOpts.None)
+                        {
+                            tiles[row][column].moveOpt = option
+                        }
+                    }
+                }
+                
             }
         }
         catch
         {
             debugPrint("Error reading JSON file")
         }
-    }
-    
-    func getTile(pos: int2) -> Tile
-    {
-        let row = map_height - 1 - Int(pos.y)
-        let column = Int(pos.x)
-        
-        return tiles[row][column]
     }
 }
