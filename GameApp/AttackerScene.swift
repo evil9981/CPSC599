@@ -36,13 +36,16 @@ class AttackerScene: SKScene
         sceneCamera.yScale = 0.5
         self.addChild(sceneCamera)
         
-        let node = SKNode()
-        node.position = CGPointMake(500, 500)
+        let texture = SKTexture(imageNamed: "defender_side_arrow")
+        let node = SKSpriteNode(texture: texture)
+        node.position = CGPointMake(800, -200)
+        node.xScale = 3
+        node.yScale = 3
         
-        let moveLeft = SKAction(named: "moveLeft")
-        node.runAction(SKAction.repeatAction(moveLeft!, count: 10))
-        
-        self.addChild(node)
+        //let moveLeft = SKAction(named: "moveLeft")
+        //node.runAction(SKAction.repeatAction(moveLeft!, count: 10))
+        //self.addChild(node)
+        sceneCamera.addChild(node)
         
         let camera_viewport_width = self.scene!.frame.width * sceneCamera.xScale
         let camera_viewport_height = self.scene!.frame.height * sceneCamera.yScale
@@ -78,6 +81,10 @@ class AttackerScene: SKScene
                 {
                     debugPrint("Button clicked")
                 }
+            }
+            else
+            {
+                debugPrint("\(touchPoint.x) \(touchPoint.y)")
             }
         }
     }
