@@ -20,12 +20,11 @@ class MainMenuScene: SKScene
         myLabel.position = CGPoint(x: frame.width/2, y: frame.height/2)
         
         addChild(myLabel)
-        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
-        if let scene = AttackerScene(fileNamed:"AttackerScene")
+        if let scene = GameScene(fileNamed:"GameScene")
         {
             scene.scaleMode = scaleMode
             
