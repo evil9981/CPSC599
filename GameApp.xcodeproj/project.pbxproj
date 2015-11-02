@@ -19,7 +19,6 @@
 		CE6EAE9C1BD88A3A0004DAD8 /* AttackerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE9B1BD88A3A0004DAD8 /* AttackerScene.swift */; };
 		CE6EAEA11BD89B670004DAD8 /* AttackerScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE9F1BD89A960004DAD8 /* AttackerScene.sks */; };
 		CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A764C1BE702D100DDBF11 /* Tile.swift */; };
-		CE9A764F1BE713CB00DDBF11 /* CPSC599 in Resources */ = {isa = PBXBuildFile; fileRef = CE9A764E1BE713CB00DDBF11 /* CPSC599 */; };
 		CEAA2DA91BE6ED0E0082A598 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CEAA2DA81BE6ED0E0082A598 /* TowerMap.json */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +49,6 @@
 		CE6EAE9B1BD88A3A0004DAD8 /* AttackerScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackerScene.swift; sourceTree = "<group>"; };
 		CE6EAE9F1BD89A960004DAD8 /* AttackerScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = AttackerScene.sks; sourceTree = "<group>"; };
 		CE9A764C1BE702D100DDBF11 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
-		CE9A764E1BE713CB00DDBF11 /* CPSC599 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CPSC599; sourceTree = "<group>"; };
 		CEAA2DA81BE6ED0E0082A598 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TowerMap.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,7 +94,6 @@
 			children = (
 				CEAA2DA81BE6ED0E0082A598 /* TowerMap.json */,
 				CE3792FF1BE2BEDC003A4DAC /* myActions.sks */,
-				CE9A764E1BE713CB00DDBF11 /* CPSC599 */,
 				CE6EAE771BD889300004DAD8 /* AppDelegate.swift */,
 				CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */,
 				CE6EAE7B1BD889300004DAD8 /* MainMenuScene.swift */,
@@ -217,7 +214,6 @@
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
 				CEAA2DA91BE6ED0E0082A598 /* TowerMap.json in Resources */,
 				CE6EAE811BD889300004DAD8 /* Main.storyboard in Resources */,
-				CE9A764F1BE713CB00DDBF11 /* CPSC599 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

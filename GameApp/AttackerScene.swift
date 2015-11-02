@@ -22,7 +22,6 @@ class AttackerScene: SKScene
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         sceneCamera.xScale = 0.5
         sceneCamera.yScale = 0.5
-        sceneCamera.anchorPoint =
         self.addChild(sceneCamera)
         
         //let texture = SKTexture(imageNamed: "defender_side_arrow")
