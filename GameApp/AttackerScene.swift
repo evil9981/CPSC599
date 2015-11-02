@@ -19,44 +19,34 @@ class AttackerScene: SKScene
     
     override func didMoveToView(view: SKView)
     {
-        backgroundColor = SKColor.greenColor()
-        
-        let myLabel = SKLabelNode(fontNamed: "Chalkduster")
-        myLabel.text = "Attacker side"
-        myLabel.fontSize = 70
-        myLabel.fontColor = SKColor.blackColor()
-        
-        myLabel.position = CGPoint(x: frame.width/2, y: frame.height/2)
-        
-        addChild(myLabel)
-        
-        sceneCamera.position = CGPointMake(scene!.frame.width/2, scene!.frame.height/2)
+        sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         sceneCamera.xScale = 0.5
         sceneCamera.yScale = 0.5
+        sceneCamera.anchorPoint =
         self.addChild(sceneCamera)
         
-        let texture = SKTexture(imageNamed: "defender_side_arrow")
-        let node = SKSpriteNode(texture: texture)
-        node.position = CGPointMake(800, -200)
-        node.xScale = 3
-        node.yScale = 3
+        //let texture = SKTexture(imageNamed: "defender_side_arrow")
+        //let node = SKSpriteNode(texture: texture)
+        //node.position = CGPointMake(800, -200)
+        //node.xScale = 3
+        //node.yScale = 3
         
         //let moveLeft = SKAction(named: "moveLeft")
         //node.runAction(SKAction.repeatAction(moveLeft!, count: 10))
         //self.addChild(node)
-        sceneCamera.addChild(node)
+        //sceneCamera.addChild(node)
         
-        let camera_viewport_width = self.scene!.frame.width * sceneCamera.xScale
-        let camera_viewport_height = self.scene!.frame.height * sceneCamera.yScale
+        let camera_viewport_width = frame.width * sceneCamera.xScale
+        let camera_viewport_height = frame.height * sceneCamera.yScale
         
         let camera_half_width = (camera_viewport_width / 2 )
         let camera_half_height = (camera_viewport_height / 2 )
 
         
-        max_x = scene!.frame.width - camera_half_width
-        min_x = 0 + camera_half_width
+        max_x = frame.width - camera_half_width
+        min_x = 0
         
-        max_y = scene!.frame.height - camera_half_height
+        max_y = frame.height - camera_half_height
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
@@ -127,6 +117,8 @@ class AttackerScene: SKScene
         }
     }
     
+    var map_height : Int = -1
+    var map_width : Int = -1
     func getJSONFile()
     {
         let filePath = NSBundle.mainBundle().pathForResource("TowerMap", ofType: "json")
@@ -139,10 +131,16 @@ class AttackerScene: SKScene
             
             if let jsonContent = parsedText as? NSDictionary
             {
-                if let height = jsonContent["height"]
-                {
-                    debugPrint(height)
-                }
+                map_height = jsonContent["height"] as! Int
+                map_width = jsonContent["width"] as! Int
+                
+                //debugPrint("Map dimensions: \(map_height) x \(map_width)")
+                let layers = jsonContent["layers"] as! NSArray
+                let bottom_layer = layers[0] as! NSDictionary
+                let bottom_layer_data = bottom_layer["data"] as! NSArray
+                
+                debugPrint(bottom_layer_data[0])
+                
             }
         }
         catch
