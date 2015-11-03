@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "017F685E8F24CFFCEC4327586B166B8E28319169",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "1c609559-697a-4635-8265-ebf16c7ffa3d++3995" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "017F685E8F24CFFCEC4327586B166B8E28319169" : 0,
+    "1c609559-697a-4635-8265-ebf16c7ffa3d++3995" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "AA2BFD5E-9AD1-4ABB-8DE3-94CEA325C846",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "017F685E8F24CFFCEC4327586B166B8E28319169" : "Swinicide\/",
+    "1c609559-697a-4635-8265-ebf16c7ffa3d++3995" : "..\/CPSC526\/hw1\/lrtoenje"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "GameApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "GameApp.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/evil9981\/CPSC599",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "017F685E8F24CFFCEC4327586B166B8E28319169"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/forge.cpsc.ucalgary.ca\/svn\/courses\/c526",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1c609559-697a-4635-8265-ebf16c7ffa3d++3995"
+    }
+  ]
+}

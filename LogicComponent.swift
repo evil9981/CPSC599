@@ -11,6 +11,7 @@ import SpriteKit
 
 class LogicComponent: GKComponent
 {
+    var gs : GameScene = GameScene()
     var tiles : [[Tile]]
     var unit: Unit
     var current_pos : int2
@@ -46,6 +47,8 @@ class LogicComponent: GKComponent
             break
         case .Treasure:
             debugPrint("REACHED THE TREASURE, OH NOES!")
+            gs.lifeCount - 1
+            print(gs.lifeCount)
             break
         case .None:
             break
@@ -79,6 +82,9 @@ class LogicComponent: GKComponent
             break
         case .Treasure:
             debugPrint("REACHED THE TREASURE, OH NOES!")
+            Ga.lifeCount = gs.lifeCount - 1
+            print(gs.lifeCount)
+
             break
         case .None:
             break

@@ -19,6 +19,20 @@ class GameScene: SKScene
     
     var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
     
+    var gameStartTime : Int = 0
+    var prevGameTimeEplased : Int = 0
+    var totalGameTime : Int = 600
+    var currentGameTime : Int = 0
+    var gameTimeElapsed : Int = 0
+    
+    var startTimer : Bool = true
+    
+    var lifeCount : Int = 10
+    
+    var goldLabel : SKLabelNode!
+    var livesLabel : SKLabelNode!
+    var timeLabel : SKLabelNode!
+    
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
     
@@ -43,7 +57,32 @@ class GameScene: SKScene
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
+        
         getJSONFile()
+        
+        // Add the 'Gold Label' to the camera view and place it in the top left corner
+        goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        goldLabel.text = "Gold: "
+        goldLabel.fontSize = 150
+        goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
+        goldLabel.position = CGPointMake(-1000, 1300)
+        sceneCamera.addChild(goldLabel)
+     
+        // Add the 'Lives Label' to the camera view and place it in the top right corner
+        livesLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        livesLabel.text = "Lives: " + String(lifeCount)
+        livesLabel.fontSize = 150
+        livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
+        livesLabel.position = CGPointMake(3000, 1300)
+        sceneCamera.addChild(livesLabel)
+        
+        // Add the 'Time Label' to the camera view and place it in the middle
+        timeLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        timeLabel.fontSize = 150
+        timeLabel.fontColor = UIColor.whiteColor()
+        timeLabel.position = CGPointMake(1000, 1300)
+        sceneCamera.addChild(timeLabel)
+        
         
     }
     
@@ -106,6 +145,43 @@ class GameScene: SKScene
         {
             unit.update()
         }
+        livesLabel.text = "Lives: " + String(lifeCount)
+        
+        
+        
+        // Calculate and display time count down
+        if startTimer == true {
+            gameStartTime = Int(currentTime)
+            startTimer = false
+        }
+        gameTimeElapsed = Int(currentTime) - gameStartTime
+        
+        let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
+        self.timeLabel.text = ("Time - \(m):\(s)")
+        
+        
+        //print(gameTimeElapsed)
+        //print(totalGameTime)
+        //if prevGameTimeEplased < gameTimeElapsed {
+        //    totalGameTime = totalGameTime - gameTimeElapsed
+        //    prevGameTimeEplased = gameTimeElapsed
+        //}
+        //print(totalGameTime)
+        
+        //var currentGameTime = NSDate.timeIntervalSinceReferenceDate()
+        //var gameTimeElapsed = currentGameTime - totalGameTime
+        //var seconds = totalGameTime - gameTimeElapsed
+        //if seconds > 0 {
+        //    gameTimeElapsed -= NSTimeInterval(seconds)
+        //    self.timeLabel.text = ("Time: \(seconds)")
+        //} else {
+            
+        //}
+        //currentGameTime = totalGameTime - 1.0
+        //totalGameTime = totalGameTime - 1
+
+        
+        
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
@@ -142,6 +218,10 @@ class GameScene: SKScene
             sceneCamera.position = CGPointMake( new_x, new_y )
             
         }
+    }
+    
+    func timeInMinutesSeconds (seconds : Int) -> (Int, Int) {
+        return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     
     func coordinateForPoint(point: CGPoint) -> int2
