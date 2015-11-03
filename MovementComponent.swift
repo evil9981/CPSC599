@@ -12,7 +12,7 @@ import SpriteKit
 
 public class MovementComponent: GKComponent
 {
-    var unit: Unit!
+    var unit: Unit
     
     public var moveLeft: SKAction!
     public var moveRight: SKAction!
@@ -25,13 +25,103 @@ public class MovementComponent: GKComponent
     
     init(unit:Unit, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval)
     {
+        self.unit = unit
+        
         super.init()
         
-        self.unit = unit;
         self.updateActions(leftTextures, rightTextures: rightTextures, upTextures: upTextures, downTextures: downTextures, speed: speed)
         
         current_movement = moveRight
         current_mov_option = TileOpts.MoveRight
+    }
+    
+    func update()
+    {
+        switch(unit.movementComp.current_mov_option!)
+        {
+        case .MoveLeft:
+            move_left()
+            break
+        case .MoveRight:
+            move_right()
+            break
+        case .MoveUp:
+            move_up()
+            break
+        case .MoveDown:
+            move_down()
+            break
+        case .Treasure:
+            debugPrint("REACHED THE TREASURE, OH NOES!")
+            break
+        case .None:
+            break
+        }
+        
+        if (!(unit.logicComp.current_tile is MazeTile))
+        {
+            unit.destroy()
+        }
+    }
+    
+    func handle_move_opt()
+    {
+        switch (unit.logicComp.current_tile.moveOpt)
+        {
+        case .MoveLeft:
+            current_movement = self.moveLeft
+            current_mov_option = TileOpts.MoveLeft
+            break
+        case .MoveRight:
+            current_movement = self.moveRight
+            current_mov_option = TileOpts.MoveRight
+            break
+        case .MoveUp:
+            current_movement = self.moveUp
+            current_mov_option = TileOpts.MoveUp
+            break
+        case .MoveDown:
+            current_movement = self.moveDown
+            current_mov_option = TileOpts.MoveDown
+            break
+        case .Treasure:
+            debugPrint("REACHED THE TREASURE, OH NOES!")
+            break
+        case .None:
+            break
+        }
+    }
+    
+    func move_left()
+    {
+        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x-1, unit.logicComp.current_pos.y)
+        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        
+        handle_move_opt()
+    }
+    
+    func move_right()
+    {
+        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x+1, unit.logicComp.current_pos.y)
+        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        
+        handle_move_opt()
+    }
+    
+    func move_up()
+    {
+        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x, unit.logicComp.current_pos.y+1)
+        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        
+        handle_move_opt()
+    }
+    
+    func move_down()
+    {
+        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x, unit.logicComp.current_pos.y-1)
+        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        
+        handle_move_opt()
     }
     
     func finishedMovement()

@@ -31,6 +31,7 @@
 		CED265081BE774040022C033 /* TileOpts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265071BE774040022C033 /* TileOpts.swift */; };
 		CED2650A1BE77D310022C033 /* TreasureTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265091BE77D310022C033 /* TreasureTile.swift */; };
 		CED265101BE799A30022C033 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CED2650F1BE799A30022C033 /* TowerMap.json */; };
+		CED265121BE92B880022C033 /* BasicTurret.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265111BE92B880022C033 /* BasicTurret.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		CED265071BE774040022C033 /* TileOpts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileOpts.swift; sourceTree = "<group>"; };
 		CED265091BE77D310022C033 /* TreasureTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreasureTile.swift; sourceTree = "<group>"; };
 		CED2650F1BE799A30022C033 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TowerMap.json; sourceTree = "<group>"; };
+		CED265111BE92B880022C033 /* BasicTurret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTurret.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			children = (
 				CE9A76531BE7547300DDBF11 /* Unit.swift */,
 				CED264F91BE765420022C033 /* Orc.swift */,
+				CED265111BE92B880022C033 /* BasicTurret.swift */,
 			);
 			name = Entities;
 			path = ..;
@@ -294,6 +297,7 @@
 				CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */,
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
+				CED265121BE92B880022C033 /* BasicTurret.swift in Sources */,
 				CED265001BE772A00022C033 /* DefenderTile.swift in Sources */,
 				CE6EAE9C1BD88A3A0004DAD8 /* GameScene.swift in Sources */,
 				CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */,

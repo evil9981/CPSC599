@@ -28,6 +28,11 @@ class Unit: GKEntity
         // Inc static entity id and set current
         entity_id = Unit.get_next_id()
         
+        // Add the logical component that moves creatures on the tiles set
+        self.logicComp = LogicComponent(tiles: scene.tiles, unit: self, pos: grid_position)
+        self.addComponent(logicComp)
+        
+        // Add the movement component
         self.movementComp = MovementComponent(unit: self, leftTextures: leftTextures, rightTextures: rightTextures, upTextures: upTextures, downTextures: downTextures, speed: speed)
         self.addComponent(movementComp)
         
@@ -35,9 +40,7 @@ class Unit: GKEntity
         self.visualComp = VisualComponent(scene: scene, texture: leftTextures[0], world_position: world_position)
         self.addComponent(visualComp)
         
-        // Add the logical component that moves creatures on the tiles set
-        self.logicComp = LogicComponent(tiles: scene.tiles, unit: self, pos: grid_position)
-        self.addComponent(logicComp)
+        self.movementComp.handle_move_opt()
     }
     
     func update()
@@ -46,7 +49,7 @@ class Unit: GKEntity
         {
             visualComp.node!.runAction(movementComp.current_movement, completion: { self.movementComp.finishedMovement() })
             
-            logicComp.update()
+            movementComp.update()
             
             movementComp.is_moving = true
             
