@@ -10,6 +10,7 @@ import SpriteKit
 
 var lifeCount : Int = 10
 var goldCount : Int = 0
+var gameOver : Bool = false
 
 class GameScene: SKScene
 {
@@ -30,10 +31,11 @@ class GameScene: SKScene
     var tempCount : Int = 0
     
     var startTimer : Bool = true
-    var gameOver : Bool = false
     
     var goldImageTexture : SKTexture!
+    var livesImageTexture : SKTexture!
     var goldImage : SKSpriteNode!
+    var livesImage : SKSpriteNode!
     
     var goldLabel : SKLabelNode!
     var livesLabel : SKLabelNode!
@@ -72,15 +74,15 @@ class GameScene: SKScene
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-        goldLabel.position = CGPointMake(-825, 1300)
+        goldLabel.position = CGPointMake(-825, 1290)
         sceneCamera.addChild(goldLabel)
      
         // Add the 'Lives Label' to the camera view and place it in the top right corner
         livesLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-        livesLabel.text = "Lives: " + String(lifeCount)
+        livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
-        livesLabel.position = CGPointMake(3000, 1300)
+        livesLabel.position = CGPointMake(3225, 1290)
         sceneCamera.addChild(livesLabel)
         
         // Add the 'Time Label' to the camera view and place it in the middle
@@ -90,12 +92,24 @@ class GameScene: SKScene
         timeLabel.position = CGPointMake(1000, 1300)
         sceneCamera.addChild(timeLabel)
         
-        goldImageTexture = SKTexture(imageNamed: "Gold")
+        // Add the gold image texture
+        goldImageTexture = SKTexture(imageNamed: "GoldImage")
         goldImage = SKSpriteNode(texture: goldImageTexture)
         goldImage.position = CGPointMake(-1100, 1350)
         goldImage.xScale = 8
         goldImage.yScale = 8
         sceneCamera.addChild(goldImage)
+        
+        // add the lives image texture
+        livesImageTexture = SKTexture(imageNamed: "LivesImage")
+        livesImage = SKSpriteNode(texture: livesImageTexture)
+        livesImage.position = CGPointMake(2950, 1350)
+        livesImage.xScale = 8
+        livesImage.yScale = 8
+        sceneCamera.addChild(livesImage)
+        
+        
+        
         
         
         
@@ -158,75 +172,82 @@ class GameScene: SKScene
     
     override func update(currentTime: NSTimeInterval)
     {
-        for unit in all_units.values
-        {
-            unit.update()
-        }
-        livesLabel.text = "Lives: " + String(lifeCount)
+        if gameOver == false {
         
-        // Calculate and display time count
-        if startTimer == true {
-            gameStartTime = Int(currentTime)
-            startTimer = false
-        }
-        gameTimeElapsed = Int(currentTime) - gameStartTime
-        
-        
-        let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
-        if s < 10 {
-            self.timeLabel.text = ("Time - \(m):0\(s)")
-        }
-        else {
-            self.timeLabel.text = ("Time - \(m):\(s)")
-        }
-        
-        // Calculate the gold gained
-        var doAddGold : Bool = s % 5 == 0
-        if seconds == s && doAddGold {
-            doAddGold = false
+            for unit in all_units.values
+            {
+                unit.update()
+            }
             
-        }
-        seconds = s
-        
-        if doAddGold {
-            goldCount += 5
-        }
-        goldLabel.text = String(goldCount)
-    
-        // Game ends when time reaches 10:00 minutes
-        if gameTimeElapsed == totalGameTime && gameOver == false {
-            endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-            endGameLabel.text = "GAME OVER" + " Defender Wins!"
-            endGameLabel.fontSize = 150
-            endGameLabel.fontColor = UIColor.whiteColor()
-            endGameLabel.zPosition = 4
-            endGameLabel.position = CGPointMake(1200, 100)
-            sceneCamera.addChild(endGameLabel)
-            gameOver = true
-        }
-        
-        
-        //print(gameTimeElapsed)
-        //print(totalGameTime)
-        //if prevGameTimeEplased < gameTimeElapsed {
-        //    totalGameTime = totalGameTime - gameTimeElapsed
-        //    prevGameTimeEplased = gameTimeElapsed
-        //}
-        //print(totalGameTime)
-        
-        //var currentGameTime = NSDate.timeIntervalSinceReferenceDate()
-        //var gameTimeElapsed = currentGameTime - totalGameTime
-        //var seconds = totalGameTime - gameTimeElapsed
-        //if seconds > 0 {
-        //    gameTimeElapsed -= NSTimeInterval(seconds)
-        //    self.timeLabel.text = ("Time: \(seconds)")
-        //} else {
+            if lifeCount == 0 {
+                gameOver = true
+            }
             
-        //}
-        //currentGameTime = totalGameTime - 1.0
-        //totalGameTime = totalGameTime - 1
+            livesLabel.text = String(lifeCount)
+            
+            // Calculate and display time count
+            if startTimer == true {
+                gameStartTime = Int(currentTime)
+                startTimer = false
+            }
+            gameTimeElapsed = Int(currentTime) - gameStartTime
+            
+            
+            let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
+            if s < 10 {
+                self.timeLabel.text = ("Time - \(m):0\(s)")
+            }
+            else {
+                self.timeLabel.text = ("Time - \(m):\(s)")
+            }
+            
+            // Calculate the gold gained
+            var doAddGold : Bool = s % 5 == 0
+            if seconds == s && doAddGold {
+                doAddGold = false
+                
+            }
+            seconds = s
+            
+            if doAddGold {
+                goldCount += 5
+            }
+            goldLabel.text = String(goldCount)
+            
+            // Game ends when time reaches 10:00 minutes
+            if gameTimeElapsed == totalGameTime && gameOver == false {
+                endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+                endGameLabel.text = "GAME OVER" + " Defender Wins!"
+                endGameLabel.fontSize = 150
+                endGameLabel.fontColor = UIColor.whiteColor()
+                endGameLabel.zPosition = 4
+                endGameLabel.position = CGPointMake(1200, 100)
+                sceneCamera.addChild(endGameLabel)
+                gameOver = true
+            }
+            
+            
+            //print(gameTimeElapsed)
+            //print(totalGameTime)
+            //if prevGameTimeEplased < gameTimeElapsed {
+            //    totalGameTime = totalGameTime - gameTimeElapsed
+            //    prevGameTimeEplased = gameTimeElapsed
+            //}
+            //print(totalGameTime)
+            
+            //var currentGameTime = NSDate.timeIntervalSinceReferenceDate()
+            //var gameTimeElapsed = currentGameTime - totalGameTime
+            //var seconds = totalGameTime - gameTimeElapsed
+            //if seconds > 0 {
+            //    gameTimeElapsed -= NSTimeInterval(seconds)
+            //    self.timeLabel.text = ("Time: \(seconds)")
+            //} else {
+            
+            //}
+            //currentGameTime = totalGameTime - 1.0
+            //totalGameTime = totalGameTime - 1
 
-        
+        }
         
     }
     
