@@ -16,6 +16,8 @@ public class Tile
     var type : TileType
     var moveOpt: TileOpts
     
+    var towers : Dictionary<Int, Tower> = Dictionary<Int, Tower>()
+    
     init(position: int2)
     {
         self.position = position
@@ -23,11 +25,24 @@ public class Tile
         self.moveOpt = TileOpts.None
     }
     
+    func add_tower( tower: Tower)
+    {
+        towers[tower.entity_id] = tower
+    }
+    
+    func notify_towers(unit: Unit)
+    {
+        for tower in towers.values
+        {
+            tower.towerComp.add_unit_to_range(unit)
+        }
+    }
+    
     static let tileWidth: CGFloat = 72
     static let tileHeight: CGFloat = 72
 
     static var attacker_set : Set<Int> = [ 10, 120, 121, 122, 136, 138, 152, 153, 154, 169, 170, 185 ]
-    static var defender_set : Set<Int> = [ 11, 12, 13, 27, 28, 29, 43, 44, 45, 78, 79, 94, 95]
+    static var defender_set : Set<Int> = [ 11, 12, 13, 27, 28, 29, 43, 44, 45, 78, 79, 94, 95, 111, 112, 127, 128]
     static var road_set : Set<Int> = [ 14, 15, 30, 31, 46, 47, 59, 60, 61, 62, 63, 75, 76, 77, 91, 92, 93 ]
     static var treasure_set : Set<Int> = [148, 149, 150, 164, 165, 166, 180, 181, 182]
     

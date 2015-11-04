@@ -11,20 +11,24 @@ import SpriteKit
 
 class VisualComponent: GKComponent
 {
-    var scene: GameScene!
-    var node: SKSpriteNode!
-    var world_position: CGPoint!
+    var parent_entity: GameEntity
+    var scene: GameScene
+    var node: SKSpriteNode
+    var size: CGPoint
     
-    init(scene: GameScene, texture: SKTexture, world_position: CGPoint)
+    init(scene: GameScene, parent_entity: GameEntity, texture: SKTexture, world_position: CGPoint, size: CGPoint)
     {
         self.scene = scene
+        self.parent_entity = parent_entity
+        self.size = size
         
         self.node = SKSpriteNode(texture: texture)
         node.zPosition = 1
-        node.size = CGSize(width: Tile.tileWidth-8, height: Tile.tileHeight - 8)
-        node.anchorPoint = CGPointMake(0.05, 0.05)
+        node.size = CGSize(width: size.x*Tile.tileWidth, height: size.y*Tile.tileHeight)
+        node.anchorPoint = CGPointMake(0.00, 0.00)
         node.position = world_position
-         
+        node.name = String(parent_entity.entity_id)
+            
         scene.addChild(node)
     }
 }

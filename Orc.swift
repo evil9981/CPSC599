@@ -21,9 +21,12 @@ class Orc: Unit
     
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
+        let gridSize = int2(1,1)
+        let visSize = CGPointMake(1.2, 1.2)
+        
         super.init(scene: scene, grid_position: grid_position, world_position: world_position,
             leftTextures: Orc.leftTextures, rightTextures: Orc.rightTextures,
             upTextures: Orc.upTextures, downTextures: Orc.downTextures,
-            speed: speed)
+            speed: speed, gridSize: gridSize, visSize: visSize)
     }
 }

@@ -18,10 +18,63 @@ class GameScene: SKScene
     var min_y : CGFloat = 0.0
     
     var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
+    var all_buildings : Dictionary<Int, Building> = Dictionary<Int, Building>()
     
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
     
+    let debug = true
+    
+    // MARK: Placeholder stuff, used to support demo
+    
+    enum buildMode
+    {
+        case Orc
+        case Tower
+    }
+    var current_build_mode : buildMode!
+    var orcButton: SKSpriteNode!
+    var towerButton: SKSpriteNode!
+    
+    func reset_orc_button()
+    {
+        self.removeChildrenInArray([orcButton])
+        orcButton.removeAllActions()
+        
+        init_orc_button()
+    }
+    
+    func init_orc_button()
+    {
+        orcButton = SKSpriteNode(texture: SKTexture(imageNamed: "left_0"))
+        orcButton.name = "orcButton"
+        orcButton.size = CGSize(width: 64*3 ,height: 64*3)
+        orcButton.position = CGPointMake(-850, 1250)
+        orcButton.zPosition = 3
+        
+        sceneCamera.addChild(orcButton)
+    }
+    
+    func reset_tower_button()
+    {
+        self.removeChildrenInArray([towerButton])
+        towerButton.removeAllActions()
+        
+        init_tower_button()
+    }
+    
+    func init_tower_button()
+    {
+        towerButton = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"))
+        towerButton.name = "towerButton"
+        towerButton.size = CGSize(width: 64*3,height: 64*3)
+        towerButton.position = CGPointMake(-850+164, 1250)
+        towerButton.zPosition = 3
+        
+        sceneCamera.addChild(towerButton)
+    }
+    
+    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)    
     override func didMoveToView(view: SKView)
     {
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
@@ -43,8 +96,16 @@ class GameScene: SKScene
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
-        getJSONFile()
         
+        // Init the orc and tower buttons
+        init_orc_button()
+        init_tower_button()
+        
+        // Start in orc mode
+        self.current_build_mode = .Orc
+        orcButton.runAction(colorize)
+        
+        getJSONFile()
     }
     
     var prevLocation: CGPoint = CGPointMake(0, 0)
@@ -59,22 +120,66 @@ class GameScene: SKScene
             
             prevLocation = touchPoint
             
+            var gui_element_clicked = false
+            var entity_clicked = false
+            
             if let name = touchedNode.name
             {
-                if name == "ToDefender"
+                if name == "orcButton"
                 {
-                    debugPrint("Button clicked")
+                    gui_element_clicked = true
+                    
+                    current_build_mode = .Orc
+                    orcButton.runAction(colorize)
+                    reset_tower_button()
+                    
+            
+                    
+                    debugPrint("Orc Button clicked")
+                }
+                else if name == "towerButton"
+                {
+                    gui_element_clicked = true
+                    
+                    current_build_mode = .Tower
+                    towerButton.runAction(colorize)
+                    reset_orc_button()
+                    
+                    debugPrint("Tower Button clicked")
+                }
+                
+                if let entity_id = Int(name)
+                {
+                    entity_clicked = true
+                    debugPrint(entity_id)
+                    
+                    if let building_entity = all_buildings[entity_id]
+                    {
+                        (building_entity as! Tower).visualizeMazeTiles()
+                    }
                 }
             }
             
-            // Get position in the world (CGFloats in the whole scene)
-            
-            spawnOrc(scenePoint)
-            let pos_on_grid = coordinateForPoint(scenePoint)
-            
-            let tile = Tile.getTile(tiles, pos: pos_on_grid)
-            debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
-            debugPrint( tile )
+            if (!gui_element_clicked && !entity_clicked)
+            {
+                if (current_build_mode == .Orc)
+                {
+                    spawnOrc(scenePoint)
+                }
+                else
+                {
+                    spawnBasicTurret(scenePoint)
+                }
+                
+                if (debug)
+                {
+                    let pos_on_grid = coordinateForPoint(scenePoint)
+                    let tile = Tile.getTile(tiles, pos: pos_on_grid)
+                    
+                    debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
+                    debugPrint( tile )
+                }
+            }
         }
     }
     
@@ -100,11 +205,38 @@ class GameScene: SKScene
         }
     }
     
+    func spawnBasicTurret(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is DefenderTile)
+        {
+            // Init the orc
+            let tower = BasicTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[tower.entity_id] = tower
+        }
+        else
+        {
+            debugPrint("Not a defender tile!")
+        }
+    }
+    
     override func update(currentTime: NSTimeInterval)
     {
         for unit in all_units.values
         {
             unit.update()
+        }
+        
+        for building in all_buildings.values
+        {
+            building.update()
         }
     }
     
@@ -230,7 +362,6 @@ class GameScene: SKScene
                         tiles[row][column] = Tile.makeTileFromType(current_num, pos: pos)
                     }
                 }
-                
                 
                 // Fill it with tile direction events parsed from the JSON element directly
                 let arrows_layer = layers[3] as! NSDictionary

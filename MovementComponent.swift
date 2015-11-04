@@ -37,7 +37,7 @@ public class MovementComponent: GKComponent
     
     func update()
     {
-        switch(unit.movementComp.current_mov_option!)
+        switch(self.current_mov_option!)
         {
         case .MoveLeft:
             move_left()
@@ -58,7 +58,7 @@ public class MovementComponent: GKComponent
             break
         }
         
-        if (!(unit.logicComp.current_tile is MazeTile))
+        if (!(unit.gridComp.current_tile is MazeTile))
         {
             unit.destroy()
         }
@@ -66,7 +66,7 @@ public class MovementComponent: GKComponent
     
     func handle_move_opt()
     {
-        switch (unit.logicComp.current_tile.moveOpt)
+        switch (unit.gridComp.current_tile.moveOpt)
         {
         case .MoveLeft:
             current_movement = self.moveLeft
@@ -94,32 +94,32 @@ public class MovementComponent: GKComponent
     
     func move_left()
     {
-        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x-1, unit.logicComp.current_pos.y)
-        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        let new_pos = int2(unit.gridComp.current_pos.x-1, unit.gridComp.current_pos.y)
+        unit.gridComp.move_unit_to_tile(new_pos)
         
         handle_move_opt()
     }
     
     func move_right()
     {
-        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x+1, unit.logicComp.current_pos.y)
-        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        let new_pos = int2(unit.gridComp.current_pos.x+1, unit.gridComp.current_pos.y)
+        unit.gridComp.move_unit_to_tile(new_pos)
         
         handle_move_opt()
     }
     
     func move_up()
     {
-        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x, unit.logicComp.current_pos.y+1)
-        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        let new_pos = int2(unit.gridComp.current_pos.x, unit.gridComp.current_pos.y+1)
+        unit.gridComp.move_unit_to_tile(new_pos)
         
         handle_move_opt()
     }
     
     func move_down()
     {
-        unit.logicComp.current_pos = int2(unit.logicComp.current_pos.x, unit.logicComp.current_pos.y-1)
-        unit.logicComp.current_tile = Tile.getTile(unit.logicComp.tiles, pos: unit.logicComp.current_pos)
+        let new_pos = int2(unit.gridComp.current_pos.x, unit.gridComp.current_pos.y-1)
+        unit.gridComp.move_unit_to_tile(new_pos)
         
         handle_move_opt()
     }
