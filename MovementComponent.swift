@@ -86,6 +86,7 @@ public class MovementComponent: GKComponent
             break
         case .Treasure:
             debugPrint("REACHED THE TREASURE, OH NOES!")
+            lifeCount = lifeCount - 1
             break
         case .None:
             break

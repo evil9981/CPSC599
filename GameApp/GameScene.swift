@@ -8,6 +8,10 @@
 import Foundation
 import SpriteKit
 
+var lifeCount : Int = 10
+var goldCount : Int = 0
+var gameOver : Bool = false
+
 class GameScene: SKScene
 {
     var sceneCamera : SKCameraNode = SKCameraNode()
@@ -19,6 +23,25 @@ class GameScene: SKScene
     
     var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
     var all_buildings : Dictionary<Int, Building> = Dictionary<Int, Building>()
+    
+    var gameStartTime : Int = 0
+    var prevGameTimeEplased : Int = 0
+    var totalGameTime : Int = 600
+    var currentGameTime : Int = 0
+    var gameTimeElapsed : Int = 0
+    var tempCount : Int = 0
+    
+    var startTimer : Bool = true
+    
+    var goldImageTexture : SKTexture!
+    var livesImageTexture : SKTexture!
+    var goldImage : SKSpriteNode!
+    var livesImage : SKSpriteNode!
+    
+    var goldLabel : SKLabelNode!
+    var livesLabel : SKLabelNode!
+    var timeLabel : SKLabelNode!
+    var endGameLabel : SKLabelNode!
     
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
@@ -49,7 +72,7 @@ class GameScene: SKScene
         orcButton = SKSpriteNode(texture: SKTexture(imageNamed: "left_0"))
         orcButton.name = "orcButton"
         orcButton.size = CGSize(width: 64*3 ,height: 64*3)
-        orcButton.position = CGPointMake(-850, 1250)
+        orcButton.position = CGPointMake(-850, -1250)
         orcButton.zPosition = 3
         
         sceneCamera.addChild(orcButton)
@@ -68,7 +91,7 @@ class GameScene: SKScene
         towerButton = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"))
         towerButton.name = "towerButton"
         towerButton.size = CGSize(width: 64*3,height: 64*3)
-        towerButton.position = CGPointMake(-850+164, 1250)
+        towerButton.position = CGPointMake(-850+164, -1250)
         towerButton.zPosition = 3
         
         sceneCamera.addChild(towerButton)
@@ -96,7 +119,7 @@ class GameScene: SKScene
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
-        
+
         // Init the orc and tower buttons
         init_orc_button()
         init_tower_button()
@@ -104,8 +127,47 @@ class GameScene: SKScene
         // Start in orc mode
         self.current_build_mode = .Orc
         orcButton.runAction(colorize)
-        
+
         getJSONFile()
+        
+        // Add the 'Gold Label' to the camera view and place it in the top left corner
+        goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        goldLabel.text = String(goldCount)
+        goldLabel.fontSize = 150
+        goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
+        goldLabel.position = CGPointMake(-825, 1290)
+        sceneCamera.addChild(goldLabel)
+     
+        // Add the 'Lives Label' to the camera view and place it in the top right corner
+        livesLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        livesLabel.text = String(lifeCount)
+        livesLabel.fontSize = 150
+        livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
+        livesLabel.position = CGPointMake(3225, 1290)
+        sceneCamera.addChild(livesLabel)
+        
+        // Add the 'Time Label' to the camera view and place it in the middle
+        timeLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        timeLabel.fontSize = 150
+        timeLabel.fontColor = UIColor.whiteColor()
+        timeLabel.position = CGPointMake(1000, 1300)
+        sceneCamera.addChild(timeLabel)
+        
+        // Add the gold image texture
+        goldImageTexture = SKTexture(imageNamed: "GoldImage")
+        goldImage = SKSpriteNode(texture: goldImageTexture)
+        goldImage.position = CGPointMake(-1100, 1350)
+        goldImage.xScale = 8
+        goldImage.yScale = 8
+        sceneCamera.addChild(goldImage)
+        
+        // add the lives image texture
+        livesImageTexture = SKTexture(imageNamed: "LivesImage")
+        livesImage = SKSpriteNode(texture: livesImageTexture)
+        livesImage.position = CGPointMake(2950, 1350)
+        livesImage.xScale = 8
+        livesImage.yScale = 8
+        sceneCamera.addChild(livesImage)
     }
     
     var prevLocation: CGPoint = CGPointMake(0, 0)
@@ -227,16 +289,92 @@ class GameScene: SKScene
         }
     }
     
+    var seconds : Int = 0
     override func update(currentTime: NSTimeInterval)
     {
-        for unit in all_units.values
+        if gameOver == false
         {
-            unit.update()
-        }
-        
-        for building in all_buildings.values
-        {
-            building.update()
+            // Update all units that walk on the maze
+            for unit in all_units.values
+            {
+                unit.update()
+            }
+            
+            // Update all the buildings
+            for building in all_buildings.values
+            {
+                building.update()
+            }
+            
+            if lifeCount == 0
+            {
+                gameOver = true
+            }
+            
+            livesLabel.text = String(lifeCount)
+            
+            // Calculate and display time count
+            if startTimer == true {
+                gameStartTime = Int(currentTime)
+                startTimer = false
+            }
+            gameTimeElapsed = Int(currentTime) - gameStartTime
+            
+            
+            let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
+            if s < 10 {
+                self.timeLabel.text = ("\(m):0\(s)")
+            }
+            else {
+                self.timeLabel.text = ("\(m):\(s)")
+            }
+            
+            // Calculate the gold gained
+            var doAddGold : Bool = s % 5 == 0
+            if seconds == s && doAddGold {
+                doAddGold = false
+                
+            }
+            seconds = s
+            
+            if doAddGold {
+                goldCount += 5
+            }
+            goldLabel.text = String(goldCount)
+            
+            // Game ends when time reaches 10:00 minutes
+            if gameTimeElapsed == totalGameTime && gameOver == false {
+                endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+                endGameLabel.text = "GAME OVER" + " Defender Wins!"
+                endGameLabel.fontSize = 150
+                endGameLabel.fontColor = UIColor.whiteColor()
+                endGameLabel.zPosition = 4
+                endGameLabel.position = CGPointMake(1200, 100)
+                sceneCamera.addChild(endGameLabel)
+                gameOver = true
+            }
+            
+            
+            //print(gameTimeElapsed)
+            //print(totalGameTime)
+            //if prevGameTimeEplased < gameTimeElapsed {
+            //    totalGameTime = totalGameTime - gameTimeElapsed
+            //    prevGameTimeEplased = gameTimeElapsed
+            //}
+            //print(totalGameTime)
+            
+            //var currentGameTime = NSDate.timeIntervalSinceReferenceDate()
+            //var gameTimeElapsed = currentGameTime - totalGameTime
+            //var seconds = totalGameTime - gameTimeElapsed
+            //if seconds > 0 {
+            //    gameTimeElapsed -= NSTimeInterval(seconds)
+            //    self.timeLabel.text = ("Time: \(seconds)")
+            //} else {
+            
+            //}
+            //currentGameTime = totalGameTime - 1.0
+            //totalGameTime = totalGameTime - 1
+
         }
     }
     
@@ -274,6 +412,10 @@ class GameScene: SKScene
             sceneCamera.position = CGPointMake( new_x, new_y )
             
         }
+    }
+    
+    func timeInMinutesSeconds (seconds : Int) -> (Int, Int) {
+        return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     
     func coordinateForPoint(point: CGPoint) -> int2
