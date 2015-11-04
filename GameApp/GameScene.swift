@@ -365,13 +365,20 @@ class GameScene: SKScene
     func doGameOver()
     {
         endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-        endGameLabel.text = "GAME OVER" + " Defender Wins!"
         endGameLabel.fontSize = 150
-        endGameLabel.fontColor = UIColor.whiteColor()
         endGameLabel.zPosition = 4
         endGameLabel.position = CGPointMake(1200, 100)
+        if (gameTimeElapsed == totalGameTime) {
+            endGameLabel.text = "GAME OVER" + " Defender Wins!"
+            endGameLabel.fontColor = UIColor.blueColor()
+        }
+        if (lifeCount == 0) {
+            endGameLabel.text = "GAME OVER" + " Attacker Wins!"
+            endGameLabel.fontColor = UIColor.redColor()
+        }
         sceneCamera.addChild(endGameLabel)
         gameOver = true
+        
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
