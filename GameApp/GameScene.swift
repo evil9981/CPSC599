@@ -292,7 +292,7 @@ class GameScene: SKScene
     var seconds : Int = 0
     override func update(currentTime: NSTimeInterval)
     {
-        if gameOver == false
+        if (!gameOver)
         {
             // Update all units that walk on the maze
             for unit in all_units.values
@@ -306,76 +306,72 @@ class GameScene: SKScene
                 building.update()
             }
             
-            if lifeCount == 0
-            {
-                gameOver = true
-            }
-            
             livesLabel.text = String(lifeCount)
             
             // Calculate and display time count
-            if startTimer == true {
-                gameStartTime = Int(currentTime)
-                startTimer = false
-            }
-            gameTimeElapsed = Int(currentTime) - gameStartTime
-            
-            
-            let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
-            if s < 10 {
-                self.timeLabel.text = ("\(m):0\(s)")
-            }
-            else {
-                self.timeLabel.text = ("\(m):\(s)")
-            }
-            
-            // Calculate the gold gained
-            var doAddGold : Bool = s % 5 == 0
-            if seconds == s && doAddGold {
-                doAddGold = false
-                
-            }
-            seconds = s
-            
-            if doAddGold {
-                goldCount += 5
-            }
-            goldLabel.text = String(goldCount)
-            
-            // Game ends when time reaches 10:00 minutes
-            if gameTimeElapsed == totalGameTime && gameOver == false {
-                endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-                endGameLabel.text = "GAME OVER" + " Defender Wins!"
-                endGameLabel.fontSize = 150
-                endGameLabel.fontColor = UIColor.whiteColor()
-                endGameLabel.zPosition = 4
-                endGameLabel.position = CGPointMake(1200, 100)
-                sceneCamera.addChild(endGameLabel)
-                gameOver = true
-            }
-            
-            
-            //print(gameTimeElapsed)
-            //print(totalGameTime)
-            //if prevGameTimeEplased < gameTimeElapsed {
-            //    totalGameTime = totalGameTime - gameTimeElapsed
-            //    prevGameTimeEplased = gameTimeElapsed
-            //}
-            //print(totalGameTime)
-            
-            //var currentGameTime = NSDate.timeIntervalSinceReferenceDate()
-            //var gameTimeElapsed = currentGameTime - totalGameTime
-            //var seconds = totalGameTime - gameTimeElapsed
-            //if seconds > 0 {
-            //    gameTimeElapsed -= NSTimeInterval(seconds)
-            //    self.timeLabel.text = ("Time: \(seconds)")
-            //} else {
-            
-            //}
-            //currentGameTime = totalGameTime - 1.0
-            //totalGameTime = totalGameTime - 1
+            updateTimerAndGold(Int(currentTime))
 
+            // Game ends when time reaches 10:00 minutes
+            if (gameTimeElapsed == totalGameTime || lifeCount == 0)
+            {
+                doGameOver()
+            }
         }
+    }
+    
+    func updateGoldByTime()
+    {
+
+    }
+    
+    func updateTimerAndGold(currentTime: Int)
+    {
+        // Update Timer
+        if startTimer == true
+        {
+            gameStartTime = currentTime
+            startTimer = false
+        }
+        gameTimeElapsed = currentTime - gameStartTime
+        
+        
+        let (m, s) = timeInMinutesSeconds(gameTimeElapsed)
+        if s < 10
+        {
+            self.timeLabel.text = ("\(m):0\(s)")
+        }
+        else
+        {
+            self.timeLabel.text = ("\(m):\(s)")
+        }
+        
+        // Update Gold every 5 seconds
+        var doAddGold : Bool = s % 5 == 0
+        if seconds == s && doAddGold
+        {
+            doAddGold = false
+            
+        }
+        
+        seconds = s
+        if doAddGold
+        {
+            goldCount += 5
+        }
+        
+        goldLabel.text = String(goldCount)
+    }
+    
+    func doGameOver()
+    {
+        endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        endGameLabel.text = "GAME OVER" + " Defender Wins!"
+        endGameLabel.fontSize = 150
+        endGameLabel.fontColor = UIColor.whiteColor()
+        endGameLabel.zPosition = 4
+        endGameLabel.position = CGPointMake(1200, 100)
+        sceneCamera.addChild(endGameLabel)
+        gameOver = true
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)

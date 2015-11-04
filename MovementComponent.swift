@@ -51,10 +51,9 @@ public class MovementComponent: GKComponent
         case .MoveDown:
             move_down()
             break
-        case .Treasure:
-            debugPrint("REACHED THE TREASURE, OH NOES!")
-            break
-        case .None:
+            
+        default:
+            debugPrint("[MovementCompoenent] This shouldn't ever happen")
             break
         }
         

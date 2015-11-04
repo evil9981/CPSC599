@@ -27,12 +27,13 @@ class Tower: Building
     
     func visualizeMazeTiles()
     {
+        // First time we're visualizing a tower's attack tiles
         if (shapes.count == 0)
         {
             for tile in mazeTiles
             {
                 let pos = tile.position
-                debugPrint(pos)
+                
                 let shape = SKShapeNode(rectOfSize: CGSize(width: Tile.tileWidth * 0.9, height: Tile.tileHeight * 0.9))
                 
                 shape.position = CGPointMake( ( CGFloat(pos.x) - 0.5 ) * Tile.tileWidth ,
@@ -47,6 +48,7 @@ class Tower: Building
                 shapes.append(shape)
             }
         }
+        // Every next time we toggle
         else
         {
             if (shapes_shown)
