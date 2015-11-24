@@ -7,6 +7,8 @@
 
 import Foundation
 import SpriteKit
+import Alamofire
+import SwiftyJSON
 
 var lifeCount : Int = 10
 var goldCount : Int = 0
@@ -100,6 +102,9 @@ class GameScene: SKScene
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)    
     override func didMoveToView(view: SKView)
     {
+        // Example of how to send a request.
+        send_request("/")
+        
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         self.addChild(sceneCamera)
         
@@ -526,5 +531,25 @@ class GameScene: SKScene
         {
             debugPrint("Error reading JSON file")
         }
+    }
+    
+    func send_request(request: String)
+    {
+        let par = ["teat": "Test!"]
+        Alamofire.request(.GET, "http://192.168.0.15/", parameters: par).responseJSON
+            {
+                response in
+                switch response.result
+                {
+                case .Success (let data):
+                    let json = JSON(data)
+                    let name = json["name"].stringValue
+                    print(name)
+                    
+                case .Failure (let error):
+                    print("Request failed with error: \(error)")
+                }
+        }
+
     }
 }
