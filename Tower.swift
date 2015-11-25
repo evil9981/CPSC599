@@ -11,6 +11,9 @@ import GameplayKit
 
 class Tower: Building
 {
+    
+    var towerDamage = 30
+    
     var towerComp: TowerShootComponent!
     var mazeTiles : [Tile] = [Tile]()
     
