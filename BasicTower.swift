@@ -18,7 +18,8 @@ class BasicTower : Tower
         let gridSize = int2(2,2)
         let visSize = CGPointMake(2,2)
         let range = int2(3,3)
+        let towerDamage = 30
         
-        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, range: range)
+        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, range: range, towerDamage)
     }
 }

@@ -17,11 +17,13 @@ class TowerShootComponent: GKComponent
     var current_target : Unit!
 
     var range: int2
+    var towerDamage
     
-    init(tower: Building, range: int2)
+    init(tower: Building, range: int2, towerDamage: Int)
     {
         self.tower = tower
         self.range = range
+        self.towerDamage = towerDamage
         
         super.init()
         
