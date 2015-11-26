@@ -47,7 +47,6 @@ class Unit: GameEntity
             movementComp.update()
             
             movementComp.is_moving = true
-            
         }
     }
     

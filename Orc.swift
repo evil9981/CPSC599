@@ -11,13 +11,13 @@ import GameplayKit
 
 class Orc: Unit
 {
-    static let leftTextures = [SKTexture(imageNamed: "left_0"), SKTexture(imageNamed: "left_1"), SKTexture(imageNamed: "left_0"), SKTexture(imageNamed: "left_2")]
+    static let leftTextures = [SKTexture(imageNamed: "orc_left_0"), SKTexture(imageNamed: "orc_left_1"), SKTexture(imageNamed: "orc_left_0"), SKTexture(imageNamed: "orc_left_2")]
     
-    static let rightTextures = [SKTexture(imageNamed: "right_0"), SKTexture(imageNamed: "right_1"), SKTexture(imageNamed: "right_0"), SKTexture(imageNamed: "right_2")]
+    static let rightTextures = [SKTexture(imageNamed: "orc_right_0"), SKTexture(imageNamed: "orc_right_1"), SKTexture(imageNamed: "orc_right_0"), SKTexture(imageNamed: "orc_right_2")]
     
-    static let upTextures = [SKTexture(imageNamed: "up_0"), SKTexture(imageNamed: "up_1"), SKTexture(imageNamed: "up_0"), SKTexture(imageNamed: "up_2")]
+    static let upTextures = [SKTexture(imageNamed: "orc_up_0"), SKTexture(imageNamed: "orc_up_1"), SKTexture(imageNamed: "orc_up_0"), SKTexture(imageNamed: "orc_up_2")]
     
-    static let downTextures = [SKTexture(imageNamed: "down_0"), SKTexture(imageNamed: "down_1"), SKTexture(imageNamed: "down_0"), SKTexture(imageNamed: "down_2")]
+    static let downTextures = [SKTexture(imageNamed: "orc_down_0"), SKTexture(imageNamed: "orc_down_1"), SKTexture(imageNamed: "orc_down_0"), SKTexture(imageNamed: "orc_down_2")]
     
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {

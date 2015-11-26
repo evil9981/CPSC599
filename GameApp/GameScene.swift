@@ -10,7 +10,7 @@ import SpriteKit
 import Alamofire
 import SwiftyJSON
 
-var lifeCount : Int = 10
+var lifeCount : Int = 3
 var goldCount : Int = 0
 var gameOver : Bool = false
 
@@ -23,6 +23,7 @@ class GameScene: SKScene
     var max_y : CGFloat = 0.0
     var min_y : CGFloat = 0.0
     
+    var all_pigs : Dictionary<Int, Pig> = Dictionary<Int, Pig>()
     var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
     var all_buildings : Dictionary<Int, Building> = Dictionary<Int, Building>()
     
@@ -52,58 +53,36 @@ class GameScene: SKScene
     
     // MARK: Placeholder stuff, used to support demo
     
-    enum buildMode
+    enum BuildMode : Int
     {
-        case Orc
-        case Tower
+        case Orc = 0
+        case BasicTower = 1
+        case DirtyPig = 2
+        case HatPig = 3
+        case FancyPig = 4
     }
-    var current_build_mode : buildMode!
-    var orcButton: SKSpriteNode!
-    var towerButton: SKSpriteNode!
+    var current_build_mode : BuildMode!
     
-    func reset_orc_button()
-    {
-        self.removeChildrenInArray([orcButton])
-        orcButton.removeAllActions()
-        
-        init_orc_button()
-    }
+    var buttons: [Int:SKSpriteNode] = [:]
     
-    func init_orc_button()
+    func init_buttons()
     {
-        orcButton = SKSpriteNode(texture: SKTexture(imageNamed: "left_0"))
-        orcButton.name = "orcButton"
-        orcButton.size = CGSize(width: 64*3 ,height: 64*3)
-        orcButton.position = CGPointMake(-850, -1250)
-        orcButton.zPosition = 3
+        buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
-        sceneCamera.addChild(orcButton)
-    }
-    
-    func reset_tower_button()
-    {
-        self.removeChildrenInArray([towerButton])
-        towerButton.removeAllActions()
+        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
         
-        init_tower_button()
-    }
-    
-    func init_tower_button()
-    {
-        towerButton = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"))
-        towerButton.name = "towerButton"
-        towerButton.size = CGSize(width: 64*3,height: 64*3)
-        towerButton.position = CGPointMake(-850+164, -1250)
-        towerButton.zPosition = 3
+        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
         
-        sceneCamera.addChild(towerButton)
+        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
+        
+        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
     }
     
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)    
     override func didMoveToView(view: SKView)
     {
         // Example of how to send a request.
-        send_request("/")
+        //send_request("/")
         
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         self.addChild(sceneCamera)
@@ -126,12 +105,11 @@ class GameScene: SKScene
         self.camera = sceneCamera;
 
         // Init the orc and tower buttons
-        init_orc_button()
-        init_tower_button()
+        init_buttons()
         
         // Start in orc mode
         self.current_build_mode = .Orc
-        orcButton.runAction(colorize)
+        buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
 
         getJSONFile()
         
@@ -192,27 +170,41 @@ class GameScene: SKScene
             
             if let name = touchedNode.name
             {
-                if name == "orcButton"
+                if name.containsString("Button")
                 {
                     gui_element_clicked = true
                     
-                    current_build_mode = .Orc
-                    orcButton.runAction(colorize)
-                    reset_tower_button()
+                    // Reset old clicked button
+                    ButtonManager.reset_button(self.scene!, button: buttons[current_build_mode.rawValue]!)
                     
-            
+                    switch (current_build_mode!)
+                    {
+                    case .Orc:
+                        buttons[current_build_mode.rawValue] = ButtonManager.init_button(sceneCamera, img_name: "orc_left_0", button_name: "orcButton", index: 0)
+                        
+                    case .BasicTower:
+                        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
                     
-                    debugPrint("Orc Button clicked")
-                }
-                else if name == "towerButton"
-                {
-                    gui_element_clicked = true
+                    case .DirtyPig:
+                        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
                     
-                    current_build_mode = .Tower
-                    towerButton.runAction(colorize)
-                    reset_orc_button()
+                    case .HatPig:
+                        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
                     
-                    debugPrint("Tower Button clicked")
+                    case .FancyPig:
+                        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+                    }
+                    
+                    // Find which button was clicked
+                    for var index = 0 ; index < buttons.count; index++
+                    {
+                        if (buttons[index]!.name == name)
+                        {
+                            buttons[index]!.runAction(colorize)
+                            current_build_mode = BuildMode(rawValue: index)
+                            break
+                        }
+                    }
                 }
                 
                 if let entity_id = Int(name)
@@ -229,13 +221,18 @@ class GameScene: SKScene
             
             if (!gui_element_clicked && !entity_clicked)
             {
-                if (current_build_mode == .Orc)
+                switch (current_build_mode! )
                 {
+                case .Orc:
                     spawnOrc(scenePoint)
-                }
-                else
-                {
+                case .BasicTower:
                     spawnBasicTurret(scenePoint)
+                case .DirtyPig:
+                    spawnDirtyPig(scenePoint)
+                case .HatPig:
+                    spawnHatPig(scenePoint)
+                case .FancyPig:
+                    spawnFancyPig(scenePoint)
                 }
                 
                 if (debug)
@@ -265,6 +262,72 @@ class GameScene: SKScene
         
             // Keep track of it in a dictionary
             all_units[orc.entity_id] = orc
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnDirtyPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = DirtyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnHatPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = HatPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnFancyPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = FancyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
         }
         else
         {
@@ -303,6 +366,12 @@ class GameScene: SKScene
             for unit in all_units.values
             {
                 unit.update()
+            }
+            
+            // Update all the pigs
+            for pig in all_pigs.values
+            {
+                pig.update()
             }
             
             // Update all the buildings

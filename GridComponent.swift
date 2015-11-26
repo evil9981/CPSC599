@@ -40,6 +40,11 @@ class GridComponent: GKComponent
         }
     }
     
+    func getTile(point: int2) -> Tile
+    {
+        return tiles[Int(point.x)][Int(point.y)]
+    }
+    
     func updateTilesWithTower(range: int2)
     {
         if (unit is Tower)
