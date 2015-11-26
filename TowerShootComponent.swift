@@ -17,7 +17,7 @@ class TowerShootComponent: GKComponent
     var current_target : Unit!
 
     var range: int2
-    var towerDamage
+    var towerDamage: Int
     
     init(tower: Building, range: int2, towerDamage: Int)
     {
