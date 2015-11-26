@@ -259,19 +259,19 @@ class MainMenuScene: SKScene
         pig.physicsBody!.applyImpulse(CGVectorMake(x_force,y_force))
     }
     
+    // Creates a random pig to throw
     func create_a_pig(num : Int)
     {
         let texture : SKTexture
         let move_textures : [SKTexture]
      
-        let rand = arc4random_uniform( 3 )
-        debugPrint(rand)
-        if (rand == 0)
+        let rand = arc4random_uniform( 30 ) // Better distribution then 0 to 2
+        if (rand < 10)
         {
             texture = SKTexture(imageNamed: "dirty_pig_left_0")
             move_textures = [SKTexture(imageNamed: "dirty_pig_left_0"), SKTexture(imageNamed: "dirty_pig_left_1"), SKTexture(imageNamed: "dirty_pig_left_0"), SKTexture(imageNamed: "dirty_pig_left_2")]
         }
-        else if (rand == 1)
+        else if (rand < 20)
         {
             texture = SKTexture(imageNamed: "fancy_pig_left_0")
             move_textures = [SKTexture(imageNamed: "fancy_pig_left_0"), SKTexture(imageNamed: "fancy_pig_left_1"), SKTexture(imageNamed: "fancy_pig_left_0"), SKTexture(imageNamed: "fancy_pig_left_2")]
