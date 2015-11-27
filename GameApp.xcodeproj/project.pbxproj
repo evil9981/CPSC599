@@ -43,6 +43,7 @@
 		CED265181BE932DD0022C033 /* GameEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265171BE932DD0022C033 /* GameEntity.swift */; };
 		CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265191BE934C60022C033 /* TowerShootComponent.swift */; };
 		CED2651C1BE93A990022C033 /* Tower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED2651B1BE93A990022C033 /* Tower.swift */; };
+		CEE4AAB51C07BD3B00E64784 /* Ammo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE4AAB41C07BD3B00E64784 /* Ammo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		CED265171BE932DD0022C033 /* GameEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEntity.swift; sourceTree = "<group>"; };
 		CED265191BE934C60022C033 /* TowerShootComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TowerShootComponent.swift; sourceTree = "<group>"; };
 		CED2651B1BE93A990022C033 /* Tower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tower.swift; sourceTree = "<group>"; };
+		CEE4AAB41C07BD3B00E64784 /* Ammo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ammo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 		CE9A76521BE7545E00DDBF11 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				CEE4AAB01C07BD2D00E64784 /* Ammo */,
 				CE8ED8CB1C06505B008CB40B /* Pigs */,
 				CED265141BE930890022C033 /* Buildings */,
 				CED265131BE9307C0022C033 /* MazeUnits */,
@@ -289,6 +292,14 @@
 				CED265151BE931FD0022C033 /* BasicTower.swift */,
 			);
 			name = Buildings;
+			sourceTree = "<group>";
+		};
+		CEE4AAB01C07BD2D00E64784 /* Ammo */ = {
+			isa = PBXGroup;
+			children = (
+				CEE4AAB41C07BD3B00E64784 /* Ammo.swift */,
+			);
+			name = Ammo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -477,6 +488,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE4AAB51C07BD3B00E64784 /* Ammo.swift in Sources */,
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,

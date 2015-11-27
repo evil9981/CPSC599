@@ -23,7 +23,7 @@ class VisualComponent: GKComponent
         self.size = size
         
         self.node = SKSpriteNode(texture: texture)
-        node.zPosition = 1
+        node.zPosition = GameScene.ZPosition.MazeUnit.rawValue
         node.size = CGSize(width: size.x*Tile.tileWidth, height: size.y*Tile.tileHeight)
         node.anchorPoint = CGPointMake(0.00, 0.00)
         node.position = world_position

@@ -46,7 +46,9 @@ class GameScene: SKScene
     var timeLabel : SKLabelNode!
     var endGameLabel : SKLabelNode!
     
+    // Side panel stuff
     var buyButton : SKSpriteNode!
+    var sidePanel: SKShapeNode!
     
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
@@ -67,29 +69,15 @@ class GameScene: SKScene
     
     var buttons: [Int:SKSpriteNode] = [:]
     
-    func init_buttons()
+    enum ZPosition : CGFloat
     {
-        buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
-        buyButton.xScale = 7
-        buyButton.yScale = 7
-        buyButton.position = CGPointMake(3225, 0)
-        buyButton.name = "BuyButton"
-        camera?.addChild(buyButton)
-        
-        // These are the sandbox buttons, at the lower part of the screen
-        
-        buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
-        
-        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
-        
-        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
-        
-        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
-        
-        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+        case Map = 0
+        case MazeUnit = 1
+        case Tower = 2
+        case GUI = 3
+        case Overlay = 4
+        case OverlayButton = 5
     }
-    
-    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
     
     // MARK: Moved to view (initializer)
     
@@ -101,6 +89,19 @@ class GameScene: SKScene
         // Example of how to send a request.
         //send_request("/")
         
+        // Initiate the camera and viewport sizes
+        init_camera()
+        
+        // Get the logic parsed from the JSON file
+        getJSONFile()
+        
+        // Initiate all the GUI elementes
+        init_GUI()
+    }
+    
+    // Initiates the scene's camera
+    func init_camera()
+    {
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         self.addChild(sceneCamera)
         
@@ -120,30 +121,27 @@ class GameScene: SKScene
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
-
-        // Init the orc and tower buttons
-        init_buttons()
-        
-        // Start in orc mode
-        self.current_build_mode = .Orc
-        buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
-
-        getJSONFile()
-        
+    }
+    
+    // Initiates the GUI labels
+    func init_GUI()
+    {
         // Add the 'Gold Label' to the camera view and place it in the top left corner
         goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
         goldLabel.position = CGPointMake(-825, 1290)
+        goldLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldLabel)
-     
+        
         // Add the 'Lives Label' to the camera view and place it in the top right corner
         livesLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
         livesLabel.position = CGPointMake(3225, 1290)
+        livesLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesLabel)
         
         // Add the 'Time Label' to the camera view and place it in the middle
@@ -151,6 +149,7 @@ class GameScene: SKScene
         timeLabel.fontSize = 150
         timeLabel.fontColor = UIColor.whiteColor()
         timeLabel.position = CGPointMake(1000, 1300)
+        timeLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(timeLabel)
         
         // Add the gold image texture
@@ -159,15 +158,73 @@ class GameScene: SKScene
         goldImage.position = CGPointMake(-1100, 1350)
         goldImage.xScale = 8
         goldImage.yScale = 8
+        goldImage.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldImage)
         
-        // add the lives image texture
+        // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
         livesImage.position = CGPointMake(2950, 1350)
         livesImage.xScale = 8
         livesImage.yScale = 8
+        livesImage.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesImage)
+        
+        // Init the orc and tower buttons
+        init_buttons()
+        init_buy_panel()
+    }
+    
+    let buy_panel_width : CGFloat = 500 // This is how wide the buy panel is
+    func init_buy_panel()
+    {
+        let frame = CGRect(x: camera_viewport_width, y: (-camera_viewport_height), width: buy_panel_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
+        sidePanel = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+        sidePanel.zPosition = ZPosition.Overlay.rawValue
+            
+        sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
+        sidePanel.strokeColor = UIColor.blackColor() // This is the border color
+        
+        // Add buy buttons
+        let tower = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"), size: CGSize(width: 400 ,height: 400))
+        let x_buy_button = camera_viewport_width + tower.frame.width - 150
+        let y_buy_button = camera_viewport_height - tower.frame.height - 50
+        
+        tower.position = CGPointMake(x_buy_button, y_buy_button)
+        tower.zPosition = ZPosition.OverlayButton.rawValue
+        tower.name = "BuyBasicTower"
+        
+        sidePanel.addChild(tower)
+        
+        sceneCamera.addChild(sidePanel) // Add child to the camera
+    }
+    
+    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
+    func init_buttons()
+    {
+        // This is the buy button for the side panel
+        buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
+        buyButton.xScale = 7
+        buyButton.yScale = 7
+        buyButton.position = CGPointMake(3225, 0)
+        buyButton.name = "BuyButton"
+        buyButton.zPosition = ZPosition.OverlayButton.rawValue
+        sceneCamera.addChild(buyButton)
+        
+        // These are the sandbox buttons, at the lower part of the screen
+        buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
+        
+        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
+        
+        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
+        
+        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
+        
+        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+        
+        // Start in Orc mode
+        self.current_build_mode = .Orc
+        buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
     }
     
     // MARK: Update method
@@ -250,7 +307,7 @@ class GameScene: SKScene
     {
         endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         endGameLabel.fontSize = 150
-        endGameLabel.zPosition = 4
+        endGameLabel.zPosition = ZPosition.GUI.rawValue
         endGameLabel.position = CGPointMake(1200, 100)
         if (gameTimeElapsed == totalGameTime) {
             endGameLabel.text = "GAME OVER" + " Defender Wins!"
@@ -282,15 +339,17 @@ class GameScene: SKScene
             
             if let name = touchedNode.name
             {
+                gui_element_clicked = true
                 if name == "BuyButton"
                 {
-                    gui_element_clicked = true
                     buyButtonPushed()
+                }
+                if (name == "BuyBasicTower")
+                {
+                    current_build_mode! = .BasicTower
                 }
                 else if name.containsString("Button")
                 {
-                    gui_element_clicked = true
-                    
                     // Reset old clicked button
                     ButtonManager.reset_button(self.scene!, button: buttons[current_build_mode.rawValue]!)
                     
@@ -326,7 +385,6 @@ class GameScene: SKScene
                 else if let entity_id = Int(name)
                 {
                     entity_clicked = true
-                    debugPrint(entity_id)
                     
                     if let building_entity = all_buildings[entity_id]
                     {
@@ -364,30 +422,22 @@ class GameScene: SKScene
     }
     
     var side_panel_open = false
-    var background: SKShapeNode!
-    
     func buyButtonPushed()
     {
         if (!side_panel_open)
         {
-            let frame_width : CGFloat = 600 // This is how wide the buy panel is
-            let frame = CGRect(x: camera_viewport_width, y: (-camera_viewport_height), width: frame_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
-            background = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
-            
-            background.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
-            background.strokeColor = UIColor.blackColor() // This is the border color
-            
-            let slide = SKAction.moveByX(-600, y: 0, duration: 2.0) // Define the action to slide it 600 units to the left
-            background.runAction(slide) // Run the action
-            
-            sceneCamera.addChild(background) // Add child to the camera
+            let slideIn = SKAction.moveByX(-buy_panel_width, y: 0, duration: 1.0) // Define the action to slide it 600 units to the left
+
+            sidePanel.runAction(slideIn) // Run the action
             
             side_panel_open = true // Set so that we don't open it multiple times
         }
         else // If it is already open, slide it back
         {
-            let slide = SKAction.moveByX(600, y: 0, duration: 2.0) // Define the action to slide it 600 units to the left
-            background.runAction(slide) // Run the action
+            let slideOut = SKAction.moveByX(buy_panel_width, y: 0, duration: 1.0) // Define the action to slide it 600 units to the left
+            sidePanel.runAction(slideOut) // Run the action
+            
+            side_panel_open = false
         }
         debugPrint("Buy button pushed!")
     }
@@ -428,7 +478,8 @@ class GameScene: SKScene
         }
     }
     
-    func timeInMinutesSeconds (seconds : Int) -> (Int, Int) {
+    func timeInMinutesSeconds (seconds : Int) -> (Int, Int)
+    {
         return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     

@@ -23,7 +23,7 @@ public class ButtonManager
         button.name = button_name
         button.size = CGSize(width: 64*3 ,height: 64*3)
         button.position = CGPointMake(CGFloat(-850 + 200 * index) , -1250)
-        button.zPosition = 3
+        button.zPosition = GameScene.ZPosition.GUI.rawValue
         
         camera.addChild(button)
         

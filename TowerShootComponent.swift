@@ -77,7 +77,7 @@ class TowerShootComponent: GKComponent
         let target_pos = current_target.gridComp.current_pos
         let current_pos = self.tower.gridComp.current_pos
         
-        if ( abs(target_pos.x - current_pos.x) >= (range.x+tower.gridComp.size.x) || abs(target_pos.y - current_pos.y) >= range.y+tower.gridComp.size.x )
+        if ( abs(target_pos.x - current_pos.x) >= (range.x+tower.gridComp.size.x) || abs(target_pos.y - current_pos.y) >= range.y+tower.gridComp.size.y )
         {
             units = units.filter { return $0.entity_id != current_target.entity_id } // Remove the current target
             current_target = nil // Remove it from the current target
