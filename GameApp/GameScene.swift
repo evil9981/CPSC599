@@ -60,6 +60,7 @@ class GameScene: SKScene
     var current_build_mode : buildMode!
     var orcButton: SKSpriteNode!
     var towerButton: SKSpriteNode!
+    //var buyButton: SKSpriteNode!
     
     func reset_orc_button()
     {
@@ -99,6 +100,24 @@ class GameScene: SKScene
         sceneCamera.addChild(towerButton)
     }
     
+   /* func resetBuyButton()
+    {
+        self.removeChildrenInArray([buyButton])
+        buyButton.removeAllActions()
+        
+    }*/
+    
+    /*func initBuyButton()
+    {
+        buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
+        buyButton.name = "buyButton"
+        buyButton.size = CGSize(width: 64 * 4, height: 64 * 4)
+        buyButton.position = CGPointMake(3200, -1200)
+        buyButton.zPosition = 3
+        
+        sceneCamera.addChild(buyButton)
+    }*/
+    
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)    
     override func didMoveToView(view: SKView)
     {
@@ -128,6 +147,7 @@ class GameScene: SKScene
         // Init the orc and tower buttons
         init_orc_button()
         init_tower_button()
+        //initBuyButton()
         
         // Start in orc mode
         self.current_build_mode = .Orc
@@ -173,6 +193,9 @@ class GameScene: SKScene
         livesImage.xScale = 8
         livesImage.yScale = 8
         sceneCamera.addChild(livesImage)
+        
+        // Add the buy/purchase tower button
+        
     }
     
     var prevLocation: CGPoint = CGPointMake(0, 0)
@@ -214,6 +237,14 @@ class GameScene: SKScene
                     
                     debugPrint("Tower Button clicked")
                 }
+                
+                /*if name == "buyButton"
+                {
+                    gui_element_clicked = true
+                    
+                    buyButton.runAction(colorize)
+                    resetBuyButton()
+                }*/
                 
                 if let entity_id = Int(name)
                 {
