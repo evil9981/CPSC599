@@ -11,17 +11,14 @@ import GameplayKit
 
 class Tower: Building
 {
-    
-    var towerDamage = 30
-    
     var towerComp: TowerShootComponent!
     var mazeTiles : [Tile] = [Tile]()
     
-    init(scene: GameScene, grid_position: int2, world_position: CGPoint, tower_texture: SKTexture, gridSize: int2, visSize: CGPoint, range: int2)
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, tower_texture: SKTexture, gridSize: int2, visSize: CGPoint, range: int2, towerDamage: Int)
     {
         super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize)
         
-        self.towerComp = TowerShootComponent(tower: self, range: range)
+        self.towerComp = TowerShootComponent(tower: self, range: range, towerDamage: towerDamage)
         self.addComponent(towerComp)
     }
     

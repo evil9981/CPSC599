@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  dirty_pig.swift
 //  GameApp
 //
 //  Created by User on 2015-11-02.
@@ -9,26 +9,28 @@
 import SpriteKit
 import GameplayKit
 
-class Unit: GameEntity
+class Pig: GameEntity
 {
     var scene: GameScene
     
-    var movementComp: MovementComponent!
-    var visualComp: VisualComponent!
+    var movementComp: PigMoveComponent!
     var gridComp: GridComponent!
+    var visualComp: VisualComponent!
     
-    init(scene: GameScene, grid_position: int2, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval, gridSize: int2, visSize: CGPoint)
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval, visSize: CGPoint)
     {
         self.scene = scene
-        
         super.init()
+
+        let visSize = CGPointMake(1.2, 1.2)
+        let gridSize = int2(1,1)
         
         // Add the logical component that moves creatures on the tiles set
         self.gridComp = GridComponent(tiles: scene.tiles, unit: self, pos: grid_position, size: gridSize)
         self.addComponent(gridComp)
         
         // Add the movement component
-        self.movementComp = MovementComponent(unit: self, leftTextures: leftTextures, rightTextures: rightTextures, upTextures: upTextures, downTextures: downTextures, speed: speed)
+        self.movementComp = PigMoveComponent(unit: self, leftTextures: leftTextures, rightTextures: rightTextures, upTextures: upTextures, downTextures: downTextures, speed: speed)
         self.addComponent(movementComp)
         
         // Set visual component and add it to the scene
@@ -42,12 +44,13 @@ class Unit: GameEntity
     {
         if (!movementComp.is_moving)
         {
-            visualComp.node.runAction(movementComp.current_movement, completion: { self.movementComp.finishedMovement() })
-            
-            movementComp.update()
-            
-            movementComp.is_moving = true
+        visualComp.node.runAction(movementComp.current_movement, completion: { self.movementComp.finishedMovement() })
+        
+        movementComp.update()
+        
+        movementComp.is_moving = true
         }
+        
     }
     
     func moveLeft()
@@ -55,8 +58,8 @@ class Unit: GameEntity
         movementComp.current_movement = movementComp.moveLeft
     }
     func moveRight()
-        
-    {movementComp.current_movement = movementComp.moveRight
+    {
+        movementComp.current_movement = movementComp.moveRight
     }
     func moveUp()
     {
@@ -72,4 +75,5 @@ class Unit: GameEntity
         scene.removeChildrenInArray([self.visualComp.node])
         scene.all_units.removeValueForKey(self.entity_id)
     }
+
 }

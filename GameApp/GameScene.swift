@@ -10,7 +10,7 @@ import SpriteKit
 import Alamofire
 import SwiftyJSON
 
-var lifeCount : Int = 10
+var lifeCount : Int = 3
 var goldCount : Int = 0
 var gameOver : Bool = false
 
@@ -23,6 +23,7 @@ class GameScene: SKScene
     var max_y : CGFloat = 0.0
     var min_y : CGFloat = 0.0
     
+    var all_pigs : Dictionary<Int, Pig> = Dictionary<Int, Pig>()
     var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
     var all_buildings : Dictionary<Int, Building> = Dictionary<Int, Building>()
     
@@ -45,6 +46,8 @@ class GameScene: SKScene
     var timeLabel : SKLabelNode!
     var endGameLabel : SKLabelNode!
     
+    var buyButton : SKSpriteNode!
+    
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
     
@@ -52,77 +55,51 @@ class GameScene: SKScene
     
     // MARK: Placeholder stuff, used to support demo
     
-    enum buildMode
+    enum BuildMode : Int
     {
-        case Orc
-        case Tower
+        case Orc = 0
+        case BasicTower = 1
+        case DirtyPig = 2
+        case HatPig = 3
+        case FancyPig = 4
     }
-    var current_build_mode : buildMode!
-    var orcButton: SKSpriteNode!
-    var towerButton: SKSpriteNode!
-    //var buyButton: SKSpriteNode!
+    var current_build_mode : BuildMode!
     
-    func reset_orc_button()
-    {
-        self.removeChildrenInArray([orcButton])
-        orcButton.removeAllActions()
-        
-        init_orc_button()
-    }
+    var buttons: [Int:SKSpriteNode] = [:]
     
-    func init_orc_button()
-    {
-        orcButton = SKSpriteNode(texture: SKTexture(imageNamed: "left_0"))
-        orcButton.name = "orcButton"
-        orcButton.size = CGSize(width: 64*3 ,height: 64*3)
-        orcButton.position = CGPointMake(-850, -1250)
-        orcButton.zPosition = 3
-        
-        sceneCamera.addChild(orcButton)
-    }
-    
-    func reset_tower_button()
-    {
-        self.removeChildrenInArray([towerButton])
-        towerButton.removeAllActions()
-        
-        init_tower_button()
-    }
-    
-    func init_tower_button()
-    {
-        towerButton = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"))
-        towerButton.name = "towerButton"
-        towerButton.size = CGSize(width: 64*3,height: 64*3)
-        towerButton.position = CGPointMake(-850+164, -1250)
-        towerButton.zPosition = 3
-        
-        sceneCamera.addChild(towerButton)
-    }
-    
-   /* func resetBuyButton()
-    {
-        self.removeChildrenInArray([buyButton])
-        buyButton.removeAllActions()
-        
-    }*/
-    
-    /*func initBuyButton()
+    func init_buttons()
     {
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
-        buyButton.name = "buyButton"
-        buyButton.size = CGSize(width: 64 * 4, height: 64 * 4)
-        buyButton.position = CGPointMake(3200, -1200)
-        buyButton.zPosition = 3
+        buyButton.xScale = 7
+        buyButton.yScale = 7
+        buyButton.position = CGPointMake(3225, 0)
+        buyButton.name = "BuyButton"
+        camera?.addChild(buyButton)
         
-        sceneCamera.addChild(buyButton)
-    }*/
+        // These are the sandbox buttons, at the lower part of the screen
+        
+        buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
+        
+        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
+        
+        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
+        
+        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
+        
+        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+    }
     
-    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)    
+    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
+    
+    // MARK: Moved to view (initializer)
+    
+    var camera_viewport_width : CGFloat = 0
+    var camera_viewport_height : CGFloat = 0
+    
     override func didMoveToView(view: SKView)
     {
         // Example of how to send a request.
-        send_request("/")
+        //send_request("/")
         
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         self.addChild(sceneCamera)
@@ -130,8 +107,8 @@ class GameScene: SKScene
         sceneCamera.xScale = 0.5
         sceneCamera.yScale = 0.5
         
-        let camera_viewport_width = frame.width * sceneCamera.xScale
-        let camera_viewport_height = frame.height * sceneCamera.yScale
+        camera_viewport_width = frame.width * sceneCamera.xScale
+        camera_viewport_height = frame.height * sceneCamera.yScale
         
         let camera_half_width = (camera_viewport_width / 2 )
         let camera_half_height = (camera_viewport_height / 2 )
@@ -145,13 +122,11 @@ class GameScene: SKScene
         self.camera = sceneCamera;
 
         // Init the orc and tower buttons
-        init_orc_button()
-        init_tower_button()
-        //initBuyButton()
+        init_buttons()
         
         // Start in orc mode
         self.current_build_mode = .Orc
-        orcButton.runAction(colorize)
+        buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
 
         getJSONFile()
         
@@ -193,138 +168,10 @@ class GameScene: SKScene
         livesImage.xScale = 8
         livesImage.yScale = 8
         sceneCamera.addChild(livesImage)
-        
-        // Add the buy/purchase tower button
-        
     }
     
-    var prevLocation: CGPoint = CGPointMake(0, 0)
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-    {
-        for touch in touches
-        {
-            let touchPoint = touch.locationInView(self.view)
-            let scenePoint = scene!.convertPointFromView(touchPoint)
-            let touchedNode = self.nodeAtPoint(scenePoint)
-            
-            prevLocation = touchPoint
-            
-            var gui_element_clicked = false
-            var entity_clicked = false
-            
-            if let name = touchedNode.name
-            {
-                if name == "orcButton"
-                {
-                    gui_element_clicked = true
-                    
-                    current_build_mode = .Orc
-                    orcButton.runAction(colorize)
-                    reset_tower_button()
-                    
-            
-                    
-                    debugPrint("Orc Button clicked")
-                }
-                else if name == "towerButton"
-                {
-                    gui_element_clicked = true
-                    
-                    current_build_mode = .Tower
-                    towerButton.runAction(colorize)
-                    reset_orc_button()
-                    
-                    debugPrint("Tower Button clicked")
-                }
-                
-                /*if name == "buyButton"
-                {
-                    gui_element_clicked = true
-                    
-                    buyButton.runAction(colorize)
-                    resetBuyButton()
-                }*/
-                
-                if let entity_id = Int(name)
-                {
-                    entity_clicked = true
-                    debugPrint(entity_id)
-                    
-                    if let building_entity = all_buildings[entity_id]
-                    {
-                        (building_entity as! Tower).visualizeMazeTiles()
-                    }
-                }
-            }
-            
-            if (!gui_element_clicked && !entity_clicked)
-            {
-                if (current_build_mode == .Orc)
-                {
-                    spawnOrc(scenePoint)
-                }
-                else
-                {
-                    spawnBasicTurret(scenePoint)
-                }
-                
-                if (debug)
-                {
-                    let pos_on_grid = coordinateForPoint(scenePoint)
-                    let tile = Tile.getTile(tiles, pos: pos_on_grid)
-                    
-                    debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
-                    debugPrint( tile )
-                }
-            }
-        }
-    }
-    
-    func spawnOrc(point: CGPoint)
-    {
-        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
-        
-        // Fix the position to be on the grid
-        let fixed_pos = pointForCoordinate(pos_on_grid)
-        let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is MazeTile)
-        {
-            // Init the orc
-            let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
-        
-            // Keep track of it in a dictionary
-            all_units[orc.entity_id] = orc
-        }
-        else
-        {
-            debugPrint("Not a maze tile!")
-        }
-    }
-    
-    func spawnBasicTurret(point: CGPoint)
-    {
-        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
-        
-        // Fix the position to be on the grid
-        let fixed_pos = pointForCoordinate(pos_on_grid)
-        let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is DefenderTile)
-        {
-            // Init the orc
-            let tower = BasicTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
-            
-            // Keep track of it in a dictionary
-            all_buildings[tower.entity_id] = tower
-        }
-        else
-        {
-            debugPrint("Not a defender tile!")
-        }
-    }
-    
+    // MARK: Update method
+
     var seconds : Int = 0
     override func update(currentTime: NSTimeInterval)
     {
@@ -334,6 +181,12 @@ class GameScene: SKScene
             for unit in all_units.values
             {
                 unit.update()
+            }
+            
+            // Update all the pigs
+            for pig in all_pigs.values
+            {
+                pig.update()
             }
             
             // Update all the buildings
@@ -353,11 +206,6 @@ class GameScene: SKScene
                 doGameOver()
             }
         }
-    }
-    
-    func updateGoldByTime()
-    {
-
     }
     
     func updateTimerAndGold(currentTime: Int)
@@ -414,7 +262,134 @@ class GameScene: SKScene
         }
         sceneCamera.addChild(endGameLabel)
         gameOver = true
-        
+    }
+    
+    // MARK: Handle touches ( moved and begin ) methods
+    
+    var prevLocation: CGPoint = CGPointMake(0, 0)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+    {
+        for touch in touches
+        {
+            let touchPoint = touch.locationInView(self.view)
+            let scenePoint = scene!.convertPointFromView(touchPoint)
+            let touchedNode = self.nodeAtPoint(scenePoint)
+            
+            prevLocation = touchPoint
+            
+            var gui_element_clicked = false
+            var entity_clicked = false
+            
+            if let name = touchedNode.name
+            {
+                if name == "BuyButton"
+                {
+                    gui_element_clicked = true
+                    buyButtonPushed()
+                }
+                else if name.containsString("Button")
+                {
+                    gui_element_clicked = true
+                    
+                    // Reset old clicked button
+                    ButtonManager.reset_button(self.scene!, button: buttons[current_build_mode.rawValue]!)
+                    
+                    switch (current_build_mode!)
+                    {
+                    case .Orc:
+                        buttons[current_build_mode.rawValue] = ButtonManager.init_button(sceneCamera, img_name: "orc_left_0", button_name: "orcButton", index: 0)
+                        
+                    case .BasicTower:
+                        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
+                        
+                    case .DirtyPig:
+                        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
+                        
+                    case .HatPig:
+                        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
+                        
+                    case .FancyPig:
+                        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+                    }
+                    
+                    // Find which button was clicked
+                    for var index = 0 ; index < buttons.count; index++
+                    {
+                        if (buttons[index]!.name == name)
+                        {
+                            buttons[index]!.runAction(colorize)
+                            current_build_mode = BuildMode(rawValue: index)
+                            break
+                        }
+                    }
+                }
+                else if let entity_id = Int(name)
+                {
+                    entity_clicked = true
+                    debugPrint(entity_id)
+                    
+                    if let building_entity = all_buildings[entity_id]
+                    {
+                        (building_entity as! Tower).visualizeMazeTiles()
+                    }
+                }
+            }
+            
+            if (!gui_element_clicked && !entity_clicked)
+            {
+                switch (current_build_mode! )
+                {
+                case .Orc:
+                    spawnOrc(scenePoint)
+                case .BasicTower:
+                    spawnBasicTurret(scenePoint)
+                case .DirtyPig:
+                    spawnDirtyPig(scenePoint)
+                case .HatPig:
+                    spawnHatPig(scenePoint)
+                case .FancyPig:
+                    spawnFancyPig(scenePoint)
+                }
+                
+                if (debug)
+                {
+                    let pos_on_grid = coordinateForPoint(scenePoint)
+                    let tile = Tile.getTile(tiles, pos: pos_on_grid)
+                    
+                    debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
+                    debugPrint( tile )
+                }
+            }
+        }
+    }
+    
+    var side_panel_open = false
+    var background: SKShapeNode!
+    
+    func buyButtonPushed()
+    {
+        if (!side_panel_open)
+        {
+            let frame_width : CGFloat = 600 // This is how wide the buy panel is
+            let frame = CGRect(x: camera_viewport_width, y: (-camera_viewport_height), width: frame_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
+            background = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+            
+            background.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
+            background.strokeColor = UIColor.blackColor() // This is the border color
+            
+            let slide = SKAction.moveByX(-600, y: 0, duration: 2.0) // Define the action to slide it 600 units to the left
+            background.runAction(slide) // Run the action
+            
+            sceneCamera.addChild(background) // Add child to the camera
+            
+            side_panel_open = true // Set so that we don't open it multiple times
+        }
+        else // If it is already open, slide it back
+        {
+            let slide = SKAction.moveByX(600, y: 0, duration: 2.0) // Define the action to slide it 600 units to the left
+            background.runAction(slide) // Run the action
+        }
+        debugPrint("Buy button pushed!")
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
@@ -466,6 +441,8 @@ class GameScene: SKScene
     {
         return CGPointMake(CGFloat(point.x) * Tile.tileWidth, CGFloat(point.y) * Tile.tileHeight)
     }
+    
+    // MARK: Json map parsing.
     
     var map_height : Int = -1
     var map_width : Int = -1
@@ -570,6 +547,120 @@ class GameScene: SKScene
             debugPrint("Error reading JSON file")
         }
     }
+    
+    // MARK: Spawn methods for different units
+    
+    func spawnOrc(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is MazeTile)
+        {
+            // Init the orc
+            let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_units[orc.entity_id] = orc
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnDirtyPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = DirtyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnHatPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = HatPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnFancyPig(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is TreasureTile)
+        {
+            // Init the orc
+            let pig = FancyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            
+            // Keep track of it in a dictionary
+            all_pigs[pig.entity_id] = pig
+        }
+        else
+        {
+            debugPrint("Not a maze tile!")
+        }
+    }
+    
+    func spawnBasicTurret(point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is DefenderTile)
+        {
+            // Init the orc
+            let tower = BasicTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[tower.entity_id] = tower
+        }
+        else
+        {
+            debugPrint("Not a defender tile!")
+        }
+    }
+    
+    // MARK: Network requests
     
     func send_request(request: String)
     {
