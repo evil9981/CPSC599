@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 var lifeCount : Int = 3
-var goldCount : Int = 0
+var goldCount : Int = 100
 var gameOver : Bool = false
 
 class GameScene: SKScene
@@ -61,9 +61,11 @@ class GameScene: SKScene
     {
         case Orc = 0
         case BasicTower = 1
-        case DirtyPig = 2
-        case HatPig = 3
-        case FancyPig = 4
+        case AdvancedTower = 2
+        case DefenderPowerSource = 3
+        case DirtyPig = 4
+        case HatPig = 5
+        case FancyPig = 6
     }
     var current_build_mode : BuildMode!
     
@@ -185,16 +187,63 @@ class GameScene: SKScene
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
         
-        // Add buy buttons
-        let tower = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"), size: CGSize(width: 400 ,height: 400))
-        let x_buy_button = camera_viewport_width + tower.frame.width - 150
-        let y_buy_button = camera_viewport_height - tower.frame.height - 50
+        // Add basicTower Buy button
+        let basicTower = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"), size: CGSize(width: 400 ,height: 400))
+        var x_buy_button = camera_viewport_width + basicTower.frame.width - 150
+        var y_buy_button = camera_viewport_height - basicTower.frame.height - 50
         
-        tower.position = CGPointMake(x_buy_button, y_buy_button)
-        tower.zPosition = ZPosition.OverlayButton.rawValue
-        tower.name = "BuyBasicTower"
+        basicTower.position = CGPointMake(x_buy_button, y_buy_button)
+        basicTower.zPosition = ZPosition.OverlayButton.rawValue
+        basicTower.name = "BuyBasicTower"
         
-        sidePanel.addChild(tower)
+        // Create cost image
+        var goldCostLabel: SKLabelNode!
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: basicTowerCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        // Create gold label
+        var goldCostImage: SKSpriteNode!
+        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 150, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        
+        // Add advancedTower buy button
+        let advancedTower = SKSpriteNode(texture: SKTexture(imageNamed: "AdvancedTower"), size: CGSize(width: 400 ,height: 400))
+        
+        x_buy_button = camera_viewport_width + basicTower.frame.width - 150
+        y_buy_button = camera_viewport_height - basicTower.frame.height - 800
+        
+        advancedTower.position = CGPointMake(x_buy_button, y_buy_button)
+        advancedTower.zPosition = ZPosition.OverlayButton.rawValue
+        advancedTower.name = "BuyAdvancedTower"
+        
+        // Create cost image
+        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 150, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        // Create cost label
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: advancedTowerCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        // Add defenderPowerSource buy button
+        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 400 ,height: 400))
+        
+        x_buy_button = camera_viewport_width + basicTower.frame.width - 150
+        y_buy_button = camera_viewport_height - basicTower.frame.height - 1600
+        
+        defenderPowerSource.position = CGPointMake(x_buy_button, y_buy_button)
+        defenderPowerSource.zPosition = ZPosition.OverlayButton.rawValue
+        defenderPowerSource.name = "BuyDefenderPowerSource"
+        
+        // Create cost image
+        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 125, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        // Create cost label
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: defenderPowerSrcCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        
+        sidePanel.addChild(basicTower)
+        sidePanel.addChild(advancedTower)
+        sidePanel.addChild(defenderPowerSource)
+        //sidePanel.addChild(goldCostLabel)
+        //sidePanel.addChild(goldImage)
+        
         
         sceneCamera.addChild(sidePanel) // Add child to the camera
     }
@@ -204,9 +253,9 @@ class GameScene: SKScene
     {
         // This is the buy button for the side panel
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
-        buyButton.xScale = 7
-        buyButton.yScale = 7
-        buyButton.position = CGPointMake(3225, 0)
+        buyButton.xScale = 1
+        buyButton.yScale = 1
+        buyButton.position = CGPointMake(3150, -1200)
         buyButton.name = "BuyButton"
         buyButton.zPosition = ZPosition.OverlayButton.rawValue
         sceneCamera.addChild(buyButton)
@@ -215,6 +264,10 @@ class GameScene: SKScene
         buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
         buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
+        
+        buttons[BuildMode.AdvancedTower.rawValue] = ButtonManager.init_button(camera!, img_name: "AdvancedTower", button_name: "advancedTowerButton", index: BuildMode.AdvancedTower.rawValue)
+        
+        buttons[BuildMode.DefenderPowerSource.rawValue] = ButtonManager.init_button(camera!, img_name: "DefenderPowerSource", button_name: "defenderPowerSourceButton", index: BuildMode.DefenderPowerSource.rawValue)
         
         buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
         
@@ -348,6 +401,14 @@ class GameScene: SKScene
                 {
                     current_build_mode! = .BasicTower
                 }
+                if (name == "BuyAdvancedTower")
+                {
+                    current_build_mode! = .AdvancedTower
+                }
+                if (name == "BuyDefenderPowerSource")
+                {
+                    current_build_mode! = .DefenderPowerSource
+                }
                 else if name.containsString("Button")
                 {
                     // Reset old clicked button
@@ -360,6 +421,12 @@ class GameScene: SKScene
                         
                     case .BasicTower:
                         buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
+                    
+                    case .AdvancedTower:
+                        buttons[BuildMode.AdvancedTower.rawValue] = ButtonManager.init_button(camera!, img_name: "AdvancedTower", button_name: "advancedTowerButton", index: BuildMode.AdvancedTower.rawValue)
+                        
+                    case .DefenderPowerSource:
+                        buttons[BuildMode.DefenderPowerSource.rawValue] = ButtonManager.init_button(camera!, img_name: "DefenderPowerSource", button_name: "DefenderPowerSrcButton", index: BuildMode.DefenderPowerSource.rawValue)
                         
                     case .DirtyPig:
                         buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
@@ -400,7 +467,33 @@ class GameScene: SKScene
                 case .Orc:
                     spawnOrc(scenePoint)
                 case .BasicTower:
-                    spawnBasicTurret(scenePoint)
+                    if (basicTowerCost > goldCount)
+                    {
+                        debugPrint("You Do not have enough gold to purchase Basic Tower")
+                    }
+                    else
+                    {
+                        spawnBasicTurret(scenePoint)
+                    }
+                case .AdvancedTower:
+                    if (advancedTowerCost > goldCount)
+                    {
+                        debugPrint("You Do not have enough gold to purchase Basic Tower")
+                    }
+                    else
+                    {
+                        spawnAdvancedTurret(scenePoint)
+                    }
+                case .DefenderPowerSource:
+                    if (defenderPowerSrcCost > goldCount)
+                    {
+                        debugPrint("You Do not have enough gold to purchase Basic Tower")
+                    }
+                    else
+                    {
+                        spawnDefenderPowerSource(scenePoint)
+                    }
+                    
                 case .DirtyPig:
                     spawnDirtyPig(scenePoint)
                 case .HatPig:
@@ -599,6 +692,72 @@ class GameScene: SKScene
         }
     }
     
+    // MARK: Generalized node function to create and initialize nodes
+    func createNode(var uiNode: SKSpriteNode!, var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
+    {
+        
+        uiTexture = SKTexture(imageNamed: nodeName)
+        uiNode = SKSpriteNode(texture: uiTexture)
+        uiNode.position = CGPointMake(xPosition, yPosition)
+        uiNode.xScale = scaleX
+        uiNode.yScale = scaleY
+        
+        // Assign the zposition accordingly
+        if (zPosition == "GUI")
+        {
+            uiNode.zPosition = ZPosition.GUI.rawValue
+        }
+        if (zPosition == "OverlayButton")
+        {
+            uiNode.zPosition = ZPosition.OverlayButton.rawValue
+        }
+        
+        // add child to respective parent node
+        if (childOf == "Camera")
+        {
+            sceneCamera.addChild(uiNode)
+        }
+        if (childOf == "SidePanel")
+        {
+            sidePanel.addChild(uiNode)
+        }
+        
+    }
+    
+    func createLableNode(var uiLabelNode: SKLabelNode!, let labelFont: String, let labelText: Any, let labelColour: String, let labelFontSize: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let zPosition: String, let childOf: String)
+    {
+        uiLabelNode = SKLabelNode(fontNamed: labelFont)
+        uiLabelNode.text = String(labelText)
+        uiLabelNode.fontSize = labelFontSize
+
+        uiLabelNode.position = CGPointMake(xPosition, yPosition)
+        if (labelColour == "Gold")
+        {
+            uiLabelNode.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
+        }
+        
+        // Assign the zposition accordingly
+        if (zPosition == "GUI")
+        {
+            uiLabelNode.zPosition = ZPosition.GUI.rawValue
+        }
+        if (zPosition == "OverlayButton")
+        {
+            uiLabelNode.zPosition = ZPosition.OverlayButton.rawValue
+        }
+        
+        // add child to respective parent node
+        if (childOf == "Camera")
+        {
+            sceneCamera.addChild(uiLabelNode)
+        }
+        if (childOf == "SidePanel")
+        {
+            sidePanel.addChild(uiLabelNode)
+        }
+        
+    }
+    
     // MARK: Spawn methods for different units
     
     func spawnOrc(point: CGPoint)
@@ -699,7 +858,7 @@ class GameScene: SKScene
         let tile = Tile.getTile(tiles, pos: pos_on_grid)
         if (tile is DefenderTile)
         {
-            // Init the orc
+            // Init the tower
             let tower = BasicTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
             
             // Keep track of it in a dictionary
@@ -710,6 +869,53 @@ class GameScene: SKScene
             debugPrint("Not a defender tile!")
         }
     }
+    
+    
+    func spawnAdvancedTurret (point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is DefenderTile)
+        {
+            // Init the tower
+            let tower = AdvancedTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[tower.entity_id] = tower
+        }
+        else
+        {
+            debugPrint("Not a defender tile!")
+        }
+    }
+    
+    func spawnDefenderPowerSource (point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is DefenderTile)
+        {
+            // Init the tower
+            let tower = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[tower.entity_id] = tower
+        }
+        else
+        {
+            debugPrint("Not a defender tile!")
+        }
+    }
+
+    
     
     // MARK: Network requests
     
