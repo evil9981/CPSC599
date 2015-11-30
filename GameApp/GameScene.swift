@@ -863,6 +863,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
+            goldCount -= basicTowerCost
         }
         else
         {
@@ -886,6 +887,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
+            goldCount -= advancedTowerCost
         }
         else
         {
@@ -908,6 +910,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
+            goldCount -= defenderPowerSrcCost
         }
         else
         {
