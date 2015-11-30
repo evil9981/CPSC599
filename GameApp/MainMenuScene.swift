@@ -44,8 +44,24 @@ class MainMenuScene: SKScene
             }
         }
         
+        add_title()
         init_game_buttons()
         
+    }
+    
+    func add_title()
+    {
+        let title_node = SKSpriteNode(texture: SKTexture(imageNamed: "TransperentTitle"))
+        title_node.xScale = 2
+        title_node.yScale = 2
+        title_node.name = "title_node"
+        title_node.zPosition = ZPositions.Button.rawValue
+        
+        let title_x = self.frame.width/2
+        let title_y = self.frame.height/2 + 140
+        title_node.position = CGPointMake(title_x, title_y)
+        
+        scene!.addChild(title_node)
     }
     
     func init_game_buttons()
