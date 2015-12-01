@@ -10,6 +10,9 @@
 		3BA7BF2F220FCFA5A714ED7A /* Pods_GameApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */; };
 		A378E0721C082F1400791979 /* AdvancedTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0711C082F1400791979 /* AdvancedTower.swift */; };
 		A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0761C0BB28100791979 /* DefenderPowerSource.swift */; };
+		A378E0791C0CE5C300791979 /* RegularTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0781C0CE5C300791979 /* RegularTower.swift */; };
+		A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07A1C0CEDAB00791979 /* FireTower.swift */; };
+		A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07C1C0CEDF900791979 /* IceTower.swift */; };
 		CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0714091C065BE50062EEBF /* DirtyPig.swift */; };
 		CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07140E1C065C2E0062EEBF /* HatPig.swift */; };
 		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
@@ -86,6 +89,9 @@
 		8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A378E0711C082F1400791979 /* AdvancedTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTower.swift; sourceTree = "<group>"; };
 		A378E0761C0BB28100791979 /* DefenderPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderPowerSource.swift; sourceTree = "<group>"; };
+		A378E0781C0CE5C300791979 /* RegularTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularTower.swift; sourceTree = "<group>"; };
+		A378E07A1C0CEDAB00791979 /* FireTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireTower.swift; sourceTree = "<group>"; };
+		A378E07C1C0CEDF900791979 /* IceTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceTower.swift; sourceTree = "<group>"; };
 		CE0714091C065BE50062EEBF /* DirtyPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirtyPig.swift; sourceTree = "<group>"; };
 		CE07140E1C065C2E0062EEBF /* HatPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatPig.swift; sourceTree = "<group>"; };
 		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
@@ -299,6 +305,9 @@
 				CED265151BE931FD0022C033 /* BasicTower.swift */,
 				A378E0711C082F1400791979 /* AdvancedTower.swift */,
 				A378E0761C0BB28100791979 /* DefenderPowerSource.swift */,
+				A378E0781C0CE5C300791979 /* RegularTower.swift */,
+				A378E07A1C0CEDAB00791979 /* FireTower.swift */,
+				A378E07C1C0CEDF900791979 /* IceTower.swift */,
 			);
 			name = Buildings;
 			sourceTree = "<group>";
@@ -509,11 +518,14 @@
 				CED265061BE773930022C033 /* TileType.swift in Sources */,
 				CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */,
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,
+				A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */,
 				CED265041BE772C30022C033 /* NonUsableTile.swift in Sources */,
 				CED265021BE772AA0022C033 /* MazeTile.swift in Sources */,
 				CE9A76541BE7547300DDBF11 /* Unit.swift in Sources */,
 				CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */,
 				CE6EAE7E1BD889300004DAD8 /* GameViewController.swift in Sources */,
+				A378E0791C0CE5C300791979 /* RegularTower.swift in Sources */,
+				A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */,
 				CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */,
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
