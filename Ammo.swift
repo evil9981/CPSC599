@@ -16,6 +16,13 @@ class Ammo: GameEntity
     
     var visualComp: VisualComponent!
 
+    enum ammoType
+    {
+        case CannonBall
+        case FireBall
+        case Lightning
+    }
+    
     init(scene: GameScene, texture: SKTexture, speed: NSTimeInterval, world_position: CGPoint, size: CGPoint, damage: Int)
     {
         self.scene = scene

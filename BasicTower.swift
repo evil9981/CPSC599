@@ -13,7 +13,6 @@ let basicTowerCost : Int = 100
 
 class BasicTower : Tower
 {
-
     let tower_texture : SKTexture = SKTexture(imageNamed: "BasicTower")
     
     init(scene: GameScene, grid_position: int2, world_position: CGPoint)

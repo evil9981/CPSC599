@@ -122,9 +122,9 @@ class GameScene: SKScene
         let camera_half_height = (camera_viewport_height / 2 )
         
         max_x = frame.width - camera_half_width
-        min_x = camera_half_width - 1/6*frame.width
+        min_x = 2.5 * Tile.tileWidth
         
-        max_y = frame.height - camera_half_height
+        max_y = frame.height - camera_half_height + 15
         min_y = 0 + camera_half_height
         
         self.camera = sceneCamera;
@@ -138,7 +138,7 @@ class GameScene: SKScene
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-        goldLabel.position = CGPointMake(0, 0)
+        goldLabel.position = CGPointMake(500, 500)
         goldLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldLabel)
         
@@ -162,7 +162,7 @@ class GameScene: SKScene
         // Add the gold image texture
         goldImageTexture = SKTexture(imageNamed: "GoldImage")
         goldImage = SKSpriteNode(texture: goldImageTexture)
-        goldImage.position = CGPointMake(0, 0)
+        goldImage.position = CGPointMake(100, 200)
         goldImage.xScale = 8
         goldImage.yScale = 8
         goldImage.zPosition = ZPosition.GUI.rawValue
@@ -182,7 +182,7 @@ class GameScene: SKScene
         init_buy_panel()
     }
     
-    let buy_panel_width : CGFloat = 500 // This is how wide the buy panel is
+    let buy_panel_width : CGFloat = 600 // This is how wide the buy panel is
     func init_buy_panel()
     {
         let frame = CGRect(x: camera_viewport_width, y: (-camera_viewport_height), width: buy_panel_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
@@ -261,8 +261,6 @@ class GameScene: SKScene
         createLableNode("Arial-BoldMT", labelText: fireTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
         
-        
-        
         // Add iceTower buy button
         let iceTower = SKSpriteNode(texture: SKTexture(imageNamed: "IceTower"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = camera_viewport_width + regularTower.frame.width - 275
@@ -285,8 +283,6 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: iceTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        
         
         
         // Add defenderPowerSource buy button
@@ -500,7 +496,6 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchPoint = touch.locationInView(self.view)
-            debugPrint(touchPoint)
             let scenePoint = scene!.convertPointFromView(touchPoint)
             let touchedNode = self.nodeAtPoint(scenePoint)
             
@@ -607,14 +602,8 @@ class GameScene: SKScene
                 case .Orc:
                     spawnOrc(scenePoint)
                 case .BasicTower:
-                    if (basicTowerCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnBasicTurret(scenePoint)
-                    }
+                    place_temp_building()
+                    
                 case .AdvancedTower:
                     if (advancedTowerCost > goldCount)
                     {
@@ -676,11 +665,14 @@ class GameScene: SKScene
                     let pos_on_grid = coordinateForPoint(scenePoint)
                     let tile = Tile.getTile(tiles, pos: pos_on_grid)
                     
-                    debugPrint("Pos: \(pos_on_grid) Type: \(tileNums![map_height-Int( pos_on_grid.y)-1][Int(pos_on_grid.x)]) Option: \(tile.moveOpt)")
-                    debugPrint( tile )
                 }
             }
         }
+    }
+    
+    func place_temp_building()
+    {
+        debugPrint(current_build_mode)
     }
     
     var side_panel_open = false
@@ -787,7 +779,7 @@ class GameScene: SKScene
                 // Put the values from file into a 2d array
                 tileNums = [[Int]](count: map_height, repeatedValue: [Int](count: map_width, repeatedValue: 0))
                 
-                debugPrint("Map dimensions: \(map_height) x \(map_width)")
+                //debugPrint("Map dimensions: \(map_height) x \(map_width)")
                 let layers = jsonContent["layers"] as! NSArray
 
                 // Parse attacker layer
@@ -818,8 +810,6 @@ class GameScene: SKScene
                         // (since 0 = nil)
                         let current_num : Int = tileNums[row][column]
                         let pos = int2(Int32(column), Int32(row))
-                        
-                        debugPrint(current_num)
                         
                         tiles[row][column] = Tile.makeTileFromType(current_num, pos: pos)
                     }

@@ -16,7 +16,7 @@ public class Tile
     var type : TileType
     var moveOpt: TileOpts
     
-    var towers : Dictionary<Int, Tower> = Dictionary<Int, Tower>()
+    var towersInRange : Dictionary<Int, Tower> = Dictionary<Int, Tower>()
     
     init(position: int2)
     {
@@ -27,15 +27,21 @@ public class Tile
     
     func add_tower( tower: Tower)
     {
-        towers[tower.entity_id] = tower
+        towersInRange[tower.entity_id] = tower
     }
     
     func notify_towers(unit: Unit)
     {
-        for tower in towers.values
+        for tower in towersInRange.values
         {
             tower.towerComp.add_unit_to_range(unit)
         }
+    }
+    
+    var building_on_tile : Building?
+    func place_building( building: Building)
+    {
+        building_on_tile = building
     }
     
     static let tileWidth: CGFloat = 64

@@ -41,7 +41,7 @@ class Tower: Building
                 
                 shape.fillColor = UIColor.redColor().colorWithAlphaComponent(0.2)
                 shape.strokeColor = UIColor.clearColor()
-                shape.zPosition = 0
+                shape.zPosition = 10
                 self.scene.addChild(shape)
                 
                 shapes_shown = true

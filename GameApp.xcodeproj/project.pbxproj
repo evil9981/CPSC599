@@ -173,6 +173,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		CE5516A21C0D494E008F04A9 /* Towers */ = {
+			isa = PBXGroup;
+			children = (
+				A378E0711C082F1400791979 /* AdvancedTower.swift */,
+				A378E0781C0CE5C300791979 /* RegularTower.swift */,
+				A378E07A1C0CEDAB00791979 /* FireTower.swift */,
+				A378E07C1C0CEDF900791979 /* IceTower.swift */,
+				CED265151BE931FD0022C033 /* BasicTower.swift */,
+			);
+			name = Towers;
+			sourceTree = "<group>";
+		};
 		CE6EAE6B1BD889300004DAD8 = {
 			isa = PBXGroup;
 			children = (
@@ -300,14 +312,10 @@
 		CED265141BE930890022C033 /* Buildings */ = {
 			isa = PBXGroup;
 			children = (
+				CE5516A21C0D494E008F04A9 /* Towers */,
 				CED265111BE92B880022C033 /* Building.swift */,
 				CED2651B1BE93A990022C033 /* Tower.swift */,
-				CED265151BE931FD0022C033 /* BasicTower.swift */,
-				A378E0711C082F1400791979 /* AdvancedTower.swift */,
 				A378E0761C0BB28100791979 /* DefenderPowerSource.swift */,
-				A378E0781C0CE5C300791979 /* RegularTower.swift */,
-				A378E07A1C0CEDAB00791979 /* FireTower.swift */,
-				A378E07C1C0CEDF900791979 /* IceTower.swift */,
 			);
 			name = Buildings;
 			sourceTree = "<group>";
