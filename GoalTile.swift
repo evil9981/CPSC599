@@ -9,12 +9,12 @@
 import SpriteKit
 import GameplayKit
 
-class TreasureTile: Tile
+class GoalTile: Tile
 {
     override init(position: int2)
     {
         super.init(position: position)
-        self.type = TileType.Treasure
-        self.moveOpt = TileOpts.Treasure
+        self.type = TileType.Goal
+        self.moveOpt = TileOpts.Goal
     }
 }

@@ -38,13 +38,24 @@ public class Tile
         }
     }
     
-    static let tileWidth: CGFloat = 72
-    static let tileHeight: CGFloat = 72
+    static let tileWidth: CGFloat = 64
+    static let tileHeight: CGFloat = 64
 
-    static var attacker_set : Set<Int> = [ 10, 120, 121, 122, 136, 138, 152, 153, 154, 169, 170, 185 ]
-    static var defender_set : Set<Int> = [ 11, 12, 13, 27, 28, 29, 43, 44, 45, 78, 79, 94, 95, 111, 112, 127, 128]
-    static var road_set : Set<Int> = [ 14, 15, 30, 31, 46, 47, 59, 60, 61, 62, 63, 75, 76, 77, 91, 92, 93 ]
-    static var treasure_set : Set<Int> = [148, 149, 150, 164, 165, 166, 180, 181, 182]
+    static var attacker_set : Set<Int> = [406] //[ 10, 120, 121, 122, 136, 138, 152, 153, 154, 169, 170, 185 ]
+    static var defender_set : Set<Int> = [121,122,123,141,142,143,161,162,163] //[ 11, 12, 13, 27, 28, 29, 43, 44, 45, 78, 79, 94, 95, 111, 112, 127, 128]
+    static var road_set : Set<Int> = [] //[ 14, 15, 30, 31, 46, 47, 59, 60, 61, 62, 63, 75, 76, 77, 91, 92, 93 ]
+    static var goal_set : Set<Int> = [310] //[148, 149, 150, 164, 165, 166, 180, 181, 182]
+    
+    static func init_tile_sets()
+    {
+        // Road tiles
+        let first_tile = 181
+        let last_tile = 223
+        for num in (first_tile ... last_tile)
+        {
+            self.road_set.insert(num)
+        }
+    }
     
     static public func makeTileFromType(type: Int, pos: int2) -> Tile
     {
@@ -60,18 +71,18 @@ public class Tile
         {
             return MazeTile(position: pos)
         }
-        else if (treasure_set.contains(type))
+        else if (goal_set.contains(type))
         {
-            return TreasureTile(position: pos)
+            return GoalTile(position: pos)
         }
         
         return NonUsableTile(position: pos)
     }
     
-    static let left_arrow = 369
-    static let up_arrow = 370
-    static let right_arrow = 371
-    static let down_arrow = 372
+    static let left_arrow = 707
+    static let up_arrow = 708
+    static let right_arrow = 709
+    static let down_arrow = 710
     
     static public func parseTileOpts(type: Int) -> TileOpts
     {

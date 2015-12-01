@@ -11,6 +11,6 @@ enum TileType
     case Attacker
     case Defender
     case Maze
-    case Treasure
+    case Goal
     case NoneUsable
 }

@@ -12,6 +12,7 @@
 		A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0761C0BB28100791979 /* DefenderPowerSource.swift */; };
 		CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0714091C065BE50062EEBF /* DirtyPig.swift */; };
 		CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07140E1C065C2E0062EEBF /* HatPig.swift */; };
+		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
 		CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE7B1BD889300004DAD8 /* MainMenuScene.swift */; };
@@ -38,7 +39,7 @@
 		CED265041BE772C30022C033 /* NonUsableTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265031BE772C30022C033 /* NonUsableTile.swift */; };
 		CED265061BE773930022C033 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265051BE773930022C033 /* TileType.swift */; };
 		CED265081BE774040022C033 /* TileOpts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265071BE774040022C033 /* TileOpts.swift */; };
-		CED2650A1BE77D310022C033 /* TreasureTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265091BE77D310022C033 /* TreasureTile.swift */; };
+		CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265091BE77D310022C033 /* GoalTile.swift */; };
 		CED265101BE799A30022C033 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CED2650F1BE799A30022C033 /* TowerMap.json */; };
 		CED265121BE92B880022C033 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265111BE92B880022C033 /* Building.swift */; };
 		CED265161BE931FD0022C033 /* BasicTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265151BE931FD0022C033 /* BasicTower.swift */; };
@@ -87,6 +88,7 @@
 		A378E0761C0BB28100791979 /* DefenderPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderPowerSource.swift; sourceTree = "<group>"; };
 		CE0714091C065BE50062EEBF /* DirtyPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirtyPig.swift; sourceTree = "<group>"; };
 		CE07140E1C065C2E0062EEBF /* HatPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatPig.swift; sourceTree = "<group>"; };
+		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenuScene.sks; sourceTree = "<group>"; };
@@ -118,7 +120,7 @@
 		CED265031BE772C30022C033 /* NonUsableTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonUsableTile.swift; sourceTree = "<group>"; };
 		CED265051BE773930022C033 /* TileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		CED265071BE774040022C033 /* TileOpts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileOpts.swift; sourceTree = "<group>"; };
-		CED265091BE77D310022C033 /* TreasureTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TreasureTile.swift; sourceTree = "<group>"; };
+		CED265091BE77D310022C033 /* GoalTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalTile.swift; sourceTree = "<group>"; };
 		CED2650F1BE799A30022C033 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TowerMap.json; sourceTree = "<group>"; };
 		CED265111BE92B880022C033 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
 		CED265151BE931FD0022C033 /* BasicTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTower.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				CE9A76521BE7545E00DDBF11 /* Entities */,
 				CE9A764B1BE702B000DDBF11 /* Tiles */,
 				CED2650F1BE799A30022C033 /* TowerMap.json */,
+				CE6BF5B81C0D285800E7A79F /* Map.json */,
 				CE6EAE9B1BD88A3A0004DAD8 /* GameScene.swift */,
 				CE6EAE9F1BD89A960004DAD8 /* GameScene.sks */,
 				CE6EAE821BD889300004DAD8 /* Assets.xcassets */,
@@ -242,7 +245,7 @@
 			children = (
 				CE9A764C1BE702D100DDBF11 /* Tile.swift */,
 				CED264FD1BE772940022C033 /* AttackerTile.swift */,
-				CED265091BE77D310022C033 /* TreasureTile.swift */,
+				CED265091BE77D310022C033 /* GoalTile.swift */,
 				CED264FF1BE772A00022C033 /* DefenderTile.swift */,
 				CED265011BE772AA0022C033 /* MazeTile.swift */,
 				CED265031BE772C30022C033 /* NonUsableTile.swift */,
@@ -426,6 +429,7 @@
 				CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */,
 				CE6EAE861BD889300004DAD8 /* LaunchScreen.storyboard in Resources */,
 				CED265101BE799A30022C033 /* TowerMap.json in Resources */,
+				CE6BF5B91C0D285800E7A79F /* Map.json in Resources */,
 				CE6EAEA11BD89B670004DAD8 /* GameScene.sks in Resources */,
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
 				CE6EAE811BD889300004DAD8 /* Main.storyboard in Resources */,
@@ -501,7 +505,7 @@
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
 				CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */,
-				CED2650A1BE77D310022C033 /* TreasureTile.swift in Sources */,
+				CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */,
 				CED265061BE773930022C033 /* TileType.swift in Sources */,
 				CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */,
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,

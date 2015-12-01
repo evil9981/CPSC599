@@ -22,7 +22,7 @@ public class ButtonManager
         let button = SKSpriteNode(texture: SKTexture(imageNamed: img_name))
         button.name = button_name
         button.size = CGSize(width: 64*3 ,height: 64*3)
-        button.position = CGPointMake(CGFloat(-850 + 200 * index) , -1250)
+        button.position = CGPointMake(CGFloat(0 + 200 * index) , -1250)
         button.zPosition = GameScene.ZPosition.GUI.rawValue
         
         camera.addChild(button)

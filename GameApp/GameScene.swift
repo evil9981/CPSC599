@@ -133,7 +133,7 @@ class GameScene: SKScene
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-        goldLabel.position = CGPointMake(-825, 1290)
+        goldLabel.position = CGPointMake(0, 0)
         goldLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldLabel)
         
@@ -142,7 +142,7 @@ class GameScene: SKScene
         livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
-        livesLabel.position = CGPointMake(3225, 1290)
+        livesLabel.position = CGPointMake(0, 0)
         livesLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesLabel)
         
@@ -150,14 +150,14 @@ class GameScene: SKScene
         timeLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         timeLabel.fontSize = 150
         timeLabel.fontColor = UIColor.whiteColor()
-        timeLabel.position = CGPointMake(1000, 1300)
+        timeLabel.position = CGPointMake(0, 0)
         timeLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(timeLabel)
         
         // Add the gold image texture
         goldImageTexture = SKTexture(imageNamed: "GoldImage")
         goldImage = SKSpriteNode(texture: goldImageTexture)
-        goldImage.position = CGPointMake(-1100, 1350)
+        goldImage.position = CGPointMake(0, 0)
         goldImage.xScale = 8
         goldImage.yScale = 8
         goldImage.zPosition = ZPosition.GUI.rawValue
@@ -166,7 +166,7 @@ class GameScene: SKScene
         // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
-        livesImage.position = CGPointMake(2950, 1350)
+        livesImage.position = CGPointMake(0, 0)
         livesImage.xScale = 8
         livesImage.yScale = 8
         livesImage.zPosition = ZPosition.GUI.rawValue
@@ -253,7 +253,7 @@ class GameScene: SKScene
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
         buyButton.xScale = 1
         buyButton.yScale = 1
-        buyButton.position = CGPointMake(3150, -1200)
+        buyButton.position = CGPointMake(0, 0)
         buyButton.name = "BuyButton"
         buyButton.zPosition = ZPosition.OverlayButton.rawValue
         sceneCamera.addChild(buyButton)
@@ -380,6 +380,7 @@ class GameScene: SKScene
         for touch in touches
         {
             let touchPoint = touch.locationInView(self.view)
+            debugPrint(touchPoint)
             let scenePoint = scene!.convertPointFromView(touchPoint)
             let touchedNode = self.nodeAtPoint(scenePoint)
             
@@ -588,9 +589,19 @@ class GameScene: SKScene
     
     var map_height : Int = -1
     var map_width : Int = -1
+    enum Layers: Int
+    {
+        case ATTACKER = 0
+        case DEFENDER = 1
+        case ROAD = 2
+        case DECO = 3
+        case WAYPOINT = 4
+        case GOAL = 5
+    }
+    
     func getJSONFile()
     {
-        let filePath = NSBundle.mainBundle().pathForResource("TowerMap", ofType: "json")
+        let filePath = NSBundle.mainBundle().pathForResource("Map", ofType: "json")
         
         do
         {
@@ -608,42 +619,21 @@ class GameScene: SKScene
                 
                 debugPrint("Map dimensions: \(map_height) x \(map_width)")
                 let layers = jsonContent["layers"] as! NSArray
+
+                // Parse attacker layer
+                parseLayer(layers, layer: Layers.ATTACKER.rawValue)
                 
-                // Parse bottom layer first
-                let bottom_layer = layers[0] as! NSDictionary
-                let bottom_layer_data = bottom_layer["data"] as! NSArray
+                // Parse defender layer
+                parseLayer(layers, layer: Layers.DEFENDER.rawValue)
                 
-                for row in 0...(map_height-1)
-                {
-                    for column in 0...(map_width-1)
-                    {
-                        let flat_index = column + row * map_width
-                        tileNums[row][column] = bottom_layer_data[flat_index] as! Int
-                        
-                        let sandTileType = 11
-                        if (column > 32 && tileNums[row][column] == sandTileType)
-                        {
-                            tileNums[row][column] = 0
-                        }
-                    }
-                }
+                // Parse road layer
+                parseLayer(layers, layer: Layers.ROAD.rawValue)
                 
-                let mountain_layer = layers[1] as! NSDictionary
-                let mountain_layer_data = mountain_layer["data"] as! NSArray
+                // Parse decorations layer
+                parseLayer(layers, layer: Layers.DECO.rawValue)
                 
-                for row in 0...(map_height-1)
-                {
-                    for column in 33...(map_width-1)
-                    {
-                        let flat_index = column + row * map_width
-                        let current_num: Int = mountain_layer_data[flat_index] as! Int
-                        
-                        if (current_num != 0)
-                        {
-                            tileNums[row][column] = current_num
-                        }
-                    }
-                }
+                // Parse goal layer
+                parseLayer(layers, layer: Layers.GOAL.rawValue)
                 
                 // Constract the tile array
                 let init_int2 = int2(-1,-1)
@@ -656,32 +646,16 @@ class GameScene: SKScene
                     {
                         // Remember that the type num in tileNums is actually by 1 bigger then the actual type! 
                         // (since 0 = nil)
-                        let current_num : Int = tileNums[row][column] - 1
+                        let current_num : Int = tileNums[row][column]
                         let pos = int2(Int32(column), Int32(row))
+                        
+                        debugPrint(current_num)
                         
                         tiles[row][column] = Tile.makeTileFromType(current_num, pos: pos)
                     }
                 }
                 
-                // Fill it with tile direction events parsed from the JSON element directly
-                let arrows_layer = layers[3] as! NSDictionary
-                let arrows_layer_data = arrows_layer["data"] as! NSArray
-                
-                for row in 0...(map_height-1)
-                {
-                    for column in 0...(map_width-1)
-                    {
-                        let flat_index = column + row * map_width
-                        let type: Int = arrows_layer_data[flat_index] as! Int
-                        let option: TileOpts = Tile.parseTileOpts(type)
-                        
-                        if (option != TileOpts.None)
-                        {
-                            tiles[row][column].moveOpt = option
-                        }
-                    }
-                }
-                
+                parseWayPoints(layers, layer: Layers.WAYPOINT.rawValue)
             }
         }
         catch
@@ -690,7 +664,50 @@ class GameScene: SKScene
         }
     }
     
+    func parseWayPoints(layers: NSArray, layer: Int)
+    {
+        // Fill it with tile direction events parsed from the JSON element directly
+        let arrows_layer = layers[layer] as! NSDictionary
+        let arrows_layer_data = arrows_layer["data"] as! NSArray
+        
+        for row in 0...(map_height-1)
+        {
+            for column in 0...(map_width-1)
+            {
+                let flat_index = column + row * map_width
+                let type: Int = arrows_layer_data[flat_index] as! Int
+                let option: TileOpts = Tile.parseTileOpts(type)
+                
+                if (option != TileOpts.None)
+                {
+                    tiles[row][column].moveOpt = option
+                }
+            }
+        }
+    }
+    
+    func parseLayer(layers: NSArray, layer: Int)
+    {
+        let layer = layers[layer] as! NSDictionary
+        let layer_data = layer["data"] as! NSArray
+        
+        for row in 0...(map_height-1)
+        {
+            for column in 0...(map_width-1)
+            {
+                let flat_index = column + row * map_width
+                let num = layer_data[flat_index] as! Int
+                
+                if (num != 0)
+                {
+                    self.tileNums[row][column] = num
+                }
+            }
+        }
+    }
+    
     // MARK: Generalized node function to create and initialize nodes
+    
     func createNode(var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
     {
         
@@ -786,7 +803,7 @@ class GameScene: SKScene
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
         let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is TreasureTile)
+        if (tile is GoalTile)
         {
             // Init the orc
             let pig = DirtyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
@@ -808,7 +825,7 @@ class GameScene: SKScene
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
         let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is TreasureTile)
+        if (tile is GoalTile)
         {
             // Init the orc
             let pig = HatPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
@@ -830,7 +847,7 @@ class GameScene: SKScene
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
         let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is TreasureTile)
+        if (tile is GoalTile)
         {
             // Init the orc
             let pig = FancyPig(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)

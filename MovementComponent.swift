@@ -83,8 +83,7 @@ public class MovementComponent: GKComponent
             current_movement = self.moveDown
             current_mov_option = TileOpts.MoveDown
             break
-        case .Treasure:
-            debugPrint("REACHED THE TREASURE, OH NOES!")
+        case .Goal:
             lifeCount = lifeCount - 1
             break
         case .None:

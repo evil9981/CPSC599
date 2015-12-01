@@ -46,7 +46,7 @@ class MainMenuScene: SKScene
         
         add_title()
         init_game_buttons()
-        
+        Tile.init_tile_sets()
     }
     
     func add_title()

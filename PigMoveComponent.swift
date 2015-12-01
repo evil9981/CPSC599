@@ -65,7 +65,7 @@ public class PigMoveComponent: GKComponent
         var tile = Tile.getTile(unit.gridComp.tiles, pos: unit.gridComp.current_pos)
         var attempt = 0
         
-        while ( attempt == 0 || !(tile is TreasureTile) )
+        while ( attempt == 0 || !(tile is GoalTile) )
         {
             let num = arc4random_uniform( 4 )
             switch (num)
@@ -106,7 +106,7 @@ public class PigMoveComponent: GKComponent
     {
         get_random_move()
         
-        if (!(unit.gridComp.current_tile is TreasureTile))
+        if (!(unit.gridComp.current_tile is GoalTile))
         {
             unit.destroy()
         }
