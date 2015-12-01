@@ -192,8 +192,8 @@ class GameScene: SKScene
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
         
-        //var goldCostLabel: SKLabelNode!
-        //var goldCostImage: SKSpriteNode!
+        var goldCostLabel: SKLabelNode!
+        var goldCostImage: SKSpriteNode!
         
         /*
         // Add basicTower Buy button
@@ -223,17 +223,17 @@ class GameScene: SKScene
         
         // Create gold image
         coinImageTexture = SKTexture(imageNamed: "CoinImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: regularTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: regularTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: regularTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: regularTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
         
@@ -248,17 +248,17 @@ class GameScene: SKScene
         
         // Create gold image
         coinImageTexture = SKTexture(imageNamed: "CoinImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: fireTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: fireTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: fireTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: fireTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
         
         
@@ -274,17 +274,17 @@ class GameScene: SKScene
         
         // Create gold image
         coinImageTexture = SKTexture(imageNamed: "CoinImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: iceTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: iceTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: iceTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: iceTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
         
@@ -300,10 +300,10 @@ class GameScene: SKScene
         
         // Create gold image
         coinImageTexture = SKTexture(imageNamed: "CoinImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(goldCostImage, uiTexture: coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: defenderPowerSrcCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: defenderPowerSrcCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
         /*
@@ -861,11 +861,11 @@ class GameScene: SKScene
     }
     
     // MARK: Generalized node function to create and initialize nodes
-    func createNode(var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
+    func createNode(var uiNode: SKSpriteNode!, var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
     {
         
         uiTexture = SKTexture(imageNamed: nodeName)
-        let uiNode = SKSpriteNode(texture: uiTexture)
+        uiNode = SKSpriteNode(texture: uiTexture)
         uiNode.position = CGPointMake(xPosition, yPosition)
         uiNode.xScale = scaleX
         uiNode.yScale = scaleY
@@ -892,9 +892,9 @@ class GameScene: SKScene
         
     }
     
-    func createLableNode(let labelFont: String, let labelText: Any, let labelColour: String, let labelFontSize: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let zPosition: String, let childOf: String)
+    func createLableNode(var uiLabelNode: SKLabelNode!, let labelFont: String, let labelText: Any, let labelColour: String, let labelFontSize: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let zPosition: String, let childOf: String)
     {
-        let uiLabelNode = SKLabelNode(fontNamed: labelFont)
+        uiLabelNode = SKLabelNode(fontNamed: labelFont)
         uiLabelNode.text = String(labelText)
         uiLabelNode.fontSize = labelFontSize
 
