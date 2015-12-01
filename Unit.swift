@@ -38,7 +38,7 @@ class Unit: GameEntity
         self.movementComp.handle_move_opt()
     }
     
-    func update()
+    func update(delta: NSTimeInterval)
     {
         if (!movementComp.is_moving)
         {
@@ -48,6 +48,11 @@ class Unit: GameEntity
             
             movementComp.is_moving = true
         }
+    }
+    
+    func gotHit(ammo: Ammo)
+    {
+        debugPrint("Unit hit for \(ammo.damage)")
     }
     
     func moveLeft()

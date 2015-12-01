@@ -9,19 +9,17 @@
 import SpriteKit
 import GameplayKit
 
-let defenderPowerSrcCost : Int = 50
 
-class DefenderPowerSource : Tower
+class DefenderPowerSource : Building
 {
     let tower_texture : SKTexture = SKTexture(imageNamed: "DefenderPowerSource")
+    static let buildingCost = 50
     
-    init(scene: GameScene, grid_position: int2, world_position: CGPoint)
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)
         let visSize = CGPointMake(2,2)
-        let range = int2(3,3)
-        let towerDamage = 0
         
-        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, range: range, towerDamage: towerDamage)
+        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, buildingCost: DefenderPowerSource.buildingCost, temp: temp)
     }
 }

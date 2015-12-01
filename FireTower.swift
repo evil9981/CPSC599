@@ -9,20 +9,22 @@
 import SpriteKit
 import GameplayKit
 
-let fireTowerCost : Int = 100
-let fireTowerDamage : Int = 30
+
 
 class FireTower : Tower
 {
     let tower_texture : SKTexture = SKTexture(imageNamed: "FireTower")
     
-    init(scene: GameScene, grid_position: int2, world_position: CGPoint)
+    static let towerCost : Int = 100
+    static let towerDamage : Int = 30
+    static let towerSpeed: NSTimeInterval = 1.0 // Once a second
+    
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)
-        let visSize = CGPointMake(3.5,3.5)
+        let visSize = CGPointMake(2.5,2.5)
         let range = int2(3,3)
-        let towerDamage = 30
         
-        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, range: range, towerDamage: towerDamage)
+        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, range: range, towerDamage: FireTower.towerDamage, towerShootingSpeed: FireTower.towerSpeed, towerCost: FireTower.towerCost, temp: temp)
     }
 }
