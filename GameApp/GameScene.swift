@@ -138,7 +138,7 @@ class GameScene: SKScene
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-        goldLabel.position = CGPointMake(500, 500)
+        goldLabel.position = CGPointMake(300, 1235)
         goldLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldLabel)
         
@@ -147,7 +147,7 @@ class GameScene: SKScene
         livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
-        livesLabel.position = CGPointMake(0, 0)
+        livesLabel.position = CGPointMake(4100, 1235)
         livesLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesLabel)
         
@@ -155,14 +155,14 @@ class GameScene: SKScene
         timeLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         timeLabel.fontSize = 150
         timeLabel.fontColor = UIColor.whiteColor()
-        timeLabel.position = CGPointMake(0, 0)
+        timeLabel.position = CGPointMake(2150, 1230)
         timeLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(timeLabel)
         
         // Add the gold image texture
         goldImageTexture = SKTexture(imageNamed: "GoldImage")
         goldImage = SKSpriteNode(texture: goldImageTexture)
-        goldImage.position = CGPointMake(100, 200)
+        goldImage.position = CGPointMake(0, 1300)
         goldImage.xScale = 8
         goldImage.yScale = 8
         goldImage.zPosition = ZPosition.GUI.rawValue
@@ -171,7 +171,7 @@ class GameScene: SKScene
         // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
-        livesImage.position = CGPointMake(0, 0)
+        livesImage.position = CGPointMake(3850, 1300)
         livesImage.xScale = 8
         livesImage.yScale = 8
         livesImage.zPosition = ZPosition.GUI.rawValue
@@ -362,7 +362,7 @@ class GameScene: SKScene
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
         buyButton.xScale = 1
         buyButton.yScale = 1
-        buyButton.position = CGPointMake(0, 0)
+        buyButton.position = CGPointMake(4000, -1250)
         buyButton.name = "BuyButton"
         buyButton.zPosition = ZPosition.OverlayButton.rawValue
         sceneCamera.addChild(buyButton)
