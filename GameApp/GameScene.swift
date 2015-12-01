@@ -62,15 +62,11 @@ class GameScene: SKScene
     enum BuildMode : Int
     {
         case Orc = 0
-        case BasicTower = 1
-        case AdvancedTower = 2
-        case RegularTower = 3
-        case FireTower = 4
-        case IceTower = 5
-        case DefenderPowerSource = 6
-        case DirtyPig = 7
-        case HatPig = 8
-        case FancyPig = 9
+        case None = 1
+        case RegularTower = 2
+        case FireTower = 3
+        case IceTower = 4
+        case DefenderPowerSource = 5
     }
     var current_build_mode : BuildMode!
     
@@ -81,9 +77,10 @@ class GameScene: SKScene
         case Map = 0
         case MazeUnit = 1
         case Tower = 2
-        case GUI = 3
-        case Overlay = 4
-        case OverlayButton = 5
+        case Ammo = 3
+        case GUI = 4
+        case Overlay = 5
+        case OverlayButton = 6
     }
     
     // MARK: Moved to view (initializer)
@@ -104,6 +101,17 @@ class GameScene: SKScene
         
         // Initiate all the GUI elementes
         init_GUI()
+        
+        // Spawns the 3 pigs
+        spawn_pigs()
+    }
+    
+    func spawn_pigs()
+    {
+        let positions: [int2] = [int2(113, 27), int2(115, 24), int2(117, 20)]
+        spawnDirtyPig( pointForCoordinate ( positions[0] ) )
+        spawnFancyPig( pointForCoordinate ( positions[1] ) )
+        spawnHatPig( pointForCoordinate ( positions[2] ) )
     }
     
     // Initiates the scene's camera
@@ -133,6 +141,10 @@ class GameScene: SKScene
     // Initiates the GUI labels
     func init_GUI()
     {
+        // Give temp buttons names
+        temp_ok_button.name = "ok_building"
+        temp_cancel_button.name = "cancel_building"
+        
         // Add the 'Gold Label' to the camera view and place it in the top left corner
         goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         goldLabel.text = String(goldCount)
@@ -191,26 +203,6 @@ class GameScene: SKScene
             
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
-        
-        //var goldCostLabel: SKLabelNode!
-        //var goldCostImage: SKSpriteNode!
-        
-        /*
-        // Add basicTower Buy button
-        let basicTower = SKSpriteNode(texture: SKTexture(imageNamed: "BasicTower"), size: CGSize(width: 400 ,height: 400))
-        var x_buy_button = camera_viewport_width + basicTower.frame.width - 150
-        var y_buy_button = camera_viewport_height - basicTower.frame.height - 50
-        
-        basicTower.position = CGPointMake(x_buy_button, y_buy_button)
-        basicTower.zPosition = ZPosition.OverlayButton.rawValue
-        basicTower.name = "BuyBasicTower"
-        
-        // Create cost image
-        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: basicTowerCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        // Create gold label
-        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 150, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
-        */
 
         // Add regularTower Buy button
         let regularTower = SKSpriteNode(texture: SKTexture(imageNamed: "RegularTower"), size: CGSize(width: 400 ,height: 400))
@@ -226,14 +218,14 @@ class GameScene: SKScene
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: regularTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: regularTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
         
@@ -251,14 +243,14 @@ class GameScene: SKScene
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: fireTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: FireTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: fireTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: FireTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
         
         // Add iceTower buy button
@@ -275,14 +267,14 @@ class GameScene: SKScene
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: iceTowerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 255, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: iceTowerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: IceTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
         // Add defenderPowerSource buy button
@@ -299,57 +291,12 @@ class GameScene: SKScene
         createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Create cost label
-        createLableNode("Arial-BoldMT", labelText: defenderPowerSrcCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
+        createLableNode("Arial-BoldMT", labelText: DefenderPowerSource.buildingCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "SidePanel")
         
-        
-        /*
-        // Add advancedTower buy button
-        let advancedTower = SKSpriteNode(texture: SKTexture(imageNamed: "AdvancedTower"), size: CGSize(width: 400 ,height: 400))
-        
-        x_buy_button = camera_viewport_width + basicTower.frame.width - 150
-        y_buy_button = camera_viewport_height - basicTower.frame.height - 800
-        
-        advancedTower.position = CGPointMake(x_buy_button, y_buy_button)
-        advancedTower.zPosition = ZPosition.OverlayButton.rawValue
-        advancedTower.name = "BuyAdvancedTower"
-        
-        // Create cost image
-        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 150, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        // Create cost label
-        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: advancedTowerCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
-        */
-        
-        
-        
-        /*
-        // Add defenderPowerSource buy button
-        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 400 ,height: 400))
-        
-        x_buy_button = camera_viewport_width + basicTower.frame.width - 150
-        y_buy_button = camera_viewport_height - basicTower.frame.height - 1600
-        
-        defenderPowerSource.position = CGPointMake(x_buy_button, y_buy_button)
-        defenderPowerSource.zPosition = ZPosition.OverlayButton.rawValue
-        defenderPowerSource.name = "BuyDefenderPowerSource"
-        
-        // Create cost image
-        createNode(goldCostImage, uiTexture: goldImageTexture, scaleX: 3.5, scaleY: 3.5, xPosition: x_buy_button - 125, yPosition: y_buy_button - 260, nodeName: "GoldImage", zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        // Create cost label
-        createLableNode(goldCostLabel, labelFont: "Arial-BoldMT", labelText: defenderPowerSrcCost, labelColour: "Gold", labelFontSize: 100, xPosition: x_buy_button + 25, yPosition: y_buy_button - 300, zPosition: "OverlayButton", childOf: "SidePanel")
-        */
-        
-        
-        
-        //sidePanel.addChild(basicTower)
         sidePanel.addChild(regularTower)
         sidePanel.addChild(fireTower)
         sidePanel.addChild(iceTower)
         sidePanel.addChild(defenderPowerSource)
-        //sidePanel.addChild(advancedTower)
-        //sidePanel.addChild(goldCostLabel)
-        //sidePanel.addChild(goldImage)
         
         
         sceneCamera.addChild(sidePanel) // Add child to the camera
@@ -370,24 +317,7 @@ class GameScene: SKScene
         // These are the sandbox buttons, at the lower part of the screen
         buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
-        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
-        
-        buttons[BuildMode.AdvancedTower.rawValue] = ButtonManager.init_button(camera!, img_name: "AdvancedTower", button_name: "advancedTowerButton", index: BuildMode.AdvancedTower.rawValue)
-        
-        buttons[BuildMode.RegularTower.rawValue] = ButtonManager.init_button(camera!, img_name: "RegularTower", button_name: "regularTowerButton", index: BuildMode.RegularTower.rawValue)
-        
-        buttons[BuildMode.FireTower.rawValue] = ButtonManager.init_button(camera!, img_name: "FireTower", button_name: "fireTowerButton", index: BuildMode.FireTower.rawValue)
-        
-        buttons[BuildMode.IceTower.rawValue] = ButtonManager.init_button(camera!, img_name: "IceTower", button_name: "iceTowerButton", index: BuildMode.IceTower.rawValue)
-        
-        
-        buttons[BuildMode.DefenderPowerSource.rawValue] = ButtonManager.init_button(camera!, img_name: "DefenderPowerSource", button_name: "defenderPowerSourceButton", index: BuildMode.DefenderPowerSource.rawValue)
-        
-        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
-        
-        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
-        
-        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+        buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
         
         // Start in Orc mode
         self.current_build_mode = .Orc
@@ -397,14 +327,26 @@ class GameScene: SKScene
     // MARK: Update method
 
     var seconds : Int = 0
+    var prevTime: NSTimeInterval = 0
     override func update(currentTime: NSTimeInterval)
     {
+        var delta : NSTimeInterval
+        if (prevTime == 0)
+        {
+            delta = 0
+        }
+        else
+        {
+            delta = currentTime - prevTime
+        }
+        prevTime = currentTime
+        
         if (!gameOver)
         {
             // Update all units that walk on the maze
             for unit in all_units.values
             {
-                unit.update()
+                unit.update(delta)
             }
             
             // Update all the pigs
@@ -416,7 +358,7 @@ class GameScene: SKScene
             // Update all the buildings
             for building in all_buildings.values
             {
-                building.update()
+                building.update(delta)
             }
             
             livesLabel.text = String(lifeCount)
@@ -499,41 +441,98 @@ class GameScene: SKScene
             let scenePoint = scene!.convertPointFromView(touchPoint)
             let touchedNode = self.nodeAtPoint(scenePoint)
             
+            let pos_on_grid = coordinateForPoint(scenePoint)
+            debugPrint("Position on grid: \(pos_on_grid)")
+            let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            
             prevLocation = touchPoint
             
             var gui_element_clicked = false
             var entity_clicked = false
             
-            if let name = touchedNode.name
+            
+            let building = tile.building_on_tile
+            
+            if (building != nil)
+            {
+                entity_clicked = true
+                
+                if ( building is Tower)
+                {
+                    (building as! Tower).visualizeMazeTiles()
+                }
+            }
+            else if let name = touchedNode.name
             {
                 gui_element_clicked = true
-                if name == "BuyButton"
+                let make_point = CGPointMake(sceneCamera.position.x + camera_viewport_width/4, sceneCamera.position.y)
+                
+                if name == "ok_building"
+                {
+                    if (can_build)
+                    {
+                        var building : Building?
+
+                        switch (current_build_mode! )
+                        {
+                        case .RegularTower:
+                            building = spawnRegularTower(temp_building!.visualComp.node.position)
+
+                        case .FireTower:
+                            building = spawnFireTower(temp_building!.visualComp.node.position)
+                            
+                        case .IceTower:
+                            building = spawnIceTower(temp_building!.visualComp.node.position)
+                            
+                        case .DefenderPowerSource:
+                            building = spawnDefenderPowerSource(temp_building!.visualComp.node.position)
+                            
+                        default:
+                            debugPrint("Wrong Build Mode: \(current_build_mode)")
+                            break
+                        }
+                        
+                        for temp_node in tileIndicators
+                        {
+                            let pos = coordinateForPoint(temp_node.position)
+                            let tile = Tile.getTile(tiles, pos: pos)
+                            tile.building_on_tile = building!
+                        }
+                        
+                        destroy_temp_building()
+                    }
+                }
+                else if name == "cancel_building"
+                {
+                    destroy_temp_building()
+                }
+                else if name == "BuyButton"
                 {
                     buyButtonPushed()
                 }
-                if (name == "BuyBasicTower")
-                {
-                    current_build_mode! = .BasicTower
-                }
-                if (name == "BuyAdvancedTower")
-                {
-                    current_build_mode! = .AdvancedTower
-                }
-                if (name == "BuyRegularTower")
+                else if (name == "BuyRegularTower")
                 {
                     current_build_mode! = .RegularTower
+                    
+                    place_temp_building(make_point)
                 }
-                if (name == "BuyFireTower")
+                else if (name == "BuyFireTower")
                 {
                     current_build_mode! = .FireTower
+                    
+                    place_temp_building(make_point)
                 }
-                if (name == "BuyIceTower")
+                else if (name == "BuyIceTower")
                 {
                     current_build_mode! = .IceTower
+                    
+                    place_temp_building(make_point)
                 }
-                if (name == "BuyDefenderPowerSource")
+                else if (name == "BuyDefenderPowerSource")
                 {
                     current_build_mode! = .DefenderPowerSource
+                    
+                    place_temp_building(make_point)
                 }
                 else if name.containsString("Button")
                 {
@@ -545,32 +544,11 @@ class GameScene: SKScene
                     case .Orc:
                         buttons[current_build_mode.rawValue] = ButtonManager.init_button(sceneCamera, img_name: "orc_left_0", button_name: "orcButton", index: 0)
                         
-                    case .BasicTower:
-                        buttons[BuildMode.BasicTower.rawValue] = ButtonManager.init_button(camera!, img_name: "BasicTower", button_name: "basicTowerButton", index: BuildMode.BasicTower.rawValue)
-                    
-                    case .AdvancedTower:
-                        buttons[BuildMode.AdvancedTower.rawValue] = ButtonManager.init_button(camera!, img_name: "AdvancedTower", button_name: "advancedTowerButton", index: BuildMode.AdvancedTower.rawValue)
-                    
-                    case .RegularTower:
-                        buttons[BuildMode.RegularTower.rawValue] = ButtonManager.init_button(camera!, img_name: "RegularTower", button_name: "regularTowerButton", index: BuildMode.RegularTower.rawValue)
-                    
-                    case .FireTower:
-                        buttons[BuildMode.FireTower.rawValue] = ButtonManager.init_button(camera!, img_name: "FireTower", button_name: "fireTowerButton", index: BuildMode.FireTower.rawValue)
-                    
-                    case .IceTower:
-                        buttons[BuildMode.IceTower.rawValue] = ButtonManager.init_button(camera!, img_name: "IceTower", button_name: "iceTowerButton", index: BuildMode.IceTower.rawValue)
-                        
-                    case .DefenderPowerSource:
-                        buttons[BuildMode.DefenderPowerSource.rawValue] = ButtonManager.init_button(camera!, img_name: "DefenderPowerSource", button_name: "DefenderPowerSrcButton", index: BuildMode.DefenderPowerSource.rawValue)
-                        
-                    case .DirtyPig:
-                        buttons[BuildMode.DirtyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "dirty_pig_left_0", button_name: "dirtyPigButton", index: BuildMode.DirtyPig.rawValue)
-                        
-                    case .HatPig:
-                        buttons[BuildMode.HatPig.rawValue] = ButtonManager.init_button(camera!, img_name: "hat_pig_left_0", button_name: "hatPigButton", index: BuildMode.HatPig.rawValue)
-                        
-                    case .FancyPig:
-                        buttons[BuildMode.FancyPig.rawValue] = ButtonManager.init_button(camera!, img_name: "fancy_pig_left_0", button_name: "fancyPigButton", index: BuildMode.FancyPig.rawValue)
+                    case .None:
+                        buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
+                
+                    default:
+                        break
                     }
                     
                     // Find which button was clicked
@@ -584,15 +562,10 @@ class GameScene: SKScene
                         }
                     }
                 }
-                else if let entity_id = Int(name)
-                {
-                    entity_clicked = true
-                    
-                    if let building_entity = all_buildings[entity_id]
-                    {
-                        (building_entity as! Tower).visualizeMazeTiles()
-                    }
-                }
+            }
+            else if (temp_building != nil)
+            {
+                place_temp_building(scenePoint)
             }
             
             if (!gui_element_clicked && !entity_clicked)
@@ -601,78 +574,131 @@ class GameScene: SKScene
                 {
                 case .Orc:
                     spawnOrc(scenePoint)
-                case .BasicTower:
-                    place_temp_building()
                     
-                case .AdvancedTower:
-                    if (advancedTowerCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnAdvancedTurret(scenePoint)
-                    }
-                case .RegularTower:
-                    if (regularTowerCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnRegularTower(scenePoint)
-                    }
-                case .FireTower:
-                    if (fireTowerCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnFireTower(scenePoint)
-                    }
-                case .IceTower:
-                    if (iceTowerCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnIceTower(scenePoint)
-                    }
-
-                    
-                case .DefenderPowerSource:
-                    if (defenderPowerSrcCost > goldCount)
-                    {
-                        debugPrint("You Do not have enough gold to purchase Basic Tower")
-                    }
-                    else
-                    {
-                        spawnDefenderPowerSource(scenePoint)
-                    }
-                    
-                case .DirtyPig:
-                    spawnDirtyPig(scenePoint)
-                case .HatPig:
-                    spawnHatPig(scenePoint)
-                case .FancyPig:
-                    spawnFancyPig(scenePoint)
-                }
-                
-                if (debug)
-                {
-                    let pos_on_grid = coordinateForPoint(scenePoint)
-                    let tile = Tile.getTile(tiles, pos: pos_on_grid)
-                    
+                default:
+                    break
                 }
             }
         }
     }
     
-    func place_temp_building()
+    var tileIndicators : [SKShapeNode] = []
+    var can_build = true
+    var temp_building : Building?
+    
+    let temp_ok_button = SKSpriteNode(texture: SKTexture(imageNamed: "buy_yes"), size: CGSize(width: 100,height: 100))
+    let temp_cancel_button = SKSpriteNode(texture: SKTexture(imageNamed: "buy_no"), size: CGSize(width: 100,height: 100))
+    
+    func place_temp_building(point : CGPoint)
     {
-        debugPrint(current_build_mode)
+        can_build = true
+        if (temp_building != nil)
+        {
+            let backup_build_mode = current_build_mode
+            destroy_temp_building()
+            current_build_mode = backup_build_mode
+        }
+        
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPoint(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+
+        // Init the tower
+        switch (current_build_mode! )
+        {
+        case .RegularTower:
+            temp_building = RegularTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .FireTower:
+            temp_building = FireTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .IceTower:
+            temp_building = IceTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .DefenderPowerSource:
+            temp_building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            
+        default:
+            debugPrint("Wrong Build Mode: \(current_build_mode)")
+            return
+        }
+        
+        let node = temp_building!.visualComp.node
+        let num_vert_tiles = Int(node.frame.width / Tile.tileWidth)
+        let num_horizontal_tiles = Int(node.frame.height / Tile.tileHeight)
+        
+        // Add the buy and cancel buttons
+        let x_dist = (Tile.tileWidth * (CGFloat(num_horizontal_tiles))/2)
+        let y_dist = (Tile.tileHeight * (CGFloat(num_vert_tiles)-0.25)/2)
+        
+        scene!.addChild(temp_ok_button)
+        temp_ok_button.position = CGPointMake(node.position.x - x_dist + 0.5 * Tile.tileWidth, node.position.y - y_dist)
+        temp_ok_button.zPosition = ZPosition.Tower.rawValue + 0.5
+        temp_ok_button.anchorPoint = CGPointMake(0,0)
+        
+        scene!.addChild(temp_cancel_button)
+        temp_cancel_button.position = node.position
+        temp_cancel_button.position = CGPointMake(node.position.x + x_dist + 0.5 * Tile.tileWidth, node.position.y - y_dist)
+        temp_cancel_button.zPosition = ZPosition.Tower.rawValue + 0.5
+        temp_cancel_button.anchorPoint = CGPointMake(0,0)
+        
+        // Add the tiles indicating if you can build
+        for (var row = 0; row < num_horizontal_tiles ; row++)
+        {
+            for (var column = 0; column < num_vert_tiles ; column++)
+            {
+                let tile_pos = int2(Int32(pos_on_grid.x + column), Int32(pos_on_grid.y + row))
+                
+                let temp_node = SKShapeNode(rect: CGRect(origin: CGPointMake(0,0), size: CGSize(width: Tile.tileWidth, height: Tile.tileHeight)))
+                temp_node.strokeColor = UIColor.clearColor()
+                temp_node.zPosition = ZPosition.Tower.rawValue + 0.25
+                let temp_pos = pointForCoordinate(tile_pos)
+                temp_node.position = CGPointMake(temp_pos.x, temp_pos.y )
+                
+                let tile = Tile.getTile(tiles, pos: tile_pos)
+                let tile_ok_to_build = check_tile(tile)
+                
+                if (tile_ok_to_build)
+                {
+                    can_build = can_build && true
+                    temp_node.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
+                }
+                else
+                {
+                    can_build = false
+                    temp_node.fillColor = UIColor.redColor().colorWithAlphaComponent(0.3)
+                }
+                
+                tileIndicators.append(temp_node)
+                scene!.addChild(temp_node)
+            }
+        }
+    }
+    
+    func destroy_temp_building()
+    {
+        temp_building!.destroy()
+        scene!.removeChildrenInArray(tileIndicators)
+        tileIndicators.removeAll()
+        
+        scene!.removeChildrenInArray([temp_ok_button, temp_cancel_button])
+        temp_building = nil
+        
+        current_build_mode! = .None
+    }
+    
+    func check_tile(tile: Tile) -> Bool
+    {
+        if !(tile is DefenderTile)
+        {
+            return false
+        }
+        
+        if tile.building_on_tile != nil
+        {
+            return false
+        }
+        
+        return true
     }
     
     var side_panel_open = false
@@ -693,7 +719,6 @@ class GameScene: SKScene
             
             side_panel_open = false
         }
-        debugPrint("Buy button pushed!")
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
@@ -701,6 +726,8 @@ class GameScene: SKScene
         for touch in touches
         {
             let currentLocation = touch.locationInView(self.view)
+            let scenePoint = scene!.convertPointFromView(currentLocation)
+            
             let dx = currentLocation.x - prevLocation.x
             let dy = currentLocation.y - prevLocation.y
 
@@ -727,7 +754,14 @@ class GameScene: SKScene
                 new_y = min_y
             }
             
-            sceneCamera.position = CGPointMake( new_x, new_y )
+            if (temp_building != nil)
+            {
+                place_temp_building(scenePoint)
+            }
+            else
+            {
+                sceneCamera.position = CGPointMake( new_x, new_y )
+            }
             
         }
     }
@@ -735,6 +769,11 @@ class GameScene: SKScene
     func timeInMinutesSeconds (seconds : Int) -> (Int, Int)
     {
         return ((seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+    
+    func coordinateForPointFromTemp(point: CGPoint) -> int2
+    {
+        return int2(Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth), Int32((point.y  + (Tile.tileHeight/2)) / Tile.tileHeight))
     }
     
     func coordinateForPoint(point: CGPoint) -> int2
@@ -779,7 +818,6 @@ class GameScene: SKScene
                 // Put the values from file into a 2d array
                 tileNums = [[Int]](count: map_height, repeatedValue: [Int](count: map_width, repeatedValue: 0))
                 
-                //debugPrint("Map dimensions: \(map_height) x \(map_width)")
                 let layers = jsonContent["layers"] as! NSArray
 
                 // Parse attacker layer
@@ -983,7 +1021,7 @@ class GameScene: SKScene
         }
         else
         {
-            debugPrint("Not a maze tile!")
+            debugPrint("Not a goal tile!")
         }
     }
     
@@ -1031,10 +1069,11 @@ class GameScene: SKScene
         }
     }
     
-    func spawnBasicTurret(point: CGPoint)
+    
+    func spawnDefenderPowerSource (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
+        let pos_on_grid = coordinateForPointFromTemp(point)
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
@@ -1042,69 +1081,25 @@ class GameScene: SKScene
         if (tile is DefenderTile)
         {
             // Init the tower
-            let tower = BasicTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
             
             // Keep track of it in a dictionary
-            all_buildings[tower.entity_id] = tower
-            goldCount -= basicTowerCost
+            all_buildings[building.entity_id] = building
+            goldCount -= building.buildingCost
+            
+            return building
         }
         else
         {
             debugPrint("Not a defender tile!")
+            return nil
         }
     }
     
-    
-    func spawnAdvancedTurret (point: CGPoint)
+    func spawnRegularTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
-        
-        // Fix the position to be on the grid
-        let fixed_pos = pointForCoordinate(pos_on_grid)
-        let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is DefenderTile)
-        {
-            // Init the tower
-            let tower = AdvancedTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
-            
-            // Keep track of it in a dictionary
-            all_buildings[tower.entity_id] = tower
-            goldCount -= advancedTowerCost
-        }
-        else
-        {
-            debugPrint("Not a defender tile!")
-        }
-    }
-    
-    func spawnDefenderPowerSource (point: CGPoint)
-    {
-        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
-        
-        // Fix the position to be on the grid
-        let fixed_pos = pointForCoordinate(pos_on_grid)
-        let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is DefenderTile)
-        {
-            // Init the tower
-            let tower = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
-            
-            // Keep track of it in a dictionary
-            all_buildings[tower.entity_id] = tower
-                goldCount -= defenderPowerSrcCost
-        }
-        else
-        {
-            debugPrint("Not a defender tile!")
-        }
-    }
-    
-    func spawnRegularTower (point: CGPoint)
-    {
-        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
+        let pos_on_grid = coordinateForPointFromTemp(point)
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
@@ -1116,18 +1111,24 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= regularTowerCost
+            goldCount -= tower.buildingCost
+            
+            return tower
         }
         else
         {
             debugPrint("Not a defender tile!")
+            
+            return nil
         }
+        
+        
     }
 
-    func spawnFireTower (point: CGPoint)
+    func spawnFireTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
+        let pos_on_grid = coordinateForPointFromTemp(point)
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
@@ -1139,18 +1140,22 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= fireTowerCost
+            goldCount -= tower.buildingCost
+            
+            return tower
         }
         else
         {
             debugPrint("Not a defender tile!")
+            
+            return nil
         }
     }
     
-    func spawnIceTower (point: CGPoint)
+    func spawnIceTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
+        let pos_on_grid = coordinateForPointFromTemp(point)
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
@@ -1162,11 +1167,15 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= iceTowerCost
+            goldCount -= tower.buildingCost
+            
+            return tower
         }
         else
         {
             debugPrint("Not a defender tile!")
+            
+            return nil
         }
     }
     

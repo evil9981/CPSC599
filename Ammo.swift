@@ -23,9 +23,9 @@ class Ammo: GameEntity
         case Lightning
     }
     
-    init(scene: GameScene, texture: SKTexture, speed: NSTimeInterval, world_position: CGPoint, size: CGPoint, damage: Int)
+    init(texture: SKTexture, tower: Tower, target: Unit, world_position: CGPoint, size: CGPoint, damage: Int)
     {
-        self.scene = scene
+        self.scene = tower.scene
         self.damage = damage
         
         super.init()
@@ -34,4 +34,39 @@ class Ammo: GameEntity
         self.visualComp = VisualComponent(scene: scene, parent_entity: self, texture: texture, world_position: world_position, size: size)
         self.addComponent(visualComp)
     }
+    
+    static func generate_ammo(tower: Tower, target: Unit) -> Ammo
+    {
+        if (tower is FireTower)
+        {
+            return FireBall(tower: tower, target: target)
+        }
+        else if (tower is IceTower)
+        {
+            return IceBolt(tower: tower, target: target)
+        }
+        
+        return CannonBall(tower: tower, target: target)
+    }
+    
+    static func get_position_to_shoot(unit: Unit) -> CGPoint
+    {
+        let pos = unit.visualComp.node.position
+        
+        switch(unit.movementComp.current_mov_option!)
+        {
+        case .MoveLeft:
+            return CGPointMake(pos.x - 1 * Tile.tileWidth, pos.y)
+        case .MoveRight:
+            return CGPointMake(pos.x + 1 * Tile.tileWidth, pos.y)
+        case .MoveUp:
+            return CGPointMake(pos.x, pos.y + 1 * Tile.tileHeight)
+        case .MoveDown:
+            return CGPointMake(pos.x, pos.y - 1 * Tile.tileHeight)
+            
+        default:
+            return pos
+        }
+    }
+
 }

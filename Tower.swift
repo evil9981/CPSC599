@@ -14,12 +14,21 @@ class Tower: Building
     var towerComp: TowerShootComponent!
     var mazeTiles : [Tile] = [Tile]()
     
-    init(scene: GameScene, grid_position: int2, world_position: CGPoint, tower_texture: SKTexture, gridSize: int2, visSize: CGPoint, range: int2, towerDamage: Int)
+    var towerDamage: Int
+    var towerShootingSpeed: NSTimeInterval
+    
+    init(scene: GameScene, grid_position: int2, world_position: CGPoint, tower_texture: SKTexture, gridSize: int2, visSize: CGPoint, range: int2, towerDamage: Int, towerShootingSpeed: NSTimeInterval, towerCost: Int, temp: Bool = false)
     {
-        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize)
+        self.towerDamage = towerDamage
+        self.towerShootingSpeed = towerShootingSpeed
         
-        self.towerComp = TowerShootComponent(tower: self, range: range, towerDamage: towerDamage)
-        self.addComponent(towerComp)
+        super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, buildingCost: towerCost, temp: temp)
+        
+        if (!temp)
+        {
+            self.towerComp = TowerShootComponent(tower: self, range: range, towerDamage: towerDamage)
+            self.addComponent(towerComp)
+        }
     }
     
     var shapes : [SKShapeNode] = [SKShapeNode]()
@@ -34,14 +43,14 @@ class Tower: Building
             {
                 let pos = tile.position
                 
-                let shape = SKShapeNode(rectOfSize: CGSize(width: Tile.tileWidth * 0.9, height: Tile.tileHeight * 0.9))
+                let shape = SKShapeNode(rectOfSize: CGSize(width: Tile.tileWidth , height: Tile.tileHeight ))
                 
-                shape.position = CGPointMake( ( CGFloat(pos.x) - 0.5 ) * Tile.tileWidth ,
-                    CGFloat( (CGFloat(scene.map_height) - 0.5 ) - CGFloat(pos.y) ) * Tile.tileHeight )
+                shape.position = CGPointMake( ( CGFloat(pos.x) ) * Tile.tileWidth ,
+                    CGFloat( (CGFloat(scene.map_height) ) - CGFloat(pos.y) ) * Tile.tileHeight )
                 
                 shape.fillColor = UIColor.redColor().colorWithAlphaComponent(0.2)
                 shape.strokeColor = UIColor.clearColor()
-                shape.zPosition = 10
+                shape.zPosition = GameScene.ZPosition.Tower.rawValue - 0.1
                 self.scene.addChild(shape)
                 
                 shapes_shown = true
@@ -70,8 +79,8 @@ class Tower: Building
         }
     }
     
-    override func update()
+    override func update(delta: NSTimeInterval)
     {
-        towerComp.update()
+        towerComp.update(delta)
     }
 }

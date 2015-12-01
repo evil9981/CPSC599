@@ -127,7 +127,7 @@ public class MovementComponent: GKComponent
     {
         is_moving = false
         
-        unit.update()
+        unit.update(0.0)
     }
     
     func updateActions(leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval)

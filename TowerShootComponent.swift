@@ -11,7 +11,7 @@ import SpriteKit
 
 class TowerShootComponent: GKComponent
 {
-    var tower: Building
+    var tower: Tower
     
     var units = [Unit]()
     var current_target : Unit!
@@ -19,7 +19,7 @@ class TowerShootComponent: GKComponent
     var range: int2
     var towerDamage: Int
     
-    init(tower: Building, range: int2, towerDamage: Int)
+    init(tower: Tower, range: int2, towerDamage: Int)
     {
         self.tower = tower
         self.range = range
@@ -45,76 +45,69 @@ class TowerShootComponent: GKComponent
     }
     
     var should_shoot = true
-    func update()
+    var shoot_cooldown: NSTimeInterval = 0.0
+    
+    func update(delta: NSTimeInterval)
     {
-        if (should_shoot && current_target != nil)
+        // Lower the cooldown
+        shoot_cooldown -= delta
+        
+        // Actually shoot!
+        if (shoot_cooldown <= 0 && current_target != nil)
         {
-            should_shoot = false
-            
-            let cannonball = SKSpriteNode(imageNamed: "CannonBall")
-            cannonball.position = CGPointMake(tower.visualComp.node.position.x + Tile.tileWidth * 0.5, tower.visualComp.node.position.y + Tile.tileHeight * 1.8)
-            //cannonball.anchorPoint = CGPointMake(5, 0.2)
-            cannonball.zPosition = 4
-            cannonball.size = CGSize(width: 32,height: 32)
-            tower.scene.addChild(cannonball)
-            
-            let targetPos: CGPoint = get_position_to_shoot(current_target)
-            
-            let followOrc = SKAction.moveTo(targetPos, duration: 0.5)
-            let cooldown = SKAction.waitForDuration(0.5)
-            cannonball.runAction(followOrc, completion:
-            {
-                self.tower.scene.removeChildrenInArray([cannonball])
-                self.tower.visualComp.node.runAction(cooldown, completion: { self.should_shoot = true;  } )
-            })
-            
-            check_target()
+            Ammo.generate_ammo(tower, target: current_target)
+            shoot_cooldown = tower.towerShootingSpeed
         }
+        
+        // Check if target needs to be canceled / switched
+        check_target()
     }
     
     func check_target()
     {
-        let target_pos = current_target.gridComp.current_pos
-        let current_pos = self.tower.gridComp.current_pos
-        
-        if ( abs(target_pos.x - current_pos.x) >= (range.x+tower.gridComp.size.x) || abs(target_pos.y - current_pos.y) >= range.y+tower.gridComp.size.y )
-        {
-            units = units.filter { return $0.entity_id != current_target.entity_id } // Remove the current target
-            current_target = nil // Remove it from the current target
-        }
-       
         if (current_target != nil)
         {
-            if (!self.tower.scene.children.contains(current_target.visualComp.node))
+            let target_pos = current_target.gridComp.current_pos
+            let current_pos = self.tower.gridComp.current_pos
+            
+            let diff = abs(target_pos.x - current_pos.x)
+            var horizontal_limit = true
+            
+            debugPrint(diff)
+            // Target is to the left of the tower
+            if (diff <= 0)
             {
-                units = units.filter { return $0.entity_id != current_target.entity_id } // Remove the current target
-                current_target = nil // Remove it from the current target
+                // Target is to the left of the tower
+                horizontal_limit = (diff > range.x + tower.gridComp.size.x + 1)
+            }
+            else
+            {
+                // Target is to the right of the tower
+                horizontal_limit = (diff > range.x )
+            }
+            
+            let vertical_limit = ( abs(target_pos.y - current_pos.y) >= range.y+tower.gridComp.size.y )
+
+            
+            let target_not_in_range = ( horizontal_limit || vertical_limit )
+            let target_destroyed = (!self.tower.scene.children.contains(current_target.visualComp.node))
+            
+            if ( target_not_in_range || target_destroyed)
+            {
+                remove_current_target()
             }
         }
-        
-        if (units.count != 0)
+            
+        if (current_target == nil && units.count != 0)
         {
             current_target = units[0]
         }
     }
     
-    func get_position_to_shoot(unit: Unit) -> CGPoint
+    func remove_current_target()
     {
-        let pos = unit.visualComp.node.position
-        
-        switch(unit.movementComp.current_mov_option!)
-        {
-        case .MoveLeft:
-            return CGPointMake(pos.x - 1 * Tile.tileWidth, pos.y)
-        case .MoveRight:
-            return CGPointMake(pos.x + 1 * Tile.tileWidth, pos.y)
-        case .MoveUp:
-            return CGPointMake(pos.x, pos.y + 1 * Tile.tileHeight)
-        case .MoveDown:
-            return CGPointMake(pos.x, pos.y - 1 * Tile.tileHeight)
-            
-        default:
-            return pos
-        }
+        units = units.filter { return $0.entity_id != current_target.entity_id } // Remove the current target
+        current_target = nil // Remove it from the current target
     }
+    
 }

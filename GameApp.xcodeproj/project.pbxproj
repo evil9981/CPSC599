@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		3BA7BF2F220FCFA5A714ED7A /* Pods_GameApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */; };
-		A378E0721C082F1400791979 /* AdvancedTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0711C082F1400791979 /* AdvancedTower.swift */; };
 		A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0761C0BB28100791979 /* DefenderPowerSource.swift */; };
 		A378E0791C0CE5C300791979 /* RegularTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0781C0CE5C300791979 /* RegularTower.swift */; };
 		A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07A1C0CEDAB00791979 /* FireTower.swift */; };
 		A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07C1C0CEDF900791979 /* IceTower.swift */; };
 		CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0714091C065BE50062EEBF /* DirtyPig.swift */; };
 		CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE07140E1C065C2E0062EEBF /* HatPig.swift */; };
+		CE0F00D41C0E23AE003EA598 /* CannonBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F00D31C0E23AE003EA598 /* CannonBall.swift */; };
+		CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F00D81C0E23B6003EA598 /* FireBall.swift */; };
+		CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F00DA1C0E23C3003EA598 /* IceBolt.swift */; };
 		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
@@ -43,9 +45,7 @@
 		CED265061BE773930022C033 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265051BE773930022C033 /* TileType.swift */; };
 		CED265081BE774040022C033 /* TileOpts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265071BE774040022C033 /* TileOpts.swift */; };
 		CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265091BE77D310022C033 /* GoalTile.swift */; };
-		CED265101BE799A30022C033 /* TowerMap.json in Resources */ = {isa = PBXBuildFile; fileRef = CED2650F1BE799A30022C033 /* TowerMap.json */; };
 		CED265121BE92B880022C033 /* Building.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265111BE92B880022C033 /* Building.swift */; };
-		CED265161BE931FD0022C033 /* BasicTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265151BE931FD0022C033 /* BasicTower.swift */; };
 		CED265181BE932DD0022C033 /* GameEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265171BE932DD0022C033 /* GameEntity.swift */; };
 		CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265191BE934C60022C033 /* TowerShootComponent.swift */; };
 		CED2651C1BE93A990022C033 /* Tower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED2651B1BE93A990022C033 /* Tower.swift */; };
@@ -87,13 +87,15 @@
 		48476AA86ED0656B97F1DE63 /* Pods-GameApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.debug.xcconfig"; sourceTree = "<group>"; };
 		56A704EA20C919B5C0A9879B /* Pods-GameApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.release.xcconfig"; sourceTree = "<group>"; };
 		8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A378E0711C082F1400791979 /* AdvancedTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTower.swift; sourceTree = "<group>"; };
 		A378E0761C0BB28100791979 /* DefenderPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderPowerSource.swift; sourceTree = "<group>"; };
 		A378E0781C0CE5C300791979 /* RegularTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularTower.swift; sourceTree = "<group>"; };
 		A378E07A1C0CEDAB00791979 /* FireTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireTower.swift; sourceTree = "<group>"; };
 		A378E07C1C0CEDF900791979 /* IceTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceTower.swift; sourceTree = "<group>"; };
 		CE0714091C065BE50062EEBF /* DirtyPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirtyPig.swift; sourceTree = "<group>"; };
 		CE07140E1C065C2E0062EEBF /* HatPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HatPig.swift; sourceTree = "<group>"; };
+		CE0F00D31C0E23AE003EA598 /* CannonBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonBall.swift; sourceTree = "<group>"; };
+		CE0F00D81C0E23B6003EA598 /* FireBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBall.swift; sourceTree = "<group>"; };
+		CE0F00DA1C0E23C3003EA598 /* IceBolt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceBolt.swift; sourceTree = "<group>"; };
 		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -127,9 +129,7 @@
 		CED265051BE773930022C033 /* TileType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		CED265071BE774040022C033 /* TileOpts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileOpts.swift; sourceTree = "<group>"; };
 		CED265091BE77D310022C033 /* GoalTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalTile.swift; sourceTree = "<group>"; };
-		CED2650F1BE799A30022C033 /* TowerMap.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TowerMap.json; sourceTree = "<group>"; };
 		CED265111BE92B880022C033 /* Building.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Building.swift; sourceTree = "<group>"; };
-		CED265151BE931FD0022C033 /* BasicTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTower.swift; sourceTree = "<group>"; };
 		CED265171BE932DD0022C033 /* GameEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEntity.swift; sourceTree = "<group>"; };
 		CED265191BE934C60022C033 /* TowerShootComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TowerShootComponent.swift; sourceTree = "<group>"; };
 		CED2651B1BE93A990022C033 /* Tower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tower.swift; sourceTree = "<group>"; };
@@ -176,11 +176,9 @@
 		CE5516A21C0D494E008F04A9 /* Towers */ = {
 			isa = PBXGroup;
 			children = (
-				A378E0711C082F1400791979 /* AdvancedTower.swift */,
 				A378E0781C0CE5C300791979 /* RegularTower.swift */,
 				A378E07A1C0CEDAB00791979 /* FireTower.swift */,
 				A378E07C1C0CEDF900791979 /* IceTower.swift */,
-				CED265151BE931FD0022C033 /* BasicTower.swift */,
 			);
 			name = Towers;
 			sourceTree = "<group>";
@@ -211,7 +209,6 @@
 				CE9A76551BE754B000DDBF11 /* Components */,
 				CE9A76521BE7545E00DDBF11 /* Entities */,
 				CE9A764B1BE702B000DDBF11 /* Tiles */,
-				CED2650F1BE799A30022C033 /* TowerMap.json */,
 				CE6BF5B81C0D285800E7A79F /* Map.json */,
 				CE6EAE9B1BD88A3A0004DAD8 /* GameScene.swift */,
 				CE6EAE9F1BD89A960004DAD8 /* GameScene.sks */,
@@ -324,6 +321,9 @@
 			isa = PBXGroup;
 			children = (
 				CEE4AAB41C07BD3B00E64784 /* Ammo.swift */,
+				CE0F00D31C0E23AE003EA598 /* CannonBall.swift */,
+				CE0F00D81C0E23B6003EA598 /* FireBall.swift */,
+				CE0F00DA1C0E23C3003EA598 /* IceBolt.swift */,
 			);
 			name = Ammo;
 			sourceTree = "<group>";
@@ -445,7 +445,6 @@
 			files = (
 				CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */,
 				CE6EAE861BD889300004DAD8 /* LaunchScreen.storyboard in Resources */,
-				CED265101BE799A30022C033 /* TowerMap.json in Resources */,
 				CE6BF5B91C0D285800E7A79F /* Map.json in Resources */,
 				CE6EAEA11BD89B670004DAD8 /* GameScene.sks in Resources */,
 				CE6EAE831BD889300004DAD8 /* Assets.xcassets in Resources */,
@@ -517,8 +516,10 @@
 			files = (
 				CEE4AAB51C07BD3B00E64784 /* Ammo.swift in Sources */,
 				A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */,
+				CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */,
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
+				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
 				CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */,
@@ -528,6 +529,7 @@
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,
 				A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */,
 				CED265041BE772C30022C033 /* NonUsableTile.swift in Sources */,
+				CE0F00D41C0E23AE003EA598 /* CannonBall.swift in Sources */,
 				CED265021BE772AA0022C033 /* MazeTile.swift in Sources */,
 				CE9A76541BE7547300DDBF11 /* Unit.swift in Sources */,
 				CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */,
@@ -538,14 +540,12 @@
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
 				CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */,
-				A378E0721C082F1400791979 /* AdvancedTower.swift in Sources */,
 				CED265121BE92B880022C033 /* Building.swift in Sources */,
 				CED265001BE772A00022C033 /* DefenderTile.swift in Sources */,
 				CED265181BE932DD0022C033 /* GameEntity.swift in Sources */,
 				CE6EAE9C1BD88A3A0004DAD8 /* GameScene.swift in Sources */,
 				CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */,
 				CED2651C1BE93A990022C033 /* Tower.swift in Sources */,
-				CED265161BE931FD0022C033 /* BasicTower.swift in Sources */,
 				CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */,
 				CED265081BE774040022C033 /* TileOpts.swift in Sources */,
 				CE9A76591BE755EC00DDBF11 /* VisualComponent.swift in Sources */,

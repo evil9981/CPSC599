@@ -27,29 +27,6 @@ class GridComponent: GKComponent
         self.size = size
         
         super.init()
-        
-        if (unit is Building)
-        {
-            let row_index : Int = Int(size.x)
-            let column_index: Int = Int(size.y)
-            
-            let start_column_index = max(0, current_pos.x - column_index + 1)
-            let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x)
-            
-            let start_row_index = max (0, current_pos.y - row_index)
-            let end_row_index = min( Int32(tiles.count - 1), current_pos.y + row_index + size.y - 1)
-            
-            
-            for row in start_row_index ... end_row_index
-            {
-                for column in start_column_index ... end_column_index
-                {
-                    let tile = tiles[tiles.count - 1 - Int(row)][Int(column)]
-                    
-                    tile.place_building(self.unit as! Building)
-                }
-            }
-        }
     }
     
     func move_unit_to_tile(new_pos : int2)
