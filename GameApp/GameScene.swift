@@ -362,7 +362,7 @@ class GameScene: SKScene
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
         buyButton.xScale = 1
         buyButton.yScale = 1
-        buyButton.position = CGPointMake(4000, -1250)
+        buyButton.position = CGPointMake(4000, -1200)
         buyButton.name = "BuyButton"
         buyButton.zPosition = ZPosition.OverlayButton.rawValue
         sceneCamera.addChild(buyButton)
@@ -662,8 +662,8 @@ class GameScene: SKScene
                 
                 if (debug)
                 {
-                    let pos_on_grid = coordinateForPoint(scenePoint)
-                    let tile = Tile.getTile(tiles, pos: pos_on_grid)
+                    //let pos_on_grid = coordinateForPoint(scenePoint)
+                    //let tile = Tile.getTile(tiles, pos: pos_on_grid)
                     
                 }
             }
