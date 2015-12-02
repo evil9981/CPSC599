@@ -19,6 +19,7 @@ class Goblin: Unit
     
     static let downTextures = [SKTexture(imageNamed: "goblin_down_0"), SKTexture(imageNamed: "goblin_down_1"), SKTexture(imageNamed: "goblin_down_0"), SKTexture(imageNamed: "goblin_down_2")]
     
+    static let cost = 10
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
         let gridSize = int2(1,1)
@@ -28,5 +29,7 @@ class Goblin: Unit
             leftTextures: Goblin.leftTextures, rightTextures: Goblin.rightTextures,
             upTextures: Goblin.upTextures, downTextures: Goblin.downTextures,
             speed: speed, gridSize: gridSize, visSize: visSize)
+        
+        self.hp = 35
     }
 }
