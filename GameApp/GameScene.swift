@@ -50,7 +50,9 @@ class GameScene: SKScene
     
     // Side panel stuff
     var buyButton : SKSpriteNode!
+    var buyButton_attack: SKSpriteNode!
     var sidePanel: SKShapeNode!
+    var sidePanel_attack: SKShapeNode!
     
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
@@ -67,6 +69,10 @@ class GameScene: SKScene
         case FireTower = 3
         case IceTower = 4
         case DefenderPowerSource = 5
+        case OrcBuliding = 6
+        case GoblinBuilding = 7
+        case TrollBuilding = 8
+        case AttackerPowerSource = 9
     }
     var current_build_mode : BuildMode!
     
@@ -150,7 +156,7 @@ class GameScene: SKScene
         goldLabel.text = String(goldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-        goldLabel.position = CGPointMake(300, 1235)
+        goldLabel.position = CGPointMake(750, 1235)
         goldLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(goldLabel)
         
@@ -167,14 +173,14 @@ class GameScene: SKScene
         timeLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         timeLabel.fontSize = 150
         timeLabel.fontColor = UIColor.whiteColor()
-        timeLabel.position = CGPointMake(2150, 1230)
+        timeLabel.position = CGPointMake(2350, 1230)
         timeLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(timeLabel)
         
         // Add the gold image texture
         goldImageTexture = SKTexture(imageNamed: "GoldImage")
         goldImage = SKSpriteNode(texture: goldImageTexture)
-        goldImage.position = CGPointMake(0, 1300)
+        goldImage.position = CGPointMake(450, 1300)
         goldImage.xScale = 8
         goldImage.yScale = 8
         goldImage.zPosition = ZPosition.GUI.rawValue
@@ -192,6 +198,7 @@ class GameScene: SKScene
         // Init the orc and tower buttons
         init_buttons()
         init_buy_panel()
+        init_buy_panel_attack()
     }
     
     let buy_panel_width : CGFloat = 600 // This is how wide the buy panel is
@@ -302,6 +309,95 @@ class GameScene: SKScene
         sceneCamera.addChild(sidePanel) // Add child to the camera
     }
     
+    func init_buy_panel_attack()
+    {
+        let frame = CGRect(x: -920, y: (-camera_viewport_height), width: buy_panel_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
+        sidePanel_attack = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+        sidePanel_attack.zPosition = ZPosition.Overlay.rawValue
+        
+        sidePanel_attack.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
+        sidePanel_attack.strokeColor = UIColor.blackColor() // This is the border color
+        
+        // Add orcBuilding Buy button
+        let orcBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Orc_Building"), size: CGSize(width:400, height: 400))
+        var x_buy_button = -920 + orcBuilding.frame.width - 200
+        var y_buy_button = camera_viewport_height - orcBuilding.frame.height - 50
+        orcBuilding.position = CGPointMake(x_buy_button, y_buy_button)
+        orcBuilding.zPosition = ZPosition.OverlayButton.rawValue
+        orcBuilding.name = "BuyOrcBuilding"
+        
+        // Create gold image
+        coinImageTexture = SKTexture(imageNamed: "CoinImage")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 200, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        // Create cost label
+        createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+    
+        
+        // Add goblinBuilding buy button
+        let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
+        x_buy_button = -920 + orcBuilding.frame.width - 200
+        y_buy_button = camera_viewport_height - orcBuilding.frame.height - 500
+        
+        goblinBuilding.position = CGPointMake(x_buy_button, y_buy_button)
+        goblinBuilding.zPosition = ZPosition.OverlayButton.rawValue
+        goblinBuilding.name = "BuyGoblinBuilding"
+        
+        // Create gold image
+        coinImageTexture = SKTexture(imageNamed: "CoinImage")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 200, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        // Create cost label
+        createLableNode("Arial-BoldMT", labelText: FireTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+
+        
+        
+        // Add trollBuilding buy button
+        let trollBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Troll_Building"), size: CGSize(width: 400 ,height: 400))
+        x_buy_button = -920 + orcBuilding.frame.width - 200
+        y_buy_button = camera_viewport_height - orcBuilding.frame.height - 1000
+        
+        trollBuilding.position = CGPointMake(x_buy_button, y_buy_button)
+        trollBuilding.zPosition = ZPosition.OverlayButton.rawValue
+        trollBuilding.name = "BuyTrollBuilding"
+        
+        // Create gold image
+        coinImageTexture = SKTexture(imageNamed: "CoinImage")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 200, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        // Create cost label
+        createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
+        
+        // Add attackerPowerSource buy button
+        let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 265 ,height: 300))
+        x_buy_button = -920 + orcBuilding.frame.width - 200
+        y_buy_button = camera_viewport_height - orcBuilding.frame.height - 1500
+        
+        attackerPowerSource.position = CGPointMake(x_buy_button, y_buy_button)
+        attackerPowerSource.zPosition = ZPosition.OverlayButton.rawValue
+        attackerPowerSource.name = "BuyAttackerPowerSource"
+        
+        // Create gold image
+        coinImageTexture = SKTexture(imageNamed: "CoinImage")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 200, yPosition: y_buy_button + 100, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        // Create cost label
+        createLableNode("Arial-BoldMT", labelText: DefenderPowerSource.buildingCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        sidePanel_attack.addChild(orcBuilding)
+        sidePanel_attack.addChild(goblinBuilding)
+        sidePanel_attack.addChild(trollBuilding)
+        sidePanel_attack.addChild(attackerPowerSource)
+        
+        
+        sceneCamera.addChild(sidePanel_attack) // Add child to the camera
+    }
+
+    
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
     func init_buttons()
     {
@@ -309,10 +405,18 @@ class GameScene: SKScene
         buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
         buyButton.xScale = 1
         buyButton.yScale = 1
-        buyButton.position = CGPointMake(4000, -1200)
+        buyButton.position = CGPointMake(4000, -1000)
         buyButton.name = "BuyButton"
         buyButton.zPosition = ZPosition.OverlayButton.rawValue
         sceneCamera.addChild(buyButton)
+        
+        buyButton_attack = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
+        buyButton_attack.xScale = 1
+        buyButton_attack.yScale = 1
+        buyButton_attack.position = CGPointMake(450, -1000)
+        buyButton_attack.name = "Attacker BuyButton"
+        buyButton_attack.zPosition = ZPosition.OverlayButton.rawValue
+        sceneCamera.addChild(buyButton_attack)
         
         // These are the sandbox buttons, at the lower part of the screen
         buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
@@ -487,6 +591,19 @@ class GameScene: SKScene
                             
                         case .DefenderPowerSource:
                             building = spawnDefenderPowerSource(temp_building!.visualComp.node.position)
+                           
+                        case .OrcBuliding:
+                            building = spawnOrcBuilding(temp_building!.visualComp.node.position)
+                            
+                        case .GoblinBuilding:
+                            building = spawnGoblinBuilding(temp_building!.visualComp.node.position)
+                            
+                        case .TrollBuilding:
+                            building = spawnTrollBuilding(temp_building!.visualComp.node.position)
+                            
+                            
+                        case .AttackerPowerSource:
+                            building = spawnAttackerPowerSource(temp_building!.visualComp.node.position)
                             
                         default:
                             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -511,6 +628,10 @@ class GameScene: SKScene
                 {
                     buyButtonPushed()
                 }
+                else if name == "Attacker BuyButton"
+                {
+                    attBuyButtonPushed()
+                }
                 else if (name == "BuyRegularTower")
                 {
                     current_build_mode! = .RegularTower
@@ -532,6 +653,30 @@ class GameScene: SKScene
                 else if (name == "BuyDefenderPowerSource")
                 {
                     current_build_mode! = .DefenderPowerSource
+                    
+                    place_temp_building(make_point)
+                }
+                else if (name == "BuyOrcBuilding")
+                {
+                    current_build_mode! = .OrcBuliding
+                    
+                    place_temp_building(make_point)
+                }
+                else if (name == "BuyGoblinBuilding")
+                {
+                    current_build_mode! = .GoblinBuilding
+                    
+                    place_temp_building(make_point)
+                }
+                else if (name == "BuyTrollBuilding")
+                {
+                    current_build_mode! = .TrollBuilding
+                    
+                    place_temp_building(make_point)
+                }
+                else if (name == "BuyAttackerPowerSource")
+                {
+                    current_build_mode! = .AttackerPowerSource
                     
                     place_temp_building(make_point)
                 }
@@ -617,6 +762,14 @@ class GameScene: SKScene
             temp_building = IceTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
         case .DefenderPowerSource:
             temp_building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .OrcBuliding:
+            temp_building = OrcBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .GoblinBuilding:
+            temp_building = GoblinBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .TrollBuilding:
+            temp_building = TrollBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+        case .AttackerPowerSource:
+            temp_building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
             
         default:
             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -657,6 +810,18 @@ class GameScene: SKScene
                 
                 let tile = Tile.getTile(tiles, pos: tile_pos)
                 let tile_ok_to_build = check_tile(tile)
+                let tile_ok_to_build_att = check_tile_att(tile)
+                
+                if (tile_ok_to_build_att)
+                {
+                    can_build = can_build && true
+                    temp_node.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
+                }
+                else
+                {
+                    can_build = false
+                    temp_node.fillColor = UIColor.redColor().colorWithAlphaComponent(0.3)
+                }
                 
                 if (tile_ok_to_build)
                 {
@@ -703,6 +868,21 @@ class GameScene: SKScene
         return true
     }
     
+    func check_tile_att(tile: Tile) -> Bool
+    {
+        if !(tile is AttackerTile)
+        {
+            return false
+        }
+        
+        if (tile.building_on_tile != nil)
+        {
+            return false
+        }
+        
+        return true
+    }
+    
     var side_panel_open = false
     func buyButtonPushed()
     {
@@ -721,6 +901,28 @@ class GameScene: SKScene
             
             side_panel_open = false
         }
+    }
+    
+    var attack_side_panel_open = false
+    func attBuyButtonPushed()
+    {
+        if (!attack_side_panel_open)
+        {
+            let slideIn = SKAction.moveByX(buy_panel_width, y: 0, duration: 1.0) // Define the action to slide it 600 units to the right
+            
+            sidePanel_attack.runAction(slideIn) // Run the action
+            
+            attack_side_panel_open = true // Set so that we don't open it multiple times
+        }
+        else // If it is already open, slide it back
+        {
+            let slideOut = SKAction.moveByX(-buy_panel_width, y: 0, duration: 1.0) // Define the action to slide it 600 units to the left
+            sidePanel_attack.runAction(slideOut) // Run the action
+            
+            attack_side_panel_open = false
+        }
+
+        
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
@@ -951,6 +1153,10 @@ class GameScene: SKScene
         {
             sidePanel.addChild(uiNode)
         }
+        if (childOf == "AttackSidePanel")
+        {
+            sidePanel_attack.addChild(uiNode)
+        }
         
     }
     
@@ -992,6 +1198,10 @@ class GameScene: SKScene
         if (childOf == "SidePanel")
         {
             sidePanel.addChild(uiLabelNode)
+        }
+        if (childOf == "AttackSidePanel")
+        {
+            sidePanel_attack.addChild(uiLabelNode)
         }
         
     }
@@ -1196,6 +1406,118 @@ class GameScene: SKScene
         }
     }
     
+    
+    func spawnAttackerPowerSource (point: CGPoint) -> Building?
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is AttackerTile)
+        {
+            // Init the tower
+            let building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[building.entity_id] = building
+            goldCount -= building.buildingCost
+            
+            return building
+        }
+        else
+        {
+            debugPrint("Not a attacker tile!")
+            return nil
+        }
+    }
+    
+    func spawnOrcBuilding (point: CGPoint) -> Building?
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is AttackerTile)
+        {
+            // Init the tower
+            let building = OrcBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[building.entity_id] = building
+            goldCount -= building.buildingCost
+            
+            return building
+        }
+        else
+        {
+            debugPrint("Not a attacker tile!")
+            
+            return nil
+        }
+        
+    }
+
+    func spawnGoblinBuilding (point: CGPoint) -> Building?
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is AttackerTile)
+        {
+            // Init the tower
+            let building = GoblinBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[building.entity_id] = building
+            goldCount -= building.buildingCost
+            
+            return building
+        }
+        else
+        {
+            debugPrint("Not a attacker tile!")
+            
+            return nil
+        }
+        
+    }
+    
+    func spawnTrollBuilding (point: CGPoint) -> Building?
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        let tile = Tile.getTile(tiles, pos: pos_on_grid)
+        if (tile is AttackerTile)
+        {
+            // Init the tower
+            let building = TrollBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            
+            // Keep track of it in a dictionary
+            all_buildings[building.entity_id] = building
+            goldCount -= building.buildingCost
+            
+            return building
+        }
+        else
+        {
+            debugPrint("Not a attacker tile!")
+            
+            return nil
+        }
+        
+    }
+
+
     // MARK: Network requests
     
     func send_request(request: String)
