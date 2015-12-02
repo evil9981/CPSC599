@@ -27,6 +27,7 @@
 		CE1C89DF1C0EDA0F00522C4F /* FlagDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89DE1C0EDA0F00522C4F /* FlagDown.swift */; };
 		CE1C89E41C0EDB1600522C4F /* FlagUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89E31C0EDB1600522C4F /* FlagUp.swift */; };
 		CE1C89EB1C0F4F9E00522C4F /* PowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */; };
+		CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89EC1C0F97D600522C4F /* Animation.swift */; };
 		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
@@ -116,6 +117,7 @@
 		CE1C89DE1C0EDA0F00522C4F /* FlagDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagDown.swift; sourceTree = "<group>"; };
 		CE1C89E31C0EDB1600522C4F /* FlagUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagUp.swift; sourceTree = "<group>"; };
 		CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerSource.swift; sourceTree = "<group>"; };
+		CE1C89EC1C0F97D600522C4F /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				CED265141BE930890022C033 /* Buildings */,
 				CED265131BE9307C0022C033 /* MazeUnits */,
 				CED265171BE932DD0022C033 /* GameEntity.swift */,
+				CE1C89EC1C0F97D600522C4F /* Animation.swift */,
 			);
 			name = Entities;
 			path = ..;
@@ -564,6 +567,7 @@
 				A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */,
 				CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */,
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
+				CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
 				929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */,

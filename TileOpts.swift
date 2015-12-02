@@ -13,5 +13,6 @@ public enum TileOpts
     case MoveUp
     case MoveDown
     case Goal
+    case Teleport
     case None
 }

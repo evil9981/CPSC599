@@ -15,6 +15,7 @@ public class Tile
     var position : int2
     var type : TileType
     var moveOpt: TileOpts
+    var teleportDestination: Tile?
     
     var towersInRange : Dictionary<Int, Tower> = Dictionary<Int, Tower>()
     

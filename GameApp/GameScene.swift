@@ -136,6 +136,15 @@ class GameScene: SKScene
             let tile = Tile.getTile(tiles, pos: pos)
             tile.building_on_tile = building!
         }
+        
+        // Add teleporters 
+        var tile = Tile.getTile(tiles, pos: int2(2,9))
+        tile.moveOpt = TileOpts.Teleport
+        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,20))
+        
+        tile = Tile.getTile(tiles, pos: int2(2,6))
+        tile.moveOpt = TileOpts.Teleport
+        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,23))
     }
     
     func spawn_pigs()
@@ -642,10 +651,14 @@ class GameScene: SKScene
             let touchedNode = self.nodeAtPoint(scenePoint)
             
             let pos_on_grid = coordinateForPoint(scenePoint)
+            let point = pointForCoordinate(pos_on_grid)
+            
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
             debugPrint("Position on grid: \(pos_on_grid)")
             debugPrint("Tile at position: \(tile)")
             debugPrint("Tile has power source: \(tile.towerInRange)")
+            
+            debugPrint("Scene Point: \(scenePoint) , new point: \(point)")
             
             prevLocation = touchPoint
             
@@ -1657,6 +1670,8 @@ class GameScene: SKScene
             // Fix the position to be on the grid
             let fixed_pos = pointForCoordinate(pos_on_grid)
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            debugPrint(tile.position)
+            
             if (tile is MazeTile)
             {
                 // Init the orc
