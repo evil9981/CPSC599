@@ -73,7 +73,6 @@ class TowerShootComponent: GKComponent
             let diff = abs(target_pos.x - current_pos.x)
             var horizontal_limit = true
             
-            debugPrint(diff)
             // Target is to the left of the tower
             if (diff <= 0)
             {
