@@ -39,14 +39,38 @@ class Tower: Building
         // First time we're visualizing a tower's attack tiles
         if (shapes.count == 0)
         {
+            // Crazy hack but it works...
+            // We have one too many columns showing in the tower range 
+            // Couldn't figure out why, just manually removed the extra column
+            
+            var min_x : Int32 = 100000
             for tile in mazeTiles
             {
                 let pos = tile.position
                 
+                if (pos.x < min_x)
+                {
+                    min_x = pos.x
+                }
+            }
+            
+            for (var i = 0; i < mazeTiles.count ; i++)
+            {
+                let tile = mazeTiles[i]
+                if (tile.position.x == min_x)
+                {
+                    mazeTiles.removeAtIndex(i)
+                    i--
+                }
+            }
+            
+            for tile in mazeTiles
+            {
+                let pos = tile.position
                 let shape = SKShapeNode(rectOfSize: CGSize(width: Tile.tileWidth , height: Tile.tileHeight ))
                 
-                shape.position = CGPointMake( ( CGFloat(pos.x) ) * Tile.tileWidth ,
-                    CGFloat( (CGFloat(scene.map_height) ) - CGFloat(pos.y) ) * Tile.tileHeight )
+                shape.position = CGPointMake( ( CGFloat(pos.x) - 0.5) * Tile.tileWidth ,
+                    CGFloat( (CGFloat(scene.map_height) ) - CGFloat(pos.y) - 0.5 ) * Tile.tileHeight )
                 
                 shape.fillColor = UIColor.redColor().colorWithAlphaComponent(0.2)
                 shape.strokeColor = UIColor.clearColor()

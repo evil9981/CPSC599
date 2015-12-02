@@ -49,7 +49,7 @@ public class Tile
 
     static var attacker_set : Set<Int> = [406] //[ 10, 120, 121, 122, 136, 138, 152, 153, 154, 169, 170, 185 ]
     static var defender_set : Set<Int> = [121,122,123,141,142,143,161,162,163] //[ 11, 12, 13, 27, 28, 29, 43, 44, 45, 78, 79, 94, 95, 111, 112, 127, 128]
-    static var road_set : Set<Int> = [] //[ 14, 15, 30, 31, 46, 47, 59, 60, 61, 62, 63, 75, 76, 77, 91, 92, 93 ]
+    static var road_set : Set<Int> = [22,23] //[ 14, 15, 30, 31, 46, 47, 59, 60, 61, 62, 63, 75, 76, 77, 91, 92, 93 ]
     static var goal_set : Set<Int> = [310] //[148, 149, 150, 164, 165, 166, 180, 181, 182]
     
     static func init_tile_sets()

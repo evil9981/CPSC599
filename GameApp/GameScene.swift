@@ -10,7 +10,7 @@ import SpriteKit
 import Alamofire
 import SwiftyJSON
 
-var lifeCount : Int = 3
+var lifeCount : Int = 300
 var goldCount : Int = 500
 var gameOver : Bool = false
 
@@ -546,7 +546,8 @@ class GameScene: SKScene
             let touchedNode = self.nodeAtPoint(scenePoint)
             
             let pos_on_grid = coordinateForPoint(scenePoint)
-            debugPrint("Position on grid: \(pos_on_grid)")
+            debugPrint("Position on grid: \(pos_on_grid) and value was \( tileNums![Int(pos_on_grid.y)][Int(pos_on_grid.x)] )")
+            debugPrint("Tile at position: \(Tile.getTile(tiles, pos: pos_on_grid))")
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
             
             prevLocation = touchPoint
@@ -991,16 +992,33 @@ class GameScene: SKScene
     
     func coordinateForPointFromTemp(point: CGPoint) -> int2
     {
+        //let x = Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth)
+        //let y = Int32(map_height - 1) - Int32( (point.y  + (Tile.tileHeight/2)) / Tile.tileHeight)
+        //let y = Int32( (point.y  + (Tile.tileHeight/2)) / Tile.tileHeight)
+        
+        //return int2( x , y )
+        
         return int2(Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth), Int32((point.y  + (Tile.tileHeight/2)) / Tile.tileHeight))
     }
     
     func coordinateForPoint(point: CGPoint) -> int2
     {
+        //let x = Int32( point.x / Tile.tileWidth)
+        //let y = Int32(map_height - 1) - Int32( point.y / Tile.tileHeight)
+        //let y = Int32( point.y / Tile.tileHeight)
+        
+        //return int2( x , y )
         return int2(Int32( point.x / Tile.tileWidth), Int32(point.y / Tile.tileHeight))
     }
     
     func pointForCoordinate(point: int2) -> CGPoint
     {
+        //let x = CGFloat(point.x) * Tile.tileWidth
+        //let y = CGFloat(map_height - 1 - Int(point.y) ) * Tile.tileHeight
+        //let y = CGFloat(Int(point.y) ) * Tile.tileHeight
+        
+        //return CGPointMake( x , y )
+        
         return CGPointMake(CGFloat(point.x) * Tile.tileWidth, CGFloat(point.y) * Tile.tileHeight)
     }
     
@@ -1062,8 +1080,6 @@ class GameScene: SKScene
                 {
                     for column in 0...(map_width-1)
                     {
-                        // Remember that the type num in tileNums is actually by 1 bigger then the actual type! 
-                        // (since 0 = nil)
                         let current_num : Int = tileNums[row][column]
                         let pos = int2(Int32(column), Int32(row))
                         

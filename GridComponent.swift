@@ -54,8 +54,8 @@ class GridComponent: GKComponent
             let row_index : Int = Int(range.x)
             let column_index: Int = Int(range.y)
             
-            let start_column_index = max(0, current_pos.x - column_index + 1)
-            let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x)
+            let start_column_index = max(0, current_pos.x - column_index + size.x - 2 )
+            let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x )
             
             let start_row_index = max (0, current_pos.y - row_index)
             let end_row_index = min( Int32(tiles.count - 1), current_pos.y + row_index + size.y - 1)
@@ -65,8 +65,10 @@ class GridComponent: GKComponent
             {
                 for column in start_column_index ... end_column_index
                 {
-                    let tile = tiles[tiles.count - 1 - Int(row)][Int(column)]
-
+                    let pos = int2(Int32(column), Int32(row))
+                    let tile = Tile.getTile(tiles, pos: pos)
+                    debugPrint(tile.position)
+                    
                     tile.add_tower(tower)
                     tower.mazeTiles.append(tile)
                     
