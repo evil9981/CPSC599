@@ -102,7 +102,7 @@ public class MovementComponent: GKComponent
             current_mov_option = TileOpts.MoveDown
             break
         case .Goal:
-            lifeCount = lifeCount - 1
+            unit.scene.take_one_life()
             break
         case .Teleport:
             teleport_to_tile()
