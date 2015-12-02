@@ -57,7 +57,7 @@ class Unit: GameEntity
         self.hp -= ammo.damage
         
         if (self.hp <= 0)
-        {
+        {            
             self.destroy()
         }
     }
