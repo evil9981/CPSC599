@@ -134,15 +134,6 @@ class GameScene: SKScene
             let tile = Tile.getTile(tiles, pos: pos)
             tile.building_on_tile = building!
         }
-        
-        // Add teleporters 
-        var tile = Tile.getTile(tiles, pos: int2(2,9))
-        tile.moveOpt = TileOpts.Teleport
-        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,20))
-        
-        tile = Tile.getTile(tiles, pos: int2(2,6))
-        tile.moveOpt = TileOpts.Teleport
-        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,23))
     }
     
     func spawn_pigs()
@@ -378,13 +369,15 @@ class GameScene: SKScene
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
         
-        
+<<<<<<< HEAD
         // Create Orc Image
         let orcImage = SKTexture(imageNamed: "orc_down_1")
         createNode(orcImage, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "orc_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
         
         
+=======
+>>>>>>> a5c8da63dfa200a10a498d583390dd463fc719b5
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -626,14 +619,10 @@ class GameScene: SKScene
             let touchedNode = self.nodeAtPoint(scenePoint)
             
             let pos_on_grid = coordinateForPoint(scenePoint)
-            let point = pointForCoordinate(pos_on_grid)
-            
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
             debugPrint("Position on grid: \(pos_on_grid)")
             debugPrint("Tile at position: \(tile)")
             debugPrint("Tile has power source: \(tile.towerInRange)")
-            
-            debugPrint("Scene Point: \(scenePoint) , new point: \(point)")
             
             prevLocation = touchPoint
             
@@ -1645,8 +1634,6 @@ class GameScene: SKScene
             // Fix the position to be on the grid
             let fixed_pos = pointForCoordinate(pos_on_grid)
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
-            debugPrint(tile.position)
-            
             if (tile is MazeTile)
             {
                 // Init the orc

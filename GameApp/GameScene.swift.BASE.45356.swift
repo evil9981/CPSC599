@@ -134,15 +134,6 @@ class GameScene: SKScene
             let tile = Tile.getTile(tiles, pos: pos)
             tile.building_on_tile = building!
         }
-        
-        // Add teleporters 
-        var tile = Tile.getTile(tiles, pos: int2(2,9))
-        tile.moveOpt = TileOpts.Teleport
-        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,20))
-        
-        tile = Tile.getTile(tiles, pos: int2(2,6))
-        tile.moveOpt = TileOpts.Teleport
-        tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,23))
     }
     
     func spawn_pigs()
@@ -198,7 +189,7 @@ class GameScene: SKScene
         livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
-        livesLabel.position = CGPointMake(4050, 1235)
+        livesLabel.position = CGPointMake(4100, 1235)
         livesLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesLabel)
         
@@ -222,7 +213,7 @@ class GameScene: SKScene
         // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
-        livesImage.position = CGPointMake(3725, 1300)
+        livesImage.position = CGPointMake(3850, 1300)
         livesImage.xScale = 8
         livesImage.yScale = 8
         livesImage.zPosition = ZPosition.GUI.rawValue
@@ -247,9 +238,6 @@ class GameScene: SKScene
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
 
-        
-        
-        
         // Add regularTower Buy button
         let regularTower = SKSpriteNode(texture: SKTexture(imageNamed: "RegularTower"), size: CGSize(width: 400 ,height: 400))
         var x_buy_button = camera_viewport_width + regularTower.frame.width - 275
@@ -268,13 +256,10 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create damage label
+        // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        
-        
         
         // Add fireTower buy button
         let fireTower = SKSpriteNode(texture: SKTexture(imageNamed: "FireTower"), size: CGSize(width: 400 ,height: 400))
@@ -294,13 +279,11 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create damage label
+        // Create cost label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
-        
-        
         
         // Add iceTower buy button
         let iceTower = SKSpriteNode(texture: SKTexture(imageNamed: "IceTower"), size: CGSize(width: 400 ,height: 400))
@@ -320,16 +303,14 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create damage label
+        // Create cost label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
-        
-        
         // Add defenderPowerSource buy button
-        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 365 ,height: 400))
+        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 265 ,height: 300))
         x_buy_button = camera_viewport_width + regularTower.frame.width - 275
         y_buy_button = camera_viewport_height - regularTower.frame.height - 1500
         
@@ -377,14 +358,6 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
-        
-        
-        // Create Orc Image
-        let orcImage = SKTexture(imageNamed: "orc_down_1")
-        createNode(orcImage, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "orc_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        
-        
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -400,13 +373,6 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        // Create Orc Image
-        let goblinImage = SKTexture(imageNamed: "goblin_down_1")
-        createNode(goblinImage, scaleX: 7, scaleY: 7, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "goblin_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        
-        
         
         // Add trollBuilding buy button
         let trollBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Troll_Building"), size: CGSize(width: 400 ,height: 400))
@@ -424,14 +390,8 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
-        
-        // Create Orc Image
-        let trollImage = SKTexture(imageNamed: "troll_down_1")
-        createNode(trollImage, scaleX: 7, scaleY: 7, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "troll_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        
         // Add attackerPowerSource buy button
-        let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 365 ,height: 400))
+        let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 265 ,height: 300))
         x_buy_button = -920 + orcBuilding.frame.width - 200
         y_buy_button = camera_viewport_height - orcBuilding.frame.height - 1500
         
@@ -445,9 +405,6 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: DefenderPowerSource.buildingCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        
-        
         
         sidePanel_attack.addChild(orcBuilding)
         sidePanel_attack.addChild(goblinBuilding)
@@ -464,7 +421,6 @@ class GameScene: SKScene
         let frame = CGRect(x: 0, y: 0, width: buy_panel_width, height: tower_menu_height)
         towerMenu = SKShapeNode(rect: frame)
         towerMenu.zPosition = ZPosition.Overlay.rawValue
-        towerMenu.name = "TowerMenu"
         
         let x = camera_viewport_width/2
         let y = -camera_viewport_height - tower_menu_height
@@ -626,14 +582,10 @@ class GameScene: SKScene
             let touchedNode = self.nodeAtPoint(scenePoint)
             
             let pos_on_grid = coordinateForPoint(scenePoint)
-            let point = pointForCoordinate(pos_on_grid)
-            
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
             debugPrint("Position on grid: \(pos_on_grid)")
             debugPrint("Tile at position: \(tile)")
             debugPrint("Tile has power source: \(tile.towerInRange)")
-            
-            debugPrint("Scene Point: \(scenePoint) , new point: \(point)")
             
             prevLocation = touchPoint
             
@@ -1180,17 +1132,10 @@ class GameScene: SKScene
             spawn_orc.xScale = 7
             spawn_orc.yScale = 7
             spawn_orc.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_orc.frame.height + 80)
+            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_orc.frame.height + 80)
             spawn_orc.name = "spawn_orc"
             
             towerMenu.addChild(spawn_orc)
-            
-            // Create gold image
-            coinImageTexture = SKTexture(imageNamed: "CoinImage")
-            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_orc.frame.height + 90, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
-            
-            // Create cost label
-            createLableNode("Arial-BoldMT", labelText: Orc.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_orc.frame.height + 65, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1209,17 +1154,10 @@ class GameScene: SKScene
             spawn_goblin.xScale = 10
             spawn_goblin.yScale = 10
             spawn_goblin.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_goblin.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_goblin.frame.height + 75)
+            spawn_goblin.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_goblin.frame.height + 75)
             spawn_goblin.name = "spawn_goblin"
             
             towerMenu.addChild(spawn_goblin)
-            
-            // Create gold image
-            coinImageTexture = SKTexture(imageNamed: "CoinImage")
-            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_goblin.frame.height + 75, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
-            
-            // Create cost label
-            createLableNode("Arial-BoldMT", labelText: Goblin.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_goblin.frame.height + 50, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1238,17 +1176,10 @@ class GameScene: SKScene
             spawn_troll.xScale = 10
             spawn_troll.yScale = 10
             spawn_troll.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_troll.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_troll.frame.height + 75)
+            spawn_troll.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_troll.frame.height + 75)
             spawn_troll.name = "spawn_troll"
             
             towerMenu.addChild(spawn_troll)
-            
-            // Create gold image
-            coinImageTexture = SKTexture(imageNamed: "CoinImage")
-            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_troll.frame.height + 75, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
-            
-            // Create cost label
-            createLableNode("Arial-BoldMT", labelText: Troll.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_troll.frame.height + 50, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1576,10 +1507,6 @@ class GameScene: SKScene
         {
             sidePanel_attack.addChild(uiNode)
         }
-        if (childOf == "TowerMenu")
-        {
-            towerMenu.addChild(uiNode)
-        }
         
     }
     
@@ -1626,10 +1553,6 @@ class GameScene: SKScene
         {
             sidePanel_attack.addChild(uiLabelNode)
         }
-        if (childOf == "TowerMenu")
-        {
-            towerMenu.addChild(uiLabelNode)
-        }
         
     }
     
@@ -1645,8 +1568,6 @@ class GameScene: SKScene
             // Fix the position to be on the grid
             let fixed_pos = pointForCoordinate(pos_on_grid)
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
-            debugPrint(tile.position)
-            
             if (tile is MazeTile)
             {
                 // Init the orc
