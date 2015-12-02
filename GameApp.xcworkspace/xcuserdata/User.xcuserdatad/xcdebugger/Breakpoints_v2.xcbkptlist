@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "470726360.454063"
+            timestampString = "470739899.175583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "818"
-            endingLineNumber = "818"
-            landmarkName = "place_temp_building(_:)"
+            startingLineNumber = "603"
+            endingLineNumber = "603"
+            landmarkName = "touchesBegan(_:withEvent:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "470726347.122424"
+            timestampString = "470739899.175583"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "712"
-            endingLineNumber = "712"
-            landmarkName = "touchesBegan(_:withEvent:)"
+            startingLineNumber = "1104"
+            endingLineNumber = "1104"
+            landmarkName = "add_spawner_buttons()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

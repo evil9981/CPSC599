@@ -23,7 +23,7 @@ class VisualComponent: GKComponent
         self.size = size
         
         self.node = SKSpriteNode(texture: texture)
-        node.zPosition = GameScene.ZPosition.MazeUnit.rawValue + CGFloat(parent_entity.entity_id / 100000)
+        node.zPosition = GameScene.ZPosition.MazeUnit.rawValue + CGFloat(parent_entity.entity_id / 1000)
         node.size = CGSize(width: size.x*Tile.tileWidth, height: size.y*Tile.tileHeight)
         node.anchorPoint = CGPointMake(0.0 , 0.0)
         if (parent_entity is Building)

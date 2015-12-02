@@ -203,6 +203,9 @@ class GameScene: SKScene
         init_buttons()
         init_buy_panel()
         init_buy_panel_attack()
+        
+        // Building and tower menus
+        init_tower_menu()
     }
     
     let buy_panel_width : CGFloat = 600 // This is how wide the buy panel is
@@ -337,8 +340,6 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
-    
-        
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -355,9 +356,6 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
-
-        
-        
         // Add trollBuilding buy button
         let trollBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Troll_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -373,8 +371,6 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
-        
-        
         
         // Add attackerPowerSource buy button
         let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 265 ,height: 300))
@@ -397,7 +393,6 @@ class GameScene: SKScene
         sidePanel_attack.addChild(trollBuilding)
         sidePanel_attack.addChild(attackerPowerSource)
         
-        
         sceneCamera.addChild(sidePanel_attack) // Add child to the camera
     }
 
@@ -405,29 +400,20 @@ class GameScene: SKScene
     let tower_menu_height : CGFloat = 600  // how high the menu is
     func init_tower_menu()
     {
-        let frame = CGRect(x: camera_viewport_width/2, y: camera_viewport_height/2, width: buy_panel_width, height: tower_menu_height) // Use the camera_viewport that is calculated at the start to determine how big the frame is
-        towerMenu = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+        let frame = CGRect(x: 0, y: 0, width: buy_panel_width, height: tower_menu_height)
+        towerMenu = SKShapeNode(rect: frame)
         towerMenu.zPosition = ZPosition.Overlay.rawValue
         
-        towerMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
-        towerMenu.strokeColor = UIColor.blackColor() // This is the border color
+        let x = camera_viewport_width/2
+        let y = -camera_viewport_height - tower_menu_height
+        towerMenu.position = CGPointMake(x, y)
+        
+        // Colors
+        towerMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        towerMenu.strokeColor = UIColor.blackColor()
 
-        
+        // Add to camera
         sceneCamera.addChild(towerMenu)
-    }
-    
-    // initialize building menu
-    func init_building_menu()
-    {
-        let frame = CGRect(x: camera_viewport_width/2, y: camera_viewport_height/2, width: buy_panel_width, height: tower_menu_height) // Use the camera_viewport that is calculated at the start to determine how big the frame is
-        buildingMenu = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
-        buildingMenu.zPosition = ZPosition.Overlay.rawValue
-        
-        buildingMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
-        buildingMenu.strokeColor = UIColor.blackColor() // This is the border color
-        
-        
-        sceneCamera.addChild(buildingMenu)
     }
     
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
@@ -594,18 +580,62 @@ class GameScene: SKScene
             {
                 entity_clicked = true
                 
-                if ( building is Tower)
-                {
-                    
-                    (building as! Tower).visualizeMazeTiles()
-                }
+                buildingMenuPushed( building! )
             }
             else if let name = touchedNode.name
             {
                 gui_element_clicked = true
                 let make_point = CGPointMake(sceneCamera.position.x + camera_viewport_width/4, sceneCamera.position.y)
                 
-                if name == "ok_building"
+                if name == "show_range_tower"
+                {
+                    let tower = building_selected as! Tower
+                    tower.visualizeMazeTiles()
+                }
+                else if name == "spawn_orc"
+                {
+                    let spawner = building_selected as! Spawner
+                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point )
+                    spawnOrc(scene_spawn_point)
+                }
+                else if name == "change_spawn_point"
+                {
+                    changeButtonPushed()
+                }
+                else if name.containsString("BlueShape_")
+                {
+                    let spawner = building_selected as! Spawner
+                    spawner.selected_spawn_point = coordinateForPoint( touchedNode.position )
+                    
+                    // Clean up the flags
+                    // Clean up the flags
+                    for flag in flag_points
+                    {
+                        flag.destroy()
+                    }
+                    flag_points.removeAll()
+                    
+                    // Clean up the blue shapes
+                    scene!.removeChildrenInArray(blue_positions)
+                    blue_positions.removeAll()
+                    
+                    // Spawn new flags
+                    for spawn_pos in Spawner.spawn_points
+                    {
+                        let scene_pos = pointForCoordinate(spawn_pos)
+                        
+                        if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+                        {
+                            spawnFlagUp(scene_pos)
+                        }
+                        else
+                        {
+                            spawnFlagDown(scene_pos)
+                        }
+                    }
+                    
+                }
+                else if name == "ok_building"
                 {
                     if (can_build)
                     {
@@ -971,47 +1001,205 @@ class GameScene: SKScene
         }
     }
     
-    var tower_menu_open = false
-    func towerMenuPushed()
+    // MARK: Building Menu
+    let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0)
+    let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0)
+    
+    func close_building_menu(building: Building)
     {
-        if (!tower_menu_open)
+        towerMenu.runAction(slideDown)
+        building_menu_open = false
+        building_selected = nil
+        
+        // Clean up
+        towerMenu.removeAllChildren()
+        
+        // Clean up the flags
+        for flag in flag_points
         {
-            let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0) // Define the action to slide it 600 units up
-            
-            towerMenu.runAction(slideUp)
-            
-            tower_menu_open = true
+            flag.destroy()
+        }
+        flag_points.removeAll()
+        
+        // Clean up the blue shapes
+        scene!.removeChildrenInArray(blue_positions)
+        blue_positions.removeAll()
+    }
+    
+    func open_building_menu(building: Building)
+    {
+        towerMenu.runAction(slideUp)
+        building_menu_open = true
+        
+        if (building is Tower)
+        {
+            add_tower_buttons()
+        }
+        else if (building is Spawner)
+        {
+            add_spawner_buttons()
         }
         else
         {
-            let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0) // Define the action to slide it 600 units down
-            
-            towerMenu.runAction(slideDown)
-            
-            tower_menu_open = false
+            add_power_source_buttons()
         }
     }
     
     var building_menu_open = false
-    func bulidingMenuPushed()
+    var building_selected : Building?
+    func buildingMenuPushed(building: Building)
     {
-        if (!building_menu_open)
+        if (building_selected != nil)
         {
-            let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0) // Define the action to slide it 600 units up
-            
-            buildingMenu.runAction(slideUp)
-            
-            building_menu_open = true
+            if (building_selected!.entity_id != building.entity_id)
+            {
+                close_building_menu(building_selected!)
+            }
+        }
+        building_selected = building
+        
+        
+        if (building_menu_open)
+        {
+           close_building_menu(building)
         }
         else
         {
-            let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0) // Define the action to slide it 600 units down
-            
-            buildingMenu.runAction(slideDown)
-            
-            building_menu_open = false
+            open_building_menu(building)
         }
     }
+    
+    func add_tower_buttons()
+    {
+        let show_range = SKSpriteNode(imageNamed: "BuildingShowRange")
+        show_range.xScale = 5
+        show_range.yScale = 5
+        show_range.zPosition = ZPosition.OverlayButton.rawValue
+        show_range.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - show_range.frame.height - 10)
+        show_range.name = "show_range_tower"
+        
+        towerMenu.addChild(show_range)
+    }
+    
+    func add_spawner_buttons()
+    {
+        let spawner = building_selected as! Spawner
+        if (building_selected is OrcBuilding)
+        {
+            let spawn_orc = SKSpriteNode(imageNamed: "BuildingSpawnOrc")
+            spawn_orc.xScale = 5
+            spawn_orc.yScale = 5
+            spawn_orc.zPosition = ZPosition.OverlayButton.rawValue
+            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_orc.frame.height - 10)
+            spawn_orc.name = "spawn_orc"
+            
+            towerMenu.addChild(spawn_orc)
+            
+            let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
+            choose_spawn_point.xScale = 5
+            choose_spawn_point.yScale = 5
+            choose_spawn_point.zPosition = ZPosition.OverlayButton.rawValue
+            choose_spawn_point.position  = CGPointMake(towerMenu.frame.width / 2,
+                tower_menu_height - spawn_orc.frame.height - 20 - choose_spawn_point.frame.height)
+            choose_spawn_point.name = "change_spawn_point"
+            
+            towerMenu.addChild(choose_spawn_point)
+        }
+        
+        for spawn_pos in Spawner.spawn_points
+        {
+            let scene_pos = pointForCoordinate(spawn_pos)
+            
+            if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+            {
+                spawnFlagUp(scene_pos)
+            }
+            else
+            {
+                spawnFlagDown(scene_pos)
+            }
+        }
+    }
+    
+    var flag_points: [Building] = []
+    func spawnFlagUp (point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        
+        // Init the tower
+        let building = FlagUp(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+        
+        // Keep track of it
+        flag_points.append( building )
+    }
+    
+    func spawnFlagDown (point: CGPoint)
+    {
+        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+        let pos_on_grid = coordinateForPointFromTemp(point)
+        
+        // Fix the position to be on the grid
+        let fixed_pos = pointForCoordinate(pos_on_grid)
+        
+        // Init the tower
+        let building = FlagDown(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+        
+        // Keep track of it
+        flag_points.append( building )
+    }
+
+    
+    func changeButtonPushed()
+    {
+        let spawner = building_selected as! Spawner
+        
+        for spawn_pos in Spawner.spawn_points
+        {
+            let scene_pos = pointForCoordinate(spawn_pos)
+            
+            if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+            {
+                spawnFlagUp(scene_pos)
+            }
+            else
+            {
+                spawn_blue_position(scene_pos)
+            }
+        }
+    }
+    
+    var blue_positions : [SKShapeNode] = []
+    func spawn_blue_position(point: CGPoint)
+    {
+        let shape = SKShapeNode(rect: CGRect(origin: CGPointMake(0,0), size: CGSize(width: Tile.tileWidth, height: Tile.tileHeight)))
+        
+        shape.position = point
+        shape.fillColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
+        shape.strokeColor = UIColor.clearColor()
+        
+        shape.zPosition = ZPosition.Overlay.rawValue
+        shape.name = "BlueShape_\(blue_positions.count)"
+        blue_positions.append(shape)
+        scene?.addChild(shape)
+    }
+
+    
+    func add_power_source_buttons()
+    {
+        let show_range = SKSpriteNode(imageNamed: "BuildingShowRange")
+        show_range.xScale = 5
+        show_range.yScale = 5
+        show_range.zPosition = ZPosition.OverlayButton.rawValue
+        show_range.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - show_range.frame.height - 10)
+        show_range.name = "show_range_power_source"
+        
+        towerMenu.addChild(show_range)
+    }
+    
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
@@ -1298,23 +1486,28 @@ class GameScene: SKScene
     
     func spawnOrc(point: CGPoint)
     {
-        // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
-        let pos_on_grid = coordinateForPoint(point)
-        
-        // Fix the position to be on the grid
-        let fixed_pos = pointForCoordinate(pos_on_grid)
-        let tile = Tile.getTile(tiles, pos: pos_on_grid)
-        if (tile is MazeTile)
+        if (goldCount >= Orc.cost)
         {
-            // Init the orc
-            let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+            // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+            let pos_on_grid = coordinateForPoint(point)
             
-            // Keep track of it in a dictionary
-            all_units[orc.entity_id] = orc
-        }
-        else
-        {
-            debugPrint("Not a maze tile!")
+            // Fix the position to be on the grid
+            let fixed_pos = pointForCoordinate(pos_on_grid)
+            let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            if (tile is MazeTile)
+            {
+                // Init the orc
+                let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+                
+                // Keep track of it in a dictionary
+                all_units[orc.entity_id] = orc
+                
+                goldCount -= Orc.cost
+            }
+            else
+            {
+                debugPrint("Not a maze tile!")
+            }
         }
     }
     
@@ -1383,7 +1576,6 @@ class GameScene: SKScene
             debugPrint("Not a maze tile!")
         }
     }
-    
     
     func spawnDefenderPowerSource (point: CGPoint) -> Building?
     {
