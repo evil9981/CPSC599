@@ -598,6 +598,18 @@ class GameScene: SKScene
                     let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point )
                     spawnOrc(scene_spawn_point)
                 }
+                else if name == "spawn_troll"
+                {
+                    let spawner = building_selected as! Spawner
+                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
+                    spawnTroll(scene_spawn_point)
+                }
+                else if name == "spawn_goblin"
+                {
+                    let spawner = building_selected as! Spawner
+                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
+                    spawnGoblin(scene_spawn_point)
+                }
                 else if name == "change_spawn_point"
                 {
                     changeButtonPushed()
@@ -1086,11 +1098,11 @@ class GameScene: SKScene
         let spawner = building_selected as! Spawner
         if (building_selected is OrcBuilding)
         {
-            let spawn_orc = SKSpriteNode(imageNamed: "BuildingSpawnOrc")
-            spawn_orc.xScale = 5
-            spawn_orc.yScale = 5
+            let spawn_orc = SKSpriteNode(imageNamed: "orc_down_1")
+            spawn_orc.xScale = 7
+            spawn_orc.yScale = 7
             spawn_orc.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_orc.frame.height - 10)
+            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_orc.frame.height + 80)
             spawn_orc.name = "spawn_orc"
             
             towerMenu.addChild(spawn_orc)
@@ -1100,12 +1112,56 @@ class GameScene: SKScene
             choose_spawn_point.yScale = 5
             choose_spawn_point.zPosition = ZPosition.OverlayButton.rawValue
             choose_spawn_point.position  = CGPointMake(towerMenu.frame.width / 2,
-                tower_menu_height - spawn_orc.frame.height - 20 - choose_spawn_point.frame.height)
+                tower_menu_height - spawn_orc.frame.height - 5 - choose_spawn_point.frame.height)
             choose_spawn_point.name = "change_spawn_point"
             
             towerMenu.addChild(choose_spawn_point)
         }
         
+        else if(building_selected is GoblinBuilding)
+        {
+            let spawn_goblin = SKSpriteNode(imageNamed: "goblin_down_1")
+            spawn_goblin.xScale = 10
+            spawn_goblin.yScale = 10
+            spawn_goblin.zPosition = ZPosition.OverlayButton.rawValue
+            spawn_goblin.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_goblin.frame.height + 75)
+            spawn_goblin.name = "spawn_goblin"
+            
+            towerMenu.addChild(spawn_goblin)
+            
+            let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
+            choose_spawn_point.xScale = 5
+            choose_spawn_point.yScale = 5
+            choose_spawn_point.zPosition = ZPosition.OverlayButton.rawValue
+            choose_spawn_point.position  = CGPointMake(towerMenu.frame.width / 2,
+                tower_menu_height - spawn_goblin.frame.height - 20 - choose_spawn_point.frame.height)
+            choose_spawn_point.name = "change_spawn_point"
+            
+            towerMenu.addChild(choose_spawn_point)
+        }
+        
+        if (building_selected is TrollBuilding)
+        {
+            let spawn_troll = SKSpriteNode(imageNamed: "troll_down_1")
+            spawn_troll.xScale = 10
+            spawn_troll.yScale = 10
+            spawn_troll.zPosition = ZPosition.OverlayButton.rawValue
+            spawn_troll.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_troll.frame.height + 75)
+            spawn_troll.name = "spawn_troll"
+            
+            towerMenu.addChild(spawn_troll)
+            
+            let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
+            choose_spawn_point.xScale = 5
+            choose_spawn_point.yScale = 5
+            choose_spawn_point.zPosition = ZPosition.OverlayButton.rawValue
+            choose_spawn_point.position  = CGPointMake(towerMenu.frame.width / 2,
+                tower_menu_height - spawn_troll.frame.height - 20 - choose_spawn_point.frame.height)
+            choose_spawn_point.name = "change_spawn_point"
+            
+            towerMenu.addChild(choose_spawn_point)
+        }
+
         
         for spawn_pos in Spawner.spawn_points
         {
@@ -1525,7 +1581,7 @@ class GameScene: SKScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.2)
+                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.7)
                 
                 // Keep track of it in a dictionary
                 all_units[goblin.entity_id] = goblin
@@ -1552,7 +1608,7 @@ class GameScene: SKScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.8)
+                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.4)
                 
                 // Keep track of it in a dictionary
                 all_units[troll.entity_id] = troll
