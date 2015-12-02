@@ -34,10 +34,4 @@ class Orc: Unit
         
         self.hp = 50
     }
-    
-    override func gotHit(ammo: Ammo) {
-        if(self.hp <= 0){
-            
-        }
-    }
 }

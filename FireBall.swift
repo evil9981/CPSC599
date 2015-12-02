@@ -51,6 +51,52 @@ class FireBall : Ammo
         })
     }
     
+    static let FireBallTexture = [
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-0"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-1"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-2"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-3"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-4"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-5"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-6"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-7"),
+        
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-0"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-1"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-2"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-3"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-4"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-5"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-6"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-1-7"),
+        
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-0"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-1"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-2"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-3"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-4"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-5"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-6"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-2-7"),
+        
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-0"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-1"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-2"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-3"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-4"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-5"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-6"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-3-7"),
+        
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-0"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-1"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-2"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-3"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-4"),
+        SKTexture(imageNamed: "fireball [www.imagesplitter.net]-4-5")
+    ]
+
+    
     func get_position_to_shoot(unit: Unit) -> CGPoint
     {
         let pos = unit.visualComp.node.position

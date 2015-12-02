@@ -53,15 +53,7 @@ class Unit: GameEntity
             movementComp.is_moving = true
         }
     }
-    static let FireBallTexture = [  SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-0"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-1"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-2"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-3"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-4"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-5"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-6"),
-                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-7")
-                                ]
+    
     func gotHit(ammo: Ammo)
     {
         debugPrint("Unit hit for \(ammo.damage)")
@@ -69,8 +61,15 @@ class Unit: GameEntity
         
         if (ammo is FireBall)
         {
+            let size = CGSize(width: 2.0 * Tile.tileWidth ,height: 2.0 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: FireBall.FireBallTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
+            animation.run()
+        }
+        
+        if (ammo is IceBolt)
+        {
             let size = CGSize(width: 320,height: 320)
-            let animation = Animation(scene: scene, textures: Unit.FireBallTexture, speed: 1.0, visSize: size , worldPos: self.visualComp.node.position)
+            let animation = Animation(scene: scene, textures: FireBall.FireBallTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
             animation.run()
         }
         
