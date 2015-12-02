@@ -77,19 +77,19 @@ class Unit: GameEntity
         {
             if (self is Orc){
                 let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-                let animation = Animation(scene: scene, textures: Orc.orcDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position)
+                let animation = Animation(scene: scene, textures: Orc.orcDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }
             
             else if (self is Troll){
                 let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-                let animation = Animation(scene: scene, textures: Troll.trollDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position)
+                let animation = Animation(scene: scene, textures: Troll.trollDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }
             
             else if (self is Goblin){
                 let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-                let animation = Animation(scene: scene, textures: Goblin.goblinDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position)
+                let animation = Animation(scene: scene, textures: Goblin.goblinDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }
             
