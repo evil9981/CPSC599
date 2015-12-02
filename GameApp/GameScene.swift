@@ -623,7 +623,7 @@ class GameScene: SKScene
                 }
                 else if name == "change_spawn_point"
                 {
-                    changeButtonPushed()
+                    changeSpawnButtonPushed()
                 }
                 else if name.containsString("BlueShape_")
                 {
@@ -1184,21 +1184,25 @@ class GameScene: SKScene
     }
 
     
-    func changeButtonPushed()
+    func changeSpawnButtonPushed()
     {
         let spawner = building_selected as! Spawner
         
         for spawn_pos in Spawner.spawn_points
         {
             let scene_pos = pointForCoordinate(spawn_pos)
+            let tile = Tile.getTile(tiles, pos: spawn_pos)
             
-            if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+            if (tile.powerSourceInRange)
             {
-                spawnFlagUp(scene_pos)
-            }
-            else
-            {
-                spawn_blue_position(scene_pos)
+                if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+                {
+                    spawnFlagUp(scene_pos)
+                }
+                else
+                {
+                    spawn_blue_position(scene_pos)
+                }
             }
         }
     }
