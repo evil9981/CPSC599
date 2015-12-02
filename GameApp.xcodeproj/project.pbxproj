@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3BA7BF2F220FCFA5A714ED7A /* Pods_GameApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */; };
+		929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */; };
+		929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64951C0E7BE2002D7E41 /* Spawner.swift */; };
+		929B64981C0E7C80002D7E41 /* AttackerPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */; };
+		929B649A1C0E7CE7002D7E41 /* GoblinBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */; };
+		929B649C1C0E7D16002D7E41 /* TrollBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */; };
 		A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0761C0BB28100791979 /* DefenderPowerSource.swift */; };
 		A378E0791C0CE5C300791979 /* RegularTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0781C0CE5C300791979 /* RegularTower.swift */; };
 		A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07A1C0CEDAB00791979 /* FireTower.swift */; };
@@ -87,6 +92,11 @@
 		48476AA86ED0656B97F1DE63 /* Pods-GameApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.debug.xcconfig"; sourceTree = "<group>"; };
 		56A704EA20C919B5C0A9879B /* Pods-GameApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.release.xcconfig"; sourceTree = "<group>"; };
 		8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrcBuilding.swift; sourceTree = "<group>"; };
+		929B64951C0E7BE2002D7E41 /* Spawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spawner.swift; sourceTree = "<group>"; };
+		929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackerPowerSource.swift; sourceTree = "<group>"; };
+		929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoblinBuilding.swift; sourceTree = "<group>"; };
+		929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrollBuilding.swift; sourceTree = "<group>"; };
 		A378E0761C0BB28100791979 /* DefenderPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderPowerSource.swift; sourceTree = "<group>"; };
 		A378E0781C0CE5C300791979 /* RegularTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularTower.swift; sourceTree = "<group>"; };
 		A378E07A1C0CEDAB00791979 /* FireTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireTower.swift; sourceTree = "<group>"; };
@@ -171,6 +181,16 @@
 				56A704EA20C919B5C0A9879B /* Pods-GameApp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		929B648F1C0E7B27002D7E41 /* Spawners */ = {
+			isa = PBXGroup;
+			children = (
+				929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */,
+				929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */,
+				929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */,
+			);
+			name = Spawners;
 			sourceTree = "<group>";
 		};
 		CE5516A21C0D494E008F04A9 /* Towers */ = {
@@ -309,10 +329,13 @@
 		CED265141BE930890022C033 /* Buildings */ = {
 			isa = PBXGroup;
 			children = (
+				929B648F1C0E7B27002D7E41 /* Spawners */,
 				CE5516A21C0D494E008F04A9 /* Towers */,
 				CED265111BE92B880022C033 /* Building.swift */,
 				CED2651B1BE93A990022C033 /* Tower.swift */,
 				A378E0761C0BB28100791979 /* DefenderPowerSource.swift */,
+				929B64951C0E7BE2002D7E41 /* Spawner.swift */,
+				929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */,
 			);
 			name = Buildings;
 			sourceTree = "<group>";
@@ -520,16 +543,20 @@
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
+				929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
 				CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */,
 				CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */,
 				CED265061BE773930022C033 /* TileType.swift in Sources */,
 				CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */,
+				929B649A1C0E7CE7002D7E41 /* GoblinBuilding.swift in Sources */,
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,
 				A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */,
 				CED265041BE772C30022C033 /* NonUsableTile.swift in Sources */,
+				929B649C1C0E7D16002D7E41 /* TrollBuilding.swift in Sources */,
 				CE0F00D41C0E23AE003EA598 /* CannonBall.swift in Sources */,
+				929B64981C0E7C80002D7E41 /* AttackerPowerSource.swift in Sources */,
 				CED265021BE772AA0022C033 /* MazeTile.swift in Sources */,
 				CE9A76541BE7547300DDBF11 /* Unit.swift in Sources */,
 				CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */,
@@ -538,6 +565,7 @@
 				A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */,
 				CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */,
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
+				929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
 				CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */,
 				CED265121BE92B880022C033 /* Building.swift in Sources */,
