@@ -19,6 +19,8 @@ class HatPig: Pig
     
     static let downTextures = [SKTexture(imageNamed: "hat_pig_down_0"), SKTexture(imageNamed: "hat_pig_down_1"), SKTexture(imageNamed: "hat_pig_down_0"), SKTexture(imageNamed: "hat_pig_down_2")]
     
+    static let hatDeath = [SKTexture(imageNamed: "hat_pig_death_0"), SKTexture(imageNamed: "pig_death_1"), SKTexture(imageNamed: "pig_death_2")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
         let visSize = CGPointMake(1.2, 1.2)

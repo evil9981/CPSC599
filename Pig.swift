@@ -40,6 +40,8 @@ class Pig: GameEntity
         self.movementComp.handle_move_opt()
     }
     
+    
+    
     func update()
     {
         if (!movementComp.is_moving)
