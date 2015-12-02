@@ -48,25 +48,4 @@ class Ammo: GameEntity
         
         return CannonBall(tower: tower, target: target)
     }
-    
-    static func get_position_to_shoot(unit: Unit) -> CGPoint
-    {
-        let pos = unit.visualComp.node.position
-        
-        switch(unit.movementComp.current_mov_option!)
-        {
-        case .MoveLeft:
-            return CGPointMake(pos.x - 1 * Tile.tileWidth, pos.y)
-        case .MoveRight:
-            return CGPointMake(pos.x + 1 * Tile.tileWidth, pos.y)
-        case .MoveUp:
-            return CGPointMake(pos.x, pos.y + 1 * Tile.tileHeight)
-        case .MoveDown:
-            return CGPointMake(pos.x, pos.y - 1 * Tile.tileHeight)
-            
-        default:
-            return pos
-        }
-    }
-
 }

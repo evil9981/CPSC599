@@ -32,7 +32,7 @@ class CannonBall : Ammo
         self.visualComp.node.zPosition = GameScene.ZPosition.Ammo.rawValue + CGFloat(self.entity_id / 1000)
         self.visualComp.node.size = CGSize(width: 32,height: 32)
         
-        let targetPos: CGPoint = Ammo.get_position_to_shoot(target)
+        let targetPos: CGPoint = get_position_to_shoot(target)
         
         let followOrc = SKAction.moveTo(targetPos, duration: 0.25)
         
@@ -42,4 +42,25 @@ class CannonBall : Ammo
                 self.target.gotHit(self)
         })
     }
+    
+    func get_position_to_shoot(unit: Unit) -> CGPoint
+    {
+        let pos = unit.visualComp.node.position
+        
+        switch(unit.movementComp.current_mov_option!)
+        {
+        case .MoveLeft:
+            return CGPointMake(pos.x + 0.3 * Tile.tileWidth, pos.y)
+        case .MoveRight:
+            return CGPointMake(pos.x + 0.6 * Tile.tileWidth, pos.y)
+        case .MoveUp:
+            return CGPointMake(pos.x, pos.y + 0.6 * Tile.tileHeight)
+        case .MoveDown:
+            return CGPointMake(pos.x + 0.1 * Tile.tileWidth, pos.y + 0.2 * Tile.tileHeight)
+            
+        default:
+            return pos
+        }
+    }
+
 }
