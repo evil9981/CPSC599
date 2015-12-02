@@ -70,6 +70,14 @@ class GridComponent: GKComponent
         {
             current_tile.notify_towers(unit as! Unit)
         }
+        
+        if (unit is Unit)
+        {
+            let mazeUnit = unit as! Unit
+            mazeUnit.unit_worth += 5
+            
+            mazeUnit.unit_worth = min(Unit.MAX_GOLD, mazeUnit.unit_worth)
+        }
     }
     
     func getTile(point: int2) -> Tile

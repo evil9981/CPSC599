@@ -18,6 +18,9 @@ class Unit: GameEntity
     var visualComp: VisualComponent!
     var gridComp: GridComponent!
     
+    static let MAX_GOLD = 500
+    var unit_worth = 50
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval, gridSize: int2, visSize: CGPoint)
     {
         self.scene = scene
@@ -50,15 +53,32 @@ class Unit: GameEntity
             movementComp.is_moving = true
         }
     }
-    
+    static let FireBallTexture = [  SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-0"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-1"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-2"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-3"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-4"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-5"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-6"),
+                                    SKTexture(imageNamed: "fireball [www.imagesplitter.net]-0-7")
+                                ]
     func gotHit(ammo: Ammo)
     {
         debugPrint("Unit hit for \(ammo.damage)")
         self.hp -= ammo.damage
         
+        if (ammo is FireBall)
+        {
+            let size = CGSize(width: 320,height: 320)
+            let animation = Animation(scene: scene, textures: Unit.FireBallTexture, speed: 1.0, visSize: size , worldPos: self.visualComp.node.position)
+            animation.run()
+        }
+        
         if (self.hp <= 0)
         {
-            defenderGoldCount += ammo.damage
+            // Kill unit!
+            attackerGoldCount += self.unit_worth
+            defenderGoldCount += Unit.MAX_GOLD - self.unit_worth
             self.destroy()
         }
     }
