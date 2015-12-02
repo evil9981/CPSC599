@@ -13,6 +13,8 @@
 		929B64981C0E7C80002D7E41 /* AttackerPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */; };
 		929B649A1C0E7CE7002D7E41 /* GoblinBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */; };
 		929B649C1C0E7D16002D7E41 /* TrollBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */; };
+		929B649E1C0F45DB002D7E41 /* Troll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B649D1C0F45DB002D7E41 /* Troll.swift */; };
+		929B64A01C0F4665002D7E41 /* Goblin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B649F1C0F4665002D7E41 /* Goblin.swift */; };
 		A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0761C0BB28100791979 /* DefenderPowerSource.swift */; };
 		A378E0791C0CE5C300791979 /* RegularTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E0781C0CE5C300791979 /* RegularTower.swift */; };
 		A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378E07A1C0CEDAB00791979 /* FireTower.swift */; };
@@ -97,6 +99,8 @@
 		929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackerPowerSource.swift; sourceTree = "<group>"; };
 		929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoblinBuilding.swift; sourceTree = "<group>"; };
 		929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrollBuilding.swift; sourceTree = "<group>"; };
+		929B649D1C0F45DB002D7E41 /* Troll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Troll.swift; sourceTree = "<group>"; };
+		929B649F1C0F4665002D7E41 /* Goblin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Goblin.swift; sourceTree = "<group>"; };
 		A378E0761C0BB28100791979 /* DefenderPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefenderPowerSource.swift; sourceTree = "<group>"; };
 		A378E0781C0CE5C300791979 /* RegularTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularTower.swift; sourceTree = "<group>"; };
 		A378E07A1C0CEDAB00791979 /* FireTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireTower.swift; sourceTree = "<group>"; };
@@ -322,6 +326,8 @@
 			children = (
 				CE9A76531BE7547300DDBF11 /* Unit.swift */,
 				CED264F91BE765420022C033 /* Orc.swift */,
+				929B649D1C0F45DB002D7E41 /* Troll.swift */,
+				929B649F1C0F4665002D7E41 /* Goblin.swift */,
 			);
 			name = MazeUnits;
 			sourceTree = "<group>";
@@ -546,8 +552,10 @@
 				929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
+				929B649E1C0F45DB002D7E41 /* Troll.swift in Sources */,
 				CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */,
 				CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */,
+				929B64A01C0F4665002D7E41 /* Goblin.swift in Sources */,
 				CED265061BE773930022C033 /* TileType.swift in Sources */,
 				CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */,
 				929B649A1C0E7CE7002D7E41 /* GoblinBuilding.swift in Sources */,
