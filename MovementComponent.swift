@@ -63,6 +63,24 @@ public class MovementComponent: GKComponent
         }
     }
     
+    func teleport_to_tile()
+    {
+        let tile = self.unit.gridComp.current_tile
+        let target_tile = tile.teleportDestination!
+        
+        let target_pos = target_tile.position
+        
+        let newScenePos = self.unit.scene.pointForCoordinate(target_pos)
+        
+        // Update grid comp
+        unit.gridComp.move_unit_to_tile(target_tile.position)
+        
+        // Update visual comp
+        unit.visualComp.node.position = CGPointMake(newScenePos.x + 0.7 * Tile.tileWidth, newScenePos.y + 0.2 * Tile.tileHeight)
+        
+        handle_move_opt()
+    }
+    
     func handle_move_opt()
     {
         switch (unit.gridComp.current_tile.moveOpt)
@@ -86,7 +104,9 @@ public class MovementComponent: GKComponent
         case .Goal:
             lifeCount = lifeCount - 1
             break
-        case .None:
+        case .Teleport:
+            teleport_to_tile()
+        default:
             break
         }
     }
