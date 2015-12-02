@@ -189,7 +189,7 @@ class GameScene: SKScene
         livesLabel.text = String(lifeCount)
         livesLabel.fontSize = 150
         livesLabel.fontColor = UIColor(red: 1.0, green: 0, blue: 0, alpha: 1)
-        livesLabel.position = CGPointMake(4100, 1235)
+        livesLabel.position = CGPointMake(4050, 1235)
         livesLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesLabel)
         
@@ -213,7 +213,7 @@ class GameScene: SKScene
         // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
-        livesImage.position = CGPointMake(3850, 1300)
+        livesImage.position = CGPointMake(3725, 1300)
         livesImage.xScale = 8
         livesImage.yScale = 8
         livesImage.zPosition = ZPosition.GUI.rawValue
@@ -238,6 +238,9 @@ class GameScene: SKScene
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
 
+        
+        
+        
         // Add regularTower Buy button
         let regularTower = SKSpriteNode(texture: SKTexture(imageNamed: "RegularTower"), size: CGSize(width: 400 ,height: 400))
         var x_buy_button = camera_viewport_width + regularTower.frame.width - 275
@@ -260,6 +263,9 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
+        
+        
+        
         
         // Add fireTower buy button
         let fireTower = SKSpriteNode(texture: SKTexture(imageNamed: "FireTower"), size: CGSize(width: 400 ,height: 400))
@@ -285,6 +291,8 @@ class GameScene: SKScene
         createLableNode("Arial-BoldMT", labelText: FireTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
         
+        
+        
         // Add iceTower buy button
         let iceTower = SKSpriteNode(texture: SKTexture(imageNamed: "IceTower"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = camera_viewport_width + regularTower.frame.width - 275
@@ -309,8 +317,10 @@ class GameScene: SKScene
         createLableNode("Arial-BoldMT", labelText: IceTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
+        
+        
         // Add defenderPowerSource buy button
-        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 265 ,height: 300))
+        let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 365 ,height: 400))
         x_buy_button = camera_viewport_width + regularTower.frame.width - 275
         y_buy_button = camera_viewport_height - regularTower.frame.height - 1500
         
@@ -358,6 +368,13 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
+        
+        // Create Orc Image
+        let orcImage = SKTexture(imageNamed: "orc_down_1")
+        createNode(orcImage, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "orc_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
+        
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -373,6 +390,13 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        // Create Orc Image
+        let goblinImage = SKTexture(imageNamed: "goblin_down_1")
+        createNode(goblinImage, scaleX: 7, scaleY: 7, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "goblin_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
+        
         
         // Add trollBuilding buy button
         let trollBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Troll_Building"), size: CGSize(width: 400 ,height: 400))
@@ -390,8 +414,14 @@ class GameScene: SKScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
+        
+        // Create Orc Image
+        let trollImage = SKTexture(imageNamed: "troll_down_1")
+        createNode(trollImage, scaleX: 7, scaleY: 7, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "troll_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
         // Add attackerPowerSource buy button
-        let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 265 ,height: 300))
+        let attackerPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "AttackerPowerSource"), size: CGSize(width: 365 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
         y_buy_button = camera_viewport_height - orcBuilding.frame.height - 1500
         
@@ -405,6 +435,9 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: DefenderPowerSource.buildingCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
+        
         
         sidePanel_attack.addChild(orcBuilding)
         sidePanel_attack.addChild(goblinBuilding)
