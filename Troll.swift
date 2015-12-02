@@ -19,6 +19,7 @@ class Troll: Unit
     
     static let downTextures = [SKTexture(imageNamed: "troll_down_0"), SKTexture(imageNamed: "troll_down_1"), SKTexture(imageNamed: "troll_down_0"), SKTexture(imageNamed: "troll_down_2")]
     
+    static let cost = 40
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
         let gridSize = int2(1,1)
@@ -28,6 +29,8 @@ class Troll: Unit
             leftTextures: Troll.leftTextures, rightTextures: Troll.rightTextures,
             upTextures: Troll.upTextures, downTextures: Troll.downTextures,
             speed: speed, gridSize: gridSize, visSize: visSize)
+        
+        self.hp = 110
     }
 }
 

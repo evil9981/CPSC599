@@ -1136,6 +1136,7 @@ class GameScene: SKScene
             towerMenu.addChild(choose_spawn_point)
         }
         
+        
         for spawn_pos in Spawner.spawn_points
         {
             let scene_pos = pointForCoordinate(spawn_pos)
@@ -1523,6 +1524,63 @@ class GameScene: SKScene
             }
         }
     }
+    
+    func spawnGoblin(point: CGPoint)
+    {
+        if (goldCount >= Goblin.cost)
+        {
+            // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+            let pos_on_grid = coordinateForPoint(point)
+            
+            // Fix the position to be on the grid
+            let fixed_pos = pointForCoordinate(pos_on_grid)
+            let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            if (tile is MazeTile)
+            {
+                // Init the orc
+                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.2)
+                
+                // Keep track of it in a dictionary
+                all_units[goblin.entity_id] = goblin
+                
+                goldCount -= Goblin.cost
+            }
+            else
+            {
+                debugPrint("Not a maze tile!")
+            }
+        }
+    }
+    
+    func spawnTroll(point: CGPoint)
+    {
+        if (goldCount >= Troll.cost)
+        {
+            // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
+            let pos_on_grid = coordinateForPoint(point)
+            
+            // Fix the position to be on the grid
+            let fixed_pos = pointForCoordinate(pos_on_grid)
+            let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            if (tile is MazeTile)
+            {
+                // Init the orc
+                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.8)
+                
+                // Keep track of it in a dictionary
+                all_units[troll.entity_id] = troll
+                
+                goldCount -= Troll.cost
+            }
+            else
+            {
+                debugPrint("Not a maze tile!")
+            }
+        }
+    }
+
+
+    
     
     func spawnDirtyPig(point: CGPoint)
     {
