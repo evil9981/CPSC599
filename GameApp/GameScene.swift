@@ -114,6 +114,26 @@ class GameScene: SKScene
         
         // Spawns the 3 pigs
         spawn_pigs()
+        
+        var spawn_point = pointForCoordinate(int2(107,27))
+        var building = spawnDefenderPowerSource(spawn_point, spawn_free: true)
+        
+        // Add temp building to tiles
+        for pos in [int2(107,27), int2(108,27), int2(107,28), int2(108,28)]
+        {
+            let tile = Tile.getTile(tiles, pos: pos)
+            tile.building_on_tile = building!
+        }
+        
+        spawn_point = pointForCoordinate(int2(34,37))
+        building = spawnAttackerPowerSource(spawn_point, spawn_free: true)
+        
+        // Add temp building to tiles
+        for pos in [int2(34,37), int2(35,37), int2(34,38), int2(35,38)]
+        {
+            let tile = Tile.getTile(tiles, pos: pos)
+            tile.building_on_tile = building!
+        }
     }
     
     func spawn_pigs()
@@ -240,8 +260,6 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        
         
         // Add fireTower buy button
         let fireTower = SKSpriteNode(texture: SKTexture(imageNamed: "FireTower"), size: CGSize(width: 400 ,height: 400))
@@ -564,9 +582,10 @@ class GameScene: SKScene
             let touchedNode = self.nodeAtPoint(scenePoint)
             
             let pos_on_grid = coordinateForPoint(scenePoint)
-            debugPrint("Position on grid: \(pos_on_grid) and value was \( tileNums![Int(pos_on_grid.y)][Int(pos_on_grid.x)] )")
-            debugPrint("Tile at position: \(Tile.getTile(tiles, pos: pos_on_grid))")
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
+            debugPrint("Position on grid: \(pos_on_grid)")
+            debugPrint("Tile at position: \(tile)")
+            debugPrint("Tile has power source: \(tile.towerInRange)")
             
             prevLocation = touchPoint
             
@@ -589,8 +608,12 @@ class GameScene: SKScene
                 
                 if name == "show_range_tower"
                 {
-                    let tower = building_selected as! Tower
-                    tower.visualizeMazeTiles()
+                    Tower.visualizeMazeTiles(self)
+                }
+                else if name == "show_range_power_source"
+                {
+                    show_power_source_range = !show_power_source_range
+                    PowerSource.visualizePowerSourceArea(self, show_shapes: show_power_source_range)
                 }
                 else if name == "spawn_orc"
                 {
@@ -612,7 +635,7 @@ class GameScene: SKScene
                 }
                 else if name == "change_spawn_point"
                 {
-                    changeButtonPushed()
+                    changeSpawnButtonPushed()
                 }
                 else if name.containsString("BlueShape_")
                 {
@@ -955,7 +978,7 @@ class GameScene: SKScene
             return false
         }
         
-        return true
+        return tile.powerSourceInRange
     }
     
     func check_tile_att(tile: Tile) -> Bool
@@ -970,10 +993,11 @@ class GameScene: SKScene
             return false
         }
         
-        return true
+        return tile.powerSourceInRange
     }
     
     var side_panel_open = false
+    var show_power_source_range = false
     func buyButtonPushed()
     {
         if (!side_panel_open)
@@ -991,6 +1015,9 @@ class GameScene: SKScene
             
             side_panel_open = false
         }
+        
+        show_power_source_range = side_panel_open
+        PowerSource.visualizePowerSourceArea(self, show_shapes: side_panel_open)
     }
     
     var attack_side_panel_open = false
@@ -1011,6 +1038,9 @@ class GameScene: SKScene
             
             attack_side_panel_open = false
         }
+        
+        show_power_source_range = attack_side_panel_open
+        PowerSource.visualizePowerSourceArea(self, show_shapes: show_power_source_range)
     }
     
     // MARK: Building Menu
@@ -1210,21 +1240,25 @@ class GameScene: SKScene
     }
 
     
-    func changeButtonPushed()
+    func changeSpawnButtonPushed()
     {
         let spawner = building_selected as! Spawner
         
         for spawn_pos in Spawner.spawn_points
         {
             let scene_pos = pointForCoordinate(spawn_pos)
+            let tile = Tile.getTile(tiles, pos: spawn_pos)
             
-            if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+            if (tile.powerSourceInRange)
             {
-                spawnFlagUp(scene_pos)
-            }
-            else
-            {
-                spawn_blue_position(scene_pos)
+                if (spawn_pos.x == spawner.selected_spawn_point.x && spawn_pos.y == spawner.selected_spawn_point.y)
+                {
+                    spawnFlagUp(scene_pos)
+                }
+                else
+                {
+                    spawn_blue_position(scene_pos)
+                }
             }
         }
     }
@@ -1310,33 +1344,16 @@ class GameScene: SKScene
     
     func coordinateForPointFromTemp(point: CGPoint) -> int2
     {
-        //let x = Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth)
-        //let y = Int32(map_height - 1) - Int32( (point.y  + (Tile.tileHeight/2)) / Tile.tileHeight)
-        //let y = Int32( (point.y  + (Tile.tileHeight/2)) / Tile.tileHeight)
-        
-        //return int2( x , y )
-        
         return int2(Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth), Int32((point.y  + (Tile.tileHeight/2)) / Tile.tileHeight))
     }
     
     func coordinateForPoint(point: CGPoint) -> int2
     {
-        //let x = Int32( point.x / Tile.tileWidth)
-        //let y = Int32(map_height - 1) - Int32( point.y / Tile.tileHeight)
-        //let y = Int32( point.y / Tile.tileHeight)
-        
-        //return int2( x , y )
         return int2(Int32( point.x / Tile.tileWidth), Int32(point.y / Tile.tileHeight))
     }
     
     func pointForCoordinate(point: int2) -> CGPoint
     {
-        //let x = CGFloat(point.x) * Tile.tileWidth
-        //let y = CGFloat(map_height - 1 - Int(point.y) ) * Tile.tileHeight
-        //let y = CGFloat(Int(point.y) ) * Tile.tileHeight
-        
-        //return CGPointMake( x , y )
-        
         return CGPointMake(CGFloat(point.x) * Tile.tileWidth, CGFloat(point.y) * Tile.tileHeight)
     }
     
@@ -1691,7 +1708,7 @@ class GameScene: SKScene
         }
     }
     
-    func spawnDefenderPowerSource (point: CGPoint) -> Building?
+    func spawnDefenderPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1706,7 +1723,11 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
-            goldCount -= building.buildingCost
+            if (!spawn_free)
+            {
+                goldCount -= building.buildingCost
+                PowerSource.visualizePowerSourceArea(self, show_shapes: true)
+            }
             
             return building
         }
@@ -1801,7 +1822,7 @@ class GameScene: SKScene
     }
     
     
-    func spawnAttackerPowerSource (point: CGPoint) -> Building?
+    func spawnAttackerPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1816,7 +1837,12 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
-            goldCount -= building.buildingCost
+            
+            if (!spawn_free)
+            {
+                goldCount -= building.buildingCost
+                PowerSource.visualizePowerSourceArea(self, show_shapes: true)
+            }
             
             return building
         }

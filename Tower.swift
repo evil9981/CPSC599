@@ -12,7 +12,7 @@ import GameplayKit
 class Tower: Building
 {
     var towerComp: TowerShootComponent!
-    var mazeTiles : [Tile] = [Tile]()
+
     
     var towerDamage: Int
     var towerShootingSpeed: NSTimeInterval
@@ -31,74 +31,36 @@ class Tower: Building
         }
     }
     
-    var shapes : [SKShapeNode] = [SKShapeNode]()
-    var shapes_shown : Bool = false
+    static var show_shapes : Bool = false
+    static var mazeTiles : [Tile] = [Tile]()
+    static var shapes : [SKShapeNode] = [SKShapeNode]()
     
-    func visualizeMazeTiles()
+    static func visualizeMazeTiles(scene: GameScene)
     {
-        // First time we're visualizing a tower's attack tiles
-        if (shapes.count == 0)
+        Tower.show_shapes = !Tower.show_shapes
+        if (!Tower.show_shapes)
         {
-            // Crazy hack but it works...
-            // We have one too many columns showing in the tower range 
-            // Couldn't figure out why, just manually removed the extra column
-            
-            var min_x : Int32 = 100000
-            for tile in mazeTiles
+            for shape in shapes
             {
-                let pos = tile.position
-                
-                if (pos.x < min_x)
-                {
-                    min_x = pos.x
-                }
-            }
-            
-            for (var i = 0; i < mazeTiles.count ; i++)
-            {
-                let tile = mazeTiles[i]
-                if (tile.position.x == min_x)
-                {
-                    mazeTiles.removeAtIndex(i)
-                    i--
-                }
-            }
-            
-            for tile in mazeTiles
-            {
-                let pos = tile.position
-                let shape = SKShapeNode(rectOfSize: CGSize(width: Tile.tileWidth , height: Tile.tileHeight ))
-                
-                shape.position = CGPointMake( ( CGFloat(pos.x) - 0.5) * Tile.tileWidth ,
-                    CGFloat( (CGFloat(scene.map_height) ) - CGFloat(pos.y) - 0.5 ) * Tile.tileHeight )
-                
-                shape.fillColor = UIColor.redColor().colorWithAlphaComponent(0.2)
-                shape.strokeColor = UIColor.clearColor()
-                shape.zPosition = GameScene.ZPosition.Tower.rawValue - 0.1
-                self.scene.addChild(shape)
-                
-                shapes_shown = true
-                shapes.append(shape)
+                scene.removeChildrenInArray([shape])
             }
         }
-        // Every next time we toggle
         else
         {
-            if (shapes_shown)
+            for tile in mazeTiles
             {
-                for shape in shapes
-                {
-                    self.scene.removeChildrenInArray([shape])
-                }
-                shapes_shown = false
-            }
-            else
-            {
-                for shape in shapes
-                {
-                    self.scene.addChild(shape)
-                }
-                shapes_shown = true
+                let pos = tile.position
+                let shape = SKShapeNode(rectOfSize: CGSize(width: (8.0) * Tile.tileWidth , height: (8.0) * Tile.tileHeight ))
+                
+                shape.position = CGPointMake( ( CGFloat(pos.x) + 1 ) * Tile.tileWidth ,
+                    CGFloat( (CGFloat(scene.map_height) ) - CGFloat(pos.y) ) * Tile.tileHeight )
+                
+                shape.fillColor = UIColor.redColor().colorWithAlphaComponent(0.15)
+                shape.strokeColor = UIColor.clearColor()
+                shape.zPosition = GameScene.ZPosition.Tower.rawValue - 0.1
+                scene.addChild(shape)
+                
+                shapes.append(shape)
             }
         }
     }

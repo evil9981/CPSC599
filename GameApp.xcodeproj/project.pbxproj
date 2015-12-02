@@ -26,6 +26,7 @@
 		CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0F00DA1C0E23C3003EA598 /* IceBolt.swift */; };
 		CE1C89DF1C0EDA0F00522C4F /* FlagDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89DE1C0EDA0F00522C4F /* FlagDown.swift */; };
 		CE1C89E41C0EDB1600522C4F /* FlagUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89E31C0EDB1600522C4F /* FlagUp.swift */; };
+		CE1C89EB1C0F4F9E00522C4F /* PowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */; };
 		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
@@ -114,6 +115,7 @@
 		CE0F00DA1C0E23C3003EA598 /* IceBolt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IceBolt.swift; sourceTree = "<group>"; };
 		CE1C89DE1C0EDA0F00522C4F /* FlagDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagDown.swift; sourceTree = "<group>"; };
 		CE1C89E31C0EDB1600522C4F /* FlagUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagUp.swift; sourceTree = "<group>"; };
+		CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerSource.swift; sourceTree = "<group>"; };
 		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,15 @@
 				929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */,
 			);
 			name = Spawners;
+			sourceTree = "<group>";
+		};
+		CE1C89E61C0F4F7E00522C4F /* PowerSources */ = {
+			isa = PBXGroup;
+			children = (
+				A378E0761C0BB28100791979 /* DefenderPowerSource.swift */,
+				929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */,
+			);
+			name = PowerSources;
 			sourceTree = "<group>";
 		};
 		CE5516A21C0D494E008F04A9 /* Towers */ = {
@@ -339,15 +350,15 @@
 		CED265141BE930890022C033 /* Buildings */ = {
 			isa = PBXGroup;
 			children = (
+				CE1C89E61C0F4F7E00522C4F /* PowerSources */,
 				929B648F1C0E7B27002D7E41 /* Spawners */,
 				CE5516A21C0D494E008F04A9 /* Towers */,
 				CED265111BE92B880022C033 /* Building.swift */,
 				CED2651B1BE93A990022C033 /* Tower.swift */,
-				A378E0761C0BB28100791979 /* DefenderPowerSource.swift */,
 				929B64951C0E7BE2002D7E41 /* Spawner.swift */,
+				CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */,
 				CE1C89DE1C0EDA0F00522C4F /* FlagDown.swift */,
 				CE1C89E31C0EDB1600522C4F /* FlagUp.swift */,
-				929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */,
 			);
 			name = Buildings;
 			sourceTree = "<group>";
@@ -559,11 +570,8 @@
 				CE1C89DF1C0EDA0F00522C4F /* FlagDown.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
-
 				929B649E1C0F45DB002D7E41 /* Troll.swift in Sources */,
-
 				CE1C89E41C0EDB1600522C4F /* FlagUp.swift in Sources */,
-
 				CE07140F1C065C2E0062EEBF /* HatPig.swift in Sources */,
 				CED2650A1BE77D310022C033 /* GoalTile.swift in Sources */,
 				929B64A01C0F4665002D7E41 /* Goblin.swift in Sources */,
@@ -591,6 +599,7 @@
 				CED265001BE772A00022C033 /* DefenderTile.swift in Sources */,
 				CED265181BE932DD0022C033 /* GameEntity.swift in Sources */,
 				CE6EAE9C1BD88A3A0004DAD8 /* GameScene.swift in Sources */,
+				CE1C89EB1C0F4F9E00522C4F /* PowerSource.swift in Sources */,
 				CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */,
 				CED2651C1BE93A990022C033 /* Tower.swift in Sources */,
 				CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */,

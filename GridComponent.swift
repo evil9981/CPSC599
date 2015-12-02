@@ -27,6 +27,38 @@ class GridComponent: GKComponent
         self.size = size
         
         super.init()
+        
+        if (unit is PowerSource)
+        {
+            init_power_source()
+        }
+    }
+    
+    func init_power_source()
+    {
+        let range = PowerSource.power_source_range
+        let row_index : Int = Int(range.x)
+        let column_index: Int = Int(range.y)
+        
+        let start_column_index = max(0, current_pos.x - column_index )
+        let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x - 1)
+        
+        let start_row_index = max (0, current_pos.y - row_index)
+        let end_row_index = min( Int32(tiles.count - 1), current_pos.y + row_index + size.y - 1)
+        
+        
+        for row in start_row_index ... end_row_index
+        {
+            for column in start_column_index ... end_column_index
+            {
+                let pos = int2(Int32(column), Int32(row))
+                let tile = Tile.getTile(tiles, pos: pos)
+                
+                tile.powerSourceInRange = true
+            }
+        }
+        
+        PowerSource.tilesWithPowerSource.append(current_tile)
     }
     
     func move_unit_to_tile(new_pos : int2)
@@ -47,33 +79,28 @@ class GridComponent: GKComponent
     
     func updateTilesWithTower(range: int2)
     {
-        if (unit is Tower)
+        let row_index : Int = Int(range.x)
+        let column_index: Int = Int(range.y)
+        
+        let start_column_index = max(0, current_pos.x - column_index )
+        let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x - 1)
+        
+        let start_row_index = max (0, current_pos.y - row_index)
+        let end_row_index = min( Int32(tiles.count - 1), current_pos.y + row_index + size.y - 1)
+        
+        
+        for row in start_row_index ... end_row_index
         {
-            let tower = unit as! Tower
-            
-            let row_index : Int = Int(range.x)
-            let column_index: Int = Int(range.y)
-            
-            let start_column_index = max(0, current_pos.x - column_index + size.x - 2 )
-            let end_column_index = min( Int32(tiles[0].count - 1), current_pos.x + column_index + size.x )
-            
-            let start_row_index = max (0, current_pos.y - row_index)
-            let end_row_index = min( Int32(tiles.count - 1), current_pos.y + row_index + size.y - 1)
-            
-            
-            for row in start_row_index ... end_row_index
+            for column in start_column_index ... end_column_index
             {
-                for column in start_column_index ... end_column_index
-                {
-                    let pos = int2(Int32(column), Int32(row))
-                    let tile = Tile.getTile(tiles, pos: pos)
-                    debugPrint(tile.position)
-                    
-                    tile.add_tower(tower)
-                    tower.mazeTiles.append(tile)
-                    
-                }
+                let pos = int2(Int32(column), Int32(row))
+                let tile = Tile.getTile(tiles, pos: pos)
+                
+                tile.add_tower(self.unit as! Tower)
+                tile.towerInRange = true
             }
         }
+        
+        Tower.mazeTiles.append(current_tile)
     }
 }
