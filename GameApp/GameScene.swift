@@ -54,6 +54,10 @@ class GameScene: SKScene
     var sidePanel: SKShapeNode!
     var sidePanel_attack: SKShapeNode!
     
+    // Game menu stuff
+    var towerMenu : SKShapeNode!
+    var buildingMenu : SKShapeNode!
+    
     var tileNums : [[Int]]!
     var tiles : [[Tile]]!
     
@@ -397,6 +401,34 @@ class GameScene: SKScene
         sceneCamera.addChild(sidePanel_attack) // Add child to the camera
     }
 
+    // initialize tower menu
+    let tower_menu_height : CGFloat = 600  // how high the menu is
+    func init_tower_menu()
+    {
+        let frame = CGRect(x: camera_viewport_width/2, y: camera_viewport_height/2, width: buy_panel_width, height: tower_menu_height) // Use the camera_viewport that is calculated at the start to determine how big the frame is
+        towerMenu = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+        towerMenu.zPosition = ZPosition.Overlay.rawValue
+        
+        towerMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
+        towerMenu.strokeColor = UIColor.blackColor() // This is the border color
+
+        
+        sceneCamera.addChild(towerMenu)
+    }
+    
+    // initialize building menu
+    func init_building_menu()
+    {
+        let frame = CGRect(x: camera_viewport_width/2, y: camera_viewport_height/2, width: buy_panel_width, height: tower_menu_height) // Use the camera_viewport that is calculated at the start to determine how big the frame is
+        buildingMenu = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
+        buildingMenu.zPosition = ZPosition.Overlay.rawValue
+        
+        buildingMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
+        buildingMenu.strokeColor = UIColor.blackColor() // This is the border color
+        
+        
+        sceneCamera.addChild(buildingMenu)
+    }
     
     let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
     func init_buttons()
@@ -564,6 +596,7 @@ class GameScene: SKScene
                 
                 if ( building is Tower)
                 {
+                    
                     (building as! Tower).visualizeMazeTiles()
                 }
             }
@@ -936,8 +969,48 @@ class GameScene: SKScene
             
             attack_side_panel_open = false
         }
-
-        
+    }
+    
+    var tower_menu_open = false
+    func towerMenuPushed()
+    {
+        if (!tower_menu_open)
+        {
+            let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0) // Define the action to slide it 600 units up
+            
+            towerMenu.runAction(slideUp)
+            
+            tower_menu_open = true
+        }
+        else
+        {
+            let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0) // Define the action to slide it 600 units down
+            
+            towerMenu.runAction(slideDown)
+            
+            tower_menu_open = false
+        }
+    }
+    
+    var building_menu_open = false
+    func bulidingMenuPushed()
+    {
+        if (!building_menu_open)
+        {
+            let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0) // Define the action to slide it 600 units up
+            
+            buildingMenu.runAction(slideUp)
+            
+            building_menu_open = true
+        }
+        else
+        {
+            let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0) // Define the action to slide it 600 units down
+            
+            buildingMenu.runAction(slideDown)
+            
+            building_menu_open = false
+        }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
