@@ -600,7 +600,6 @@ class GameScene: SKScene
                         case .TrollBuilding:
                             building = spawnTrollBuilding(temp_building!.visualComp.node.position)
                             
-                            
                         case .AttackerPowerSource:
                             building = spawnAttackerPowerSource(temp_building!.visualComp.node.position)
                             
@@ -712,7 +711,7 @@ class GameScene: SKScene
             {
                 place_temp_building(scenePoint)
             }
-            
+
             if (!gui_element_clicked && !entity_clicked)
             {
                 switch (current_build_mode! )
@@ -749,26 +748,46 @@ class GameScene: SKScene
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
-
+        var isAttacker = false
+        var isDefender = false
+        
+        
         // Init the tower
         switch (current_build_mode! )
         {
         case .RegularTower:
             temp_building = RegularTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = false
+            isDefender = true
         case .FireTower:
             temp_building = FireTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = false
+            isDefender = true
         case .IceTower:
             temp_building = IceTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = false
+            isDefender = true
         case .DefenderPowerSource:
             temp_building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = false
+            isDefender = true
         case .OrcBuliding:
             temp_building = OrcBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = true
+            isDefender = false
         case .GoblinBuilding:
             temp_building = GoblinBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = true
+            isDefender = false
         case .TrollBuilding:
             temp_building = TrollBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = true
+            isDefender = false
         case .AttackerPowerSource:
             temp_building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
+            isAttacker = true
+            isDefender = false
+    
             
         default:
             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -811,18 +830,13 @@ class GameScene: SKScene
                 let tile_ok_to_build = check_tile(tile)
                 let tile_ok_to_build_att = check_tile_att(tile)
                 
-                if (tile_ok_to_build_att)
+                
+                if (tile_ok_to_build && isDefender && !isAttacker)
                 {
                     can_build = can_build && true
                     temp_node.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
                 }
-                else
-                {
-                    can_build = false
-                    temp_node.fillColor = UIColor.redColor().colorWithAlphaComponent(0.3)
-                }
-                
-                if (tile_ok_to_build)
+                else if (tile_ok_to_build_att && isAttacker && !isDefender)
                 {
                     can_build = can_build && true
                     temp_node.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.3)
@@ -839,6 +853,7 @@ class GameScene: SKScene
             }
         }
     }
+
     
     func destroy_temp_building()
     {
