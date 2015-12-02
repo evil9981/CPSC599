@@ -10,7 +10,7 @@ import SpriteKit
 import Alamofire
 import SwiftyJSON
 
-var lifeCount : Int = 300
+var lifeCount : Int = 3
 var defenderGoldCount : Int = 5000
 var attackerGoldCount : Int = 5000
 var gameOver : Bool = false
@@ -2062,5 +2062,20 @@ class GameScene: SKScene
                 }
         }
 
+    }
+    
+    func take_one_life()
+    {
+        let pigs = Array(all_pigs.values)
+        
+        let pig_index = Int(arc4random_uniform( UInt32(pigs.count) ))
+        let pig_to_kill = pigs[pig_index]
+
+        pig_to_kill.destroy()
+        
+        // Pig to kill is the one we kill!
+
+        
+        lifeCount = lifeCount - 1
     }
 }

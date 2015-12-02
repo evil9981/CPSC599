@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1593"
             endingLineNumber = "1593"
-            landmarkName = "createLableNode(_:labelText:labelColour:labelFontSize:xPosition:yPosition:zPosition:childOf:)"
+            landmarkName = "createNode(_:scaleX:scaleY:xPosition:yPosition:nodeName:zPosition:childOf:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

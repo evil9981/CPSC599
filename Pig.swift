@@ -73,7 +73,7 @@ class Pig: GameEntity
     func destroy()
     {
         scene.removeChildrenInArray([self.visualComp.node])
-        scene.all_units.removeValueForKey(self.entity_id)
+        scene.all_pigs.removeValueForKey(self.entity_id)
     }
 
 }
