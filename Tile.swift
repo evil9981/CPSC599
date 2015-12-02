@@ -19,12 +19,14 @@ public class Tile
     var towersInRange : Dictionary<Int, Tower> = Dictionary<Int, Tower>()
     
     var powerSourceInRange: Bool
+    var towerInRange: Bool
     init(position: int2)
     {
         self.position = position
         self.type = TileType.NoneUsable
         self.moveOpt = TileOpts.None
         self.powerSourceInRange = false
+        self.towerInRange = false
     }
     
     func add_tower( tower: Tower)
