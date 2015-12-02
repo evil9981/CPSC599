@@ -369,13 +369,15 @@ class GameScene: SKScene
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
         
-        
+<<<<<<< HEAD
         // Create Orc Image
         let orcImage = SKTexture(imageNamed: "orc_down_1")
         createNode(orcImage, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "orc_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
         
         
+=======
+>>>>>>> a5c8da63dfa200a10a498d583390dd463fc719b5
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
