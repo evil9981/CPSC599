@@ -256,9 +256,9 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create cost label
+        // Create damage label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         // Add fireTower buy button
@@ -279,9 +279,9 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create cost label
+        // Create damage label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
 
         
@@ -303,9 +303,9 @@ class GameScene: SKScene
         
         // Create attack image
         attackImageTexture = SKTexture(imageNamed: "AttackValueImage")
-        createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
+        createNode(attackImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 150, yPosition: y_buy_button, nodeName: "AttackValueImage", zPosition: "OverlayButton", childOf: "SidePanel")
         
-        // Create cost label
+        // Create damage label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
         
@@ -357,6 +357,7 @@ class GameScene: SKScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
         
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
@@ -421,6 +422,7 @@ class GameScene: SKScene
         let frame = CGRect(x: 0, y: 0, width: buy_panel_width, height: tower_menu_height)
         towerMenu = SKShapeNode(rect: frame)
         towerMenu.zPosition = ZPosition.Overlay.rawValue
+        towerMenu.name = "TowerMenu"
         
         let x = camera_viewport_width/2
         let y = -camera_viewport_height - tower_menu_height
@@ -1132,10 +1134,17 @@ class GameScene: SKScene
             spawn_orc.xScale = 7
             spawn_orc.yScale = 7
             spawn_orc.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_orc.frame.height + 80)
+            spawn_orc.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_orc.frame.height + 80)
             spawn_orc.name = "spawn_orc"
             
             towerMenu.addChild(spawn_orc)
+            
+            // Create gold image
+            coinImageTexture = SKTexture(imageNamed: "CoinImage")
+            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_orc.frame.height + 90, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
+            
+            // Create cost label
+            createLableNode("Arial-BoldMT", labelText: Orc.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_orc.frame.height + 65, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1154,10 +1163,17 @@ class GameScene: SKScene
             spawn_goblin.xScale = 10
             spawn_goblin.yScale = 10
             spawn_goblin.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_goblin.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_goblin.frame.height + 75)
+            spawn_goblin.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_goblin.frame.height + 75)
             spawn_goblin.name = "spawn_goblin"
             
             towerMenu.addChild(spawn_goblin)
+            
+            // Create gold image
+            coinImageTexture = SKTexture(imageNamed: "CoinImage")
+            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_goblin.frame.height + 75, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
+            
+            // Create cost label
+            createLableNode("Arial-BoldMT", labelText: Goblin.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_goblin.frame.height + 50, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1176,10 +1192,17 @@ class GameScene: SKScene
             spawn_troll.xScale = 10
             spawn_troll.yScale = 10
             spawn_troll.zPosition = ZPosition.OverlayButton.rawValue
-            spawn_troll.position  = CGPointMake(towerMenu.frame.width / 2, tower_menu_height - spawn_troll.frame.height + 75)
+            spawn_troll.position  = CGPointMake(towerMenu.frame.width / 2 - 150, tower_menu_height - spawn_troll.frame.height + 75)
             spawn_troll.name = "spawn_troll"
             
             towerMenu.addChild(spawn_troll)
+            
+            // Create gold image
+            coinImageTexture = SKTexture(imageNamed: "CoinImage")
+            createNode(coinImageTexture, scaleX: 6.5, scaleY: 6.5, xPosition: towerMenu.frame.width / 2 + 50, yPosition: tower_menu_height - spawn_troll.frame.height + 75, nodeName: "CoinImage", zPosition: "OverlayButton", childOf: "TowerMenu")
+            
+            // Create cost label
+            createLableNode("Arial-BoldMT", labelText: Troll.cost, labelColour: "Gold", labelFontSize: 75, xPosition: towerMenu.frame.width / 2 + 150, yPosition: tower_menu_height - spawn_troll.frame.height + 50, zPosition: "OverlayButton", childOf: "TowerMenu")
             
             let choose_spawn_point = SKSpriteNode(imageNamed: "BuildingChangePoint")
             choose_spawn_point.xScale = 5
@@ -1507,6 +1530,10 @@ class GameScene: SKScene
         {
             sidePanel_attack.addChild(uiNode)
         }
+        if (childOf == "TowerMenu")
+        {
+            towerMenu.addChild(uiNode)
+        }
         
     }
     
@@ -1552,6 +1579,10 @@ class GameScene: SKScene
         if (childOf == "AttackSidePanel")
         {
             sidePanel_attack.addChild(uiLabelNode)
+        }
+        if (childOf == "TowerMenu")
+        {
+            towerMenu.addChild(uiLabelNode)
         }
         
     }
