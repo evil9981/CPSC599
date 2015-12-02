@@ -12,6 +12,7 @@ import GameplayKit
 class Unit: GameEntity
 {
     var scene: GameScene
+    var hp : Int = 0
     
     var movementComp: MovementComponent!
     var visualComp: VisualComponent!
@@ -53,6 +54,12 @@ class Unit: GameEntity
     func gotHit(ammo: Ammo)
     {
         debugPrint("Unit hit for \(ammo.damage)")
+        self.hp -= ammo.damage
+        
+        if (self.hp <= 0)
+        {
+            self.destroy()
+        }
     }
     
     func moveLeft()
@@ -76,5 +83,6 @@ class Unit: GameEntity
     {
         scene.removeChildrenInArray([self.visualComp.node])
         scene.all_units.removeValueForKey(self.entity_id)
+        self.visualComp.node.removeAllActions()
     }
 }

@@ -13,12 +13,22 @@ class Spawner: Building
 {
     var mazeTiles : [Tile] = [Tile]()
     
+    static var spawn_points : [int2] = [int2(42,40) , int2(42,37),
+                                        int2(42,7)  , int2(42,4),
+                                        int2(5,9)   , int2(5,6) ]
+    
+    var selected_spawn_point : int2
     
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, tower_texture: SKTexture, gridSize: int2, visSize: CGPoint, towerCost: Int, temp: Bool = false)
     {
+        self.selected_spawn_point = Spawner.spawn_points[0]
+        
         super.init(scene: scene, grid_position: grid_position, world_position: world_position, tower_texture: tower_texture, gridSize: gridSize, visSize: visSize, buildingCost: towerCost, temp: temp)
         
     }
     
-    override func update(delta: NSTimeInterval){}
+    override func update(delta: NSTimeInterval)
+    {
+        
+    }
 }

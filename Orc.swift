@@ -19,6 +19,7 @@ class Orc: Unit
     
     static let downTextures = [SKTexture(imageNamed: "orc_down_0"), SKTexture(imageNamed: "orc_down_1"), SKTexture(imageNamed: "orc_down_0"), SKTexture(imageNamed: "orc_down_2")]
     
+    static let cost = 20
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, speed: NSTimeInterval)
     {
         let gridSize = int2(1,1)
@@ -28,5 +29,7 @@ class Orc: Unit
             leftTextures: Orc.leftTextures, rightTextures: Orc.rightTextures,
             upTextures: Orc.upTextures, downTextures: Orc.downTextures,
             speed: speed, gridSize: gridSize, visSize: visSize)
+        
+        self.hp = 50
     }
 }
