@@ -58,6 +58,7 @@ class Unit: GameEntity
         
         if (self.hp <= 0)
         {
+            defenderGoldCount += ammo.damage
             self.destroy()
         }
     }

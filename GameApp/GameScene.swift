@@ -11,7 +11,8 @@ import Alamofire
 import SwiftyJSON
 
 var lifeCount : Int = 300
-var goldCount : Int = 500
+var defenderGoldCount : Int = 5000
+var attackerGoldCount : Int = 5000
 var gameOver : Bool = false
 
 class GameScene: SKScene
@@ -44,6 +45,7 @@ class GameScene: SKScene
     var livesImage : SKSpriteNode!
     
     var goldLabel : SKLabelNode!
+    var attackerGoldLabel : SKLabelNode!
     var livesLabel : SKLabelNode!
     var timeLabel : SKLabelNode!
     var endGameLabel : SKLabelNode!
@@ -177,7 +179,7 @@ class GameScene: SKScene
         
         // Add the 'Gold Label' to the camera view and place it in the top left corner
         goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-        goldLabel.text = String(goldCount)
+        goldLabel.text = String(defenderGoldCount)
         goldLabel.fontSize = 150
         goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
         goldLabel.position = CGPointMake(750, 1235)
@@ -218,6 +220,27 @@ class GameScene: SKScene
         livesImage.yScale = 8
         livesImage.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesImage)
+        
+        
+        // Attacker's gold and gold label
+        // Add the gold image texture
+        goldImageTexture = SKTexture(imageNamed: "GoldImage")
+        goldImage = SKSpriteNode(texture: goldImageTexture)
+        goldImage.position = CGPointMake(450, 1100)
+        goldImage.xScale = 8
+        goldImage.yScale = 8
+        goldImage.zPosition = ZPosition.GUI.rawValue
+        sceneCamera.addChild(goldImage)
+        
+        
+        // Add the 'Gold Label' to the camera view and place it in the top left corner
+        attackerGoldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        attackerGoldLabel.text = String(attackerGoldCount)
+        attackerGoldLabel.fontSize = 150
+        attackerGoldLabel.fontColor = UIColor.blueColor()
+        attackerGoldLabel.position = CGPointMake(750, 1035)
+        attackerGoldLabel.zPosition = ZPosition.GUI.rawValue
+        sceneCamera.addChild(attackerGoldLabel)
         
         // Init the orc and tower buttons
         init_buttons()
@@ -581,10 +604,12 @@ class GameScene: SKScene
         seconds = s
         if doAddGold
         {
-            goldCount += 5
+            defenderGoldCount += 5
+            attackerGoldCount += 5
         }
         
-        goldLabel.text = String(goldCount)
+        goldLabel.text = String(defenderGoldCount)
+        attackerGoldLabel.text = String(attackerGoldCount)
     }
     
     func doGameOver()
@@ -1624,7 +1649,7 @@ class GameScene: SKScene
     
     func spawnOrc(point: CGPoint)
     {
-        if (goldCount >= Orc.cost)
+        if (attackerGoldCount >= Orc.cost)
         {
             // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
             let pos_on_grid = coordinateForPoint(point)
@@ -1640,7 +1665,7 @@ class GameScene: SKScene
                 // Keep track of it in a dictionary
                 all_units[orc.entity_id] = orc
                 
-                goldCount -= Orc.cost
+                attackerGoldCount -= Orc.cost
             }
             else
             {
@@ -1651,7 +1676,7 @@ class GameScene: SKScene
     
     func spawnGoblin(point: CGPoint)
     {
-        if (goldCount >= Goblin.cost)
+        if (attackerGoldCount >= Goblin.cost)
         {
             // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
             let pos_on_grid = coordinateForPoint(point)
@@ -1667,7 +1692,7 @@ class GameScene: SKScene
                 // Keep track of it in a dictionary
                 all_units[goblin.entity_id] = goblin
                 
-                goldCount -= Goblin.cost
+                attackerGoldCount -= Goblin.cost
             }
             else
             {
@@ -1678,7 +1703,7 @@ class GameScene: SKScene
     
     func spawnTroll(point: CGPoint)
     {
-        if (goldCount >= Troll.cost)
+        if (attackerGoldCount >= Troll.cost)
         {
             // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
             let pos_on_grid = coordinateForPoint(point)
@@ -1694,7 +1719,7 @@ class GameScene: SKScene
                 // Keep track of it in a dictionary
                 all_units[troll.entity_id] = troll
                 
-                goldCount -= Troll.cost
+                attackerGoldCount -= Troll.cost
             }
             else
             {
@@ -1789,7 +1814,7 @@ class GameScene: SKScene
             all_buildings[building.entity_id] = building
             if (!spawn_free)
             {
-                goldCount -= building.buildingCost
+                defenderGoldCount -= building.buildingCost
                 PowerSource.visualizePowerSourceArea(self, show_shapes: true)
             }
             
@@ -1817,7 +1842,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= tower.buildingCost
+            defenderGoldCount -= tower.buildingCost
             
             return tower
         }
@@ -1846,7 +1871,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= tower.buildingCost
+            defenderGoldCount -= tower.buildingCost
             
             return tower
         }
@@ -1873,7 +1898,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
-            goldCount -= tower.buildingCost
+            defenderGoldCount -= tower.buildingCost
             
             return tower
         }
@@ -1904,7 +1929,7 @@ class GameScene: SKScene
             
             if (!spawn_free)
             {
-                goldCount -= building.buildingCost
+                defenderGoldCount -= building.buildingCost
                 PowerSource.visualizePowerSourceArea(self, show_shapes: true)
             }
             
@@ -1932,7 +1957,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
-            goldCount -= building.buildingCost
+            attackerGoldCount -= building.buildingCost
             
             return building
         }
@@ -1960,7 +1985,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
-            goldCount -= building.buildingCost
+            attackerGoldCount -= building.buildingCost
             
             return building
         }
@@ -1988,7 +2013,7 @@ class GameScene: SKScene
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
-            goldCount -= building.buildingCost
+            attackerGoldCount -= building.buildingCost
             
             return building
         }
