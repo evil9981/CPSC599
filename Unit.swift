@@ -18,6 +18,9 @@ class Unit: GameEntity
     var visualComp: VisualComponent!
     var gridComp: GridComponent!
     
+    static let MAX_GOLD = 500
+    var unit_worth = 50
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, leftTextures: [SKTexture] , rightTextures: [SKTexture], upTextures: [SKTexture] ,downTextures: [SKTexture], speed: NSTimeInterval, gridSize: int2, visSize: CGPoint)
     {
         self.scene = scene
@@ -56,9 +59,46 @@ class Unit: GameEntity
         debugPrint("Unit hit for \(ammo.damage)")
         self.hp -= ammo.damage
         
+        if (ammo is FireBall)
+        {
+            let size = CGSize(width: 2.0 * Tile.tileWidth ,height: 2.0 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: FireBall.FireBallTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
+            animation.run()
+        }
+        
+        if (ammo is IceBolt)
+        {
+            let size = CGSize(width: 2.3 * Tile.tileWidth ,height: 2.3 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: IceBolt.IceBoltTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
+            animation.run()
+        }
+        
         if (self.hp <= 0)
         {
-            defenderGoldCount += ammo.damage
+            if (self is Orc)
+            {
+                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+                let animation = Animation(scene: scene, textures: Orc.orcDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+            
+            else if (self is Troll)
+            {
+                let size = CGSize(width: 1.6 * Tile.tileWidth, height: 1.6 * Tile.tileHeight)
+                let animation = Animation(scene: scene, textures: Troll.trollDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+            
+            else if (self is Goblin)
+            {
+                let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
+                let animation = Animation(scene: scene, textures: Goblin.goblinDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+            
+            // Kill unit!
+            attackerGoldCount += self.unit_worth
+            defenderGoldCount += Unit.MAX_GOLD - self.unit_worth
             self.destroy()
         }
     }

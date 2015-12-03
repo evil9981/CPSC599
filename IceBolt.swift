@@ -14,6 +14,43 @@ class IceBolt : Ammo
     var tower : Tower
     var target: Unit
     
+    static let IceBoltTexture = [
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-0-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-0-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-0-3"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-0-4"),
+        
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-1-0"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-1-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-1-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-1-3"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-1-4"),
+        
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-2-0"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-2-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-2-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-2-3"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-2-4"),
+        
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-3-0"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-3-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-3-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-3-3"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-3-4"),
+        
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-4-0"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-4-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-4-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-4-3"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-4-4"),
+        
+        
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-5-0"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-5-1"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-5-2"),
+        SKTexture(imageNamed: "IceBolt [www.imagesplitter.net]-5-3"),
+    ]
+    
     init(tower: Tower, target: Unit)
     {
         let texture = SKTexture(imageNamed: "IceBolt")
@@ -33,7 +70,7 @@ class IceBolt : Ammo
         self.visualComp.node.size = CGSize(width: 56*1.6,height: 20*1.6)
         
         let targetPos: CGPoint = get_position_to_shoot(target)
-        // Rotate the fireball to face the target!
+        // Rotate the IceBolt to face the target!
         let angle = atan2f(Float(targetPos.y - self.visualComp.node.position.y), Float(targetPos.x - self.visualComp.node.position.x))
         self.visualComp.node.runAction(SKAction.rotateByAngle(CGFloat(angle), duration: 0))
         

@@ -58,12 +58,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "470783582.875422"
+            timestampString = "470795285.691945"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1593"
-            endingLineNumber = "1593"
-            landmarkName = "createLableNode(_:labelText:labelColour:labelFontSize:xPosition:yPosition:zPosition:childOf:)"
+            startingLineNumber = "1612"
+            endingLineNumber = "1612"
+            landmarkName = "createNode(_:scaleX:scaleY:xPosition:yPosition:nodeName:zPosition:childOf:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Unit.swift"
+            timestampString = "470787451.034831"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "gotHit(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
