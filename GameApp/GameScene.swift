@@ -70,15 +70,17 @@ class GameScene: SKScene
     enum BuildMode : Int
     {
         case Orc = 0
-        case None = 1
-        case RegularTower = 2
-        case FireTower = 3
-        case IceTower = 4
-        case DefenderPowerSource = 5
-        case OrcBuliding = 6
-        case GoblinBuilding = 7
-        case TrollBuilding = 8
-        case AttackerPowerSource = 9
+        case Goblin = 1
+        case Troll = 2
+        case None = 3
+        case RegularTower = 4
+        case FireTower = 5
+        case IceTower = 6
+        case DefenderPowerSource = 7
+        case OrcBuliding = 8
+        case GoblinBuilding = 9
+        case TrollBuilding = 10
+        case AttackerPowerSource = 11
     }
     var current_build_mode : BuildMode!
     
@@ -524,6 +526,12 @@ class GameScene: SKScene
         // These are the sandbox buttons, at the lower part of the screen
         buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
+        // These are the sandbox buttons, at the lower part of the screen
+        buttons[BuildMode.Goblin.rawValue] = ButtonManager.init_button(camera!, img_name: "goblin_left_0", button_name: "goblinButton", index: BuildMode.Goblin.rawValue)
+        
+        // These are the sandbox buttons, at the lower part of the screen
+        buttons[BuildMode.Troll.rawValue] = ButtonManager.init_button(camera!, img_name: "troll_left_0", button_name: "trollButton", index: BuildMode.Troll.rawValue)
+        
         buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
         
         // Start in Orc mode
@@ -613,8 +621,8 @@ class GameScene: SKScene
         seconds = s
         if doAddGold
         {
-            defenderGoldCount += 5
-            attackerGoldCount += 5
+            //defenderGoldCount += 5
+            //attackerGoldCount += 5
         }
         
         goldLabel.text = String(defenderGoldCount)
@@ -859,6 +867,11 @@ class GameScene: SKScene
                     {
                     case .Orc:
                         buttons[current_build_mode.rawValue] = ButtonManager.init_button(sceneCamera, img_name: "orc_left_0", button_name: "orcButton", index: 0)
+                    case .Goblin:
+                        buttons[BuildMode.Goblin.rawValue] = ButtonManager.init_button(camera!, img_name: "goblin_left_0", button_name: "goblinButton", index: BuildMode.Goblin.rawValue)
+                        
+                    case .Troll:
+                        buttons[BuildMode.Troll.rawValue] = ButtonManager.init_button(camera!, img_name: "troll_left_0", button_name: "trollButton", index: BuildMode.Troll.rawValue)
                         
                     case .None:
                         buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
@@ -890,6 +903,12 @@ class GameScene: SKScene
                 {
                 case .Orc:
                     spawnOrc(scenePoint)
+                    
+                case .Troll:
+                    spawnTroll(scenePoint)
+                    
+                case .Goblin:
+                    spawnGoblin(scenePoint)
                     
                 default:
                     break
@@ -1702,7 +1721,7 @@ class GameScene: SKScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.7)
+                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.6)
                 
                 // Keep track of it in a dictionary
                 all_units[goblin.entity_id] = goblin
@@ -1729,7 +1748,7 @@ class GameScene: SKScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.4)
+                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.2)
                 
                 // Keep track of it in a dictionary
                 all_units[troll.entity_id] = troll

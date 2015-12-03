@@ -68,27 +68,30 @@ class Unit: GameEntity
         
         if (ammo is IceBolt)
         {
-            let size = CGSize(width: 320,height: 320)
-            let animation = Animation(scene: scene, textures: FireBall.FireBallTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
+            let size = CGSize(width: 2.3 * Tile.tileWidth ,height: 2.3 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: IceBolt.IceBoltTexture, speed: 0.5, visSize: size , worldPos: ammo.visualComp.node.position)
             animation.run()
         }
         
         if (self.hp <= 0)
         {
-            if (self is Orc){
+            if (self is Orc)
+            {
                 let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
                 let animation = Animation(scene: scene, textures: Orc.orcDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }
             
-            else if (self is Troll){
-                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+            else if (self is Troll)
+            {
+                let size = CGSize(width: 1.6 * Tile.tileWidth, height: 1.6 * Tile.tileHeight)
                 let animation = Animation(scene: scene, textures: Troll.trollDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }
             
-            else if (self is Goblin){
-                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+            else if (self is Goblin)
+            {
+                let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
                 let animation = Animation(scene: scene, textures: Goblin.goblinDeath, speed: 0.8, visSize: size , worldPos: ammo.visualComp.node.position, death_anim: true)
                 animation.run()
             }

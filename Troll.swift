@@ -32,7 +32,7 @@ class Troll: Unit
             upTextures: Troll.upTextures, downTextures: Troll.downTextures,
             speed: speed, gridSize: gridSize, visSize: visSize)
         
-        self.hp = 110
+        self.hp = 260
     }
 }
 
