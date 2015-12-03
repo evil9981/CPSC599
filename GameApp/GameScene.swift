@@ -10,7 +10,7 @@ import SpriteKit
 import Alamofire
 import SwiftyJSON
 
-var lifeCount : Int = 300
+var lifeCount : Int = 3
 var defenderGoldCount : Int = 5000
 var attackerGoldCount : Int = 5000
 var gameOver : Bool = false
