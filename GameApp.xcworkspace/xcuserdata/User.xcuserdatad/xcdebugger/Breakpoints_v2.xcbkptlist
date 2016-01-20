@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "470795285.691945"
+            timestampString = "475019261.49511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1612"
-            endingLineNumber = "1612"
+            startingLineNumber = "1624"
+            endingLineNumber = "1624"
             landmarkName = "createNode(_:scaleX:scaleY:xPosition:yPosition:nodeName:zPosition:childOf:)"
             landmarkType = "5">
          </BreakpointContent>

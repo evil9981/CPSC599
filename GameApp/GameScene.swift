@@ -298,9 +298,6 @@ class GameScene: SKScene
         // Create damage label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
         
-        
-        
-        
         // Add fireTower buy button
         let fireTower = SKSpriteNode(texture: SKTexture(imageNamed: "FireTower"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = camera_viewport_width + regularTower.frame.width - 275
@@ -323,9 +320,6 @@ class GameScene: SKScene
         
         // Create damage label
         createLableNode("Arial-BoldMT", labelText: FireTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
-
-        
-        
         
         // Add iceTower buy button
         let iceTower = SKSpriteNode(texture: SKTexture(imageNamed: "IceTower"), size: CGSize(width: 400 ,height: 400))
@@ -349,9 +343,6 @@ class GameScene: SKScene
         
         // Create damage label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerDamage, labelColour: "White", labelFontSize: 75, xPosition: x_buy_button + 250, yPosition: y_buy_button - 25, zPosition: "OverlayButton", childOf: "SidePanel")
-        
-        
-        
         
         // Add defenderPowerSource buy button
         let defenderPowerSource = SKSpriteNode(texture: SKTexture(imageNamed: "DefenderPowerSource"), size: CGSize(width: 365 ,height: 400))
@@ -684,35 +675,40 @@ class GameScene: SKScene
             }
             else if let name = touchedNode.name
             {
-                gui_element_clicked = true
                 let make_point = CGPointMake(sceneCamera.position.x + camera_viewport_width/4, sceneCamera.position.y)
                 
                 if name == "show_range_tower"
                 {
                     Tower.visualizeMazeTiles(self)
+                    gui_element_clicked = true
                 }
                 else if name == "show_range_power_source"
                 {
                     show_power_source_range = !show_power_source_range
                     PowerSource.visualizePowerSourceArea(self, show_shapes: show_power_source_range)
+                    gui_element_clicked = true
                 }
                 else if name == "spawn_orc"
                 {
                     let spawner = building_selected as! Spawner
                     let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point )
                     spawnOrc(scene_spawn_point)
+                    
+                    gui_element_clicked = true
                 }
                 else if name == "spawn_troll"
                 {
                     let spawner = building_selected as! Spawner
                     let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
                     spawnTroll(scene_spawn_point)
+                    gui_element_clicked = true
                 }
                 else if name == "spawn_goblin"
                 {
                     let spawner = building_selected as! Spawner
                     let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
                     spawnGoblin(scene_spawn_point)
+                    gui_element_clicked = true
                 }
                 else if name == "change_spawn_point"
                 {
@@ -720,6 +716,7 @@ class GameScene: SKScene
                 }
                 else if name.containsString("BlueShape_")
                 {
+                    gui_element_clicked = true
                     let spawner = building_selected as! Spawner
                     spawner.selected_spawn_point = coordinateForPoint( touchedNode.position )
                     
@@ -753,6 +750,7 @@ class GameScene: SKScene
                 }
                 else if name == "ok_building"
                 {
+                    gui_element_clicked = true
                     if (can_build)
                     {
                         var building : Building?
@@ -800,66 +798,79 @@ class GameScene: SKScene
                 }
                 else if name == "cancel_building"
                 {
+                    gui_element_clicked = true
                     destroy_temp_building()
                 }
                 else if name == "BuyButton"
                 {
+                    gui_element_clicked = true
                     buyButtonPushed()
                 }
                 else if name == "Attacker BuyButton"
                 {
+                    gui_element_clicked = true
                     attBuyButtonPushed()
                 }
                 else if (name == "BuyRegularTower")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .RegularTower
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyFireTower")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .FireTower
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyIceTower")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .IceTower
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyDefenderPowerSource")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .DefenderPowerSource
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyOrcBuilding")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .OrcBuliding
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyGoblinBuilding")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .GoblinBuilding
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyTrollBuilding")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .TrollBuilding
                     
                     place_temp_building(make_point)
                 }
                 else if (name == "BuyAttackerPowerSource")
                 {
+                    gui_element_clicked = true
                     current_build_mode! = .AttackerPowerSource
                     
                     place_temp_building(make_point)
                 }
                 else if name.containsString("Button")
                 {
+                    gui_element_clicked = false
+                    
                     // Reset old clicked button
                     ButtonManager.reset_button(self.scene!, button: buttons[current_build_mode.rawValue]!)
                     
@@ -894,6 +905,7 @@ class GameScene: SKScene
             }
             else if (temp_building != nil)
             {
+                gui_element_clicked = true
                 place_temp_building(scenePoint)
             }
 
