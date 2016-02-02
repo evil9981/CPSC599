@@ -7,8 +7,9 @@
 //
 
 import SpriteKit
+import Starscream
 
-class MainMenuScene: SKScene
+class MainMenuScene: SKScene, WebSocketDelegate
 {
     var sandbox_button: SKSpriteNode!
     var multiplayer_button: SKSpriteNode!
@@ -43,6 +44,10 @@ class MainMenuScene: SKScene
                 create_cloud( 3 )
             }
         }
+        
+        ws = WebSocket(url: NSURL(string: "ws://192.168.0.14:8005")!)
+        ws.delegate = self
+        ws.connect()
         
         add_title()
         init_game_buttons()
@@ -141,6 +146,7 @@ class MainMenuScene: SKScene
     }
     
     var this_game_mode: GameMode = .SANDBOX
+    var ws: WebSocket!
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         let touch = touches.first!
@@ -164,10 +170,14 @@ class MainMenuScene: SKScene
             else if name == "attacker_button"
             {
                 debugPrint("Player chose to be an attacker!")
+
+                ws.writeString("attacker")
             }
             else if name == "defender_button"
             {
                 debugPrint("Player chose to be a defender!")
+
+                ws.writeString("defender")
             }
             else if name == "back_button"
             {
@@ -327,5 +337,25 @@ class MainMenuScene: SKScene
         
         self.addChild(pig)
         all_pigs[num] = pig
+    }
+    
+    func websocketDidConnect(socket: WebSocket)
+    {
+        debugPrint("Connected to server!")
+    }
+    
+    func websocketDidDisconnect(socket: WebSocket, error: NSError?)
+    {
+        debugPrint("Disconnected from server!")
+    }
+    
+    func websocketDidReceiveData(socket: WebSocket, data: NSData)
+    {
+        debugPrint("Recieved data that wasn't a string!")
+    }
+    
+    func websocketDidReceiveMessage(socket: WebSocket, text: String)
+    {
+        debugPrint("Message recieved: " + text)
     }
 }
