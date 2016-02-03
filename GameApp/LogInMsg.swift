@@ -33,6 +33,6 @@ class LogInMsg : NetMessage
     
     func toJSON() -> String
     {
-        
+        return ""
     }
 }

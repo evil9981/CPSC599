@@ -2132,7 +2132,12 @@ class GameScene: SKScene, NetworkableScene
         lifeCount = lifeCount - 1
     }
     
-    func updateFromNetwork(msg: NetMessage) ->
+    func updateFromNetwork(msg: String)
+    {
+        
+    }
+    
+    func writeToNet(msg: NetMessage)
     {
         
     }

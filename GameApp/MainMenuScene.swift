@@ -46,7 +46,7 @@ class MainMenuScene: SKScene, NetworkableScene
             }
         }
         
-        network_inst = NetworkSingleton.getInst(self.scene!)
+        network_inst = NetworkSingleton.getInst(self)
         
         add_title()
         init_game_buttons()
