@@ -39,6 +39,10 @@
 		CE6EAE911BD889300004DAD8 /* GameAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE901BD889300004DAD8 /* GameAppTests.swift */; };
 		CE6EAE9C1BD88A3A0004DAD8 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE9B1BD88A3A0004DAD8 /* GameScene.swift */; };
 		CE6EAEA11BD89B670004DAD8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE9F1BD89A960004DAD8 /* GameScene.sks */; };
+		CE7B44621C62813400FCA46E /* NetworkableScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7B44611C62813400FCA46E /* NetworkableScene.swift */; };
+		CE7B44691C6281D000FCA46E /* NetMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7B44681C6281D000FCA46E /* NetMessage.swift */; };
+		CE7B446C1C6282FB00FCA46E /* LogInMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */; };
+		CE7B446E1C62848600FCA46E /* NetworkSinglton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7B446D1C62848600FCA46E /* NetworkSinglton.swift */; };
 		CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8C11C06437F008CB40B /* FancyPig.swift */; };
 		CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8C91C064604008CB40B /* ButtonManager.swift */; };
 		CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8CC1C0650C7008CB40B /* Pig.swift */; };
@@ -140,6 +144,10 @@
 		CE6EAE921BD889300004DAD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE6EAE9B1BD88A3A0004DAD8 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		CE6EAE9F1BD89A960004DAD8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		CE7B44611C62813400FCA46E /* NetworkableScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkableScene.swift; sourceTree = "<group>"; };
+		CE7B44681C6281D000FCA46E /* NetMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetMessage.swift; sourceTree = "<group>"; };
+		CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInMsg.swift; sourceTree = "<group>"; };
+		CE7B446D1C62848600FCA46E /* NetworkSinglton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSinglton.swift; sourceTree = "<group>"; };
 		CE8ED8B11C040DED008CB40B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		CE8ED8C11C06437F008CB40B /* FancyPig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FancyPig.swift; sourceTree = "<group>"; };
 		CE8ED8C91C064604008CB40B /* ButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
@@ -254,6 +262,7 @@
 		CE6EAE761BD889300004DAD8 /* GameApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE7B44671C6281C400FCA46E /* Networking */,
 				CE9A76551BE754B000DDBF11 /* Components */,
 				CE9A76521BE7545E00DDBF11 /* Entities */,
 				CE9A764B1BE702B000DDBF11 /* Tiles */,
@@ -280,6 +289,25 @@
 				CE6EAE921BD889300004DAD8 /* Info.plist */,
 			);
 			path = GameAppTests;
+			sourceTree = "<group>";
+		};
+		CE7B44671C6281C400FCA46E /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				CE7B446A1C6282F000FCA46E /* MsgInst */,
+				CE7B44611C62813400FCA46E /* NetworkableScene.swift */,
+				CE7B44681C6281D000FCA46E /* NetMessage.swift */,
+				CE7B446D1C62848600FCA46E /* NetworkSinglton.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		CE7B446A1C6282F000FCA46E /* MsgInst */ = {
+			isa = PBXGroup;
+			children = (
+				CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */,
+			);
+			name = MsgInst;
 			sourceTree = "<group>";
 		};
 		CE8ED8B21C040DED008CB40B /* Products */ = {
@@ -585,6 +613,8 @@
 				CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
+				CE7B44691C6281D000FCA46E /* NetMessage.swift in Sources */,
+				CE7B446C1C6282FB00FCA46E /* LogInMsg.swift in Sources */,
 				929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */,
 				CE1C89DF1C0EDA0F00522C4F /* FlagDown.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
@@ -613,6 +643,8 @@
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
 				929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
+				CE7B44621C62813400FCA46E /* NetworkableScene.swift in Sources */,
+				CE7B446E1C62848600FCA46E /* NetworkSinglton.swift in Sources */,
 				CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */,
 				CED265121BE92B880022C033 /* Building.swift in Sources */,
 				CED265001BE772A00022C033 /* DefenderTile.swift in Sources */,

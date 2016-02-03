@@ -15,7 +15,7 @@ var defenderGoldCount : Int = 5000
 var attackerGoldCount : Int = 5000
 var gameOver : Bool = false
 
-class GameScene: SKScene
+class GameScene: SKScene, NetworkableScene
 {
     var sceneCamera : SKCameraNode = SKCameraNode()
     
@@ -2130,5 +2130,10 @@ class GameScene: SKScene
 
         
         lifeCount = lifeCount - 1
+    }
+    
+    func updateFromNetwork(msg: NetMessage) ->
+    {
+        
     }
 }

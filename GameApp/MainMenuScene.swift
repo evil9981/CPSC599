@@ -9,7 +9,7 @@
 import SpriteKit
 import Starscream
 
-class MainMenuScene: SKScene, WebSocketDelegate
+class MainMenuScene: SKScene, NetworkableScene
 {
     var sandbox_button: SKSpriteNode!
     var multiplayer_button: SKSpriteNode!
@@ -25,6 +25,7 @@ class MainMenuScene: SKScene, WebSocketDelegate
         case OverlayButton = 4
     }
     
+    var network_inst: NetworkSingleton!
     override func didMoveToView(view: SKView)
     {
         let rgbValue = 0xADD8E6
@@ -45,9 +46,7 @@ class MainMenuScene: SKScene, WebSocketDelegate
             }
         }
         
-        ws = WebSocket(url: NSURL(string: "ws://192.168.0.14:8005")!)
-        ws.delegate = self
-        ws.connect()
+        network_inst = NetworkSingleton.getInst(self.scene!)
         
         add_title()
         init_game_buttons()
@@ -146,7 +145,6 @@ class MainMenuScene: SKScene, WebSocketDelegate
     }
     
     var this_game_mode: GameMode = .SANDBOX
-    var ws: WebSocket!
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         let touch = touches.first!
@@ -171,13 +169,15 @@ class MainMenuScene: SKScene, WebSocketDelegate
             {
                 debugPrint("Player chose to be an attacker!")
 
-                ws.writeString("attacker")
+                let log_in_msg = LogInMsg(role: GameRole.attacker, username: "Test", uniqueId: "UniqueTestID")
+                writeToNet(log_in_msg)
             }
             else if name == "defender_button"
             {
                 debugPrint("Player chose to be a defender!")
-
-                ws.writeString("defender")
+                
+                let log_in_msg = LogInMsg(role: GameRole.attacker, username: "Test", uniqueId: "UniqueTestID")
+                writeToNet(log_in_msg)
             }
             else if name == "back_button"
             {
@@ -339,23 +339,13 @@ class MainMenuScene: SKScene, WebSocketDelegate
         all_pigs[num] = pig
     }
     
-    func websocketDidConnect(socket: WebSocket)
+    func updateFromNetwork(msg: String)
     {
-        debugPrint("Connected to server!")
+        debugPrint(msg)
     }
     
-    func websocketDidDisconnect(socket: WebSocket, error: NSError?)
+    func writeToNet(msg: NetMessage)
     {
-        debugPrint("Disconnected from server!")
-    }
-    
-    func websocketDidReceiveData(socket: WebSocket, data: NSData)
-    {
-        debugPrint("Recieved data that wasn't a string!")
-    }
-    
-    func websocketDidReceiveMessage(socket: WebSocket, text: String)
-    {
-        debugPrint("Message recieved: " + text)
+        network_inst.writeToNet(msg)
     }
 }
