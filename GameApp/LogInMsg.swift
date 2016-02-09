@@ -11,19 +11,18 @@ import SwiftyJSON
 
 class LogInMsg : NetMessage
 {
-    var type: msgType
-    
+    var msg_type: msgType
     var role: GameRole
     
     init(role: String)
     {
-        self.type = msgType.LogIn
+        self.msg_type = msgType.LogIn
         self.role = GameRole(rawValue: role)!
     }
     
     func toJSON() -> String
     {
-        let json = JSON(["role":role.rawValue])
+        let json = JSON(["type":self.type.rawValue, "role":role.rawValue])
         return json.rawString()!
     }
 }

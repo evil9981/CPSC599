@@ -347,13 +347,11 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func updateFromNetwork(msg: String)
     {
-        debugPrint(msg)
+        debugPrint("Raw message: " + msg)
+        
         let data = (msg as NSString).dataUsingEncoding(NSUTF8StringEncoding)
         let json = JSON(data: data! )
-        let type = json["type"].stringValue
-        debugPrint(json["type"].error)
-
-        debugPrint("Type was" + type)
+        let type = json["msg_type"].stringValue
         
         if (type == msgType.LogIn.rawValue)
         {

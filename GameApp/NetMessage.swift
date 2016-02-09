@@ -12,13 +12,14 @@ enum msgType: String
 {
     case LogInRequest = "LogInRequest"
     case LogIn = "LogIn"
-    case BuildTower = "BuildTower"
-    case SpawnCreature = "SpawnCreature"
+    case NewBuilding = "NewBuilding"
+    case NewCreature = "NewCreature"
+    case CreatureDied = "CreatureDied"
+    case LifeReduced = "LifeReduced"
+    case EndGame = "EndGame"
 }
 
 protocol NetMessage
 {
-    var type: msgType { get set }
-    
     func toJSON() -> String
 }
