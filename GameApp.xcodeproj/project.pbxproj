@@ -65,6 +65,9 @@
 		CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED265191BE934C60022C033 /* TowerShootComponent.swift */; };
 		CED2651C1BE93A990022C033 /* Tower.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED2651B1BE93A990022C033 /* Tower.swift */; };
 		CEE4AAB51C07BD3B00E64784 /* Ammo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE4AAB41C07BD3B00E64784 /* Ammo.swift */; };
+		CEF8858C1C69B74E00C7A793 /* LogInRequestMsg.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8858B1C69B74E00C7A793 /* LogInRequestMsg.swift */; };
+		CEF8858E1C69B76600C7A793 /* GameRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8858D1C69B76600C7A793 /* GameRole.swift */; };
+		CEF885901C69BCD800C7A793 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF8858F1C69BCD800C7A793 /* GameMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +174,9 @@
 		CED265191BE934C60022C033 /* TowerShootComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TowerShootComponent.swift; sourceTree = "<group>"; };
 		CED2651B1BE93A990022C033 /* Tower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tower.swift; sourceTree = "<group>"; };
 		CEE4AAB41C07BD3B00E64784 /* Ammo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ammo.swift; sourceTree = "<group>"; };
+		CEF8858B1C69B74E00C7A793 /* LogInRequestMsg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInRequestMsg.swift; sourceTree = "<group>"; };
+		CEF8858D1C69B76600C7A793 /* GameRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameRole.swift; sourceTree = "<group>"; };
+		CEF8858F1C69BCD800C7A793 /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +302,8 @@
 			children = (
 				CE7B446A1C6282F000FCA46E /* MsgInst */,
 				CE7B44611C62813400FCA46E /* NetworkableScene.swift */,
+				CEF8858D1C69B76600C7A793 /* GameRole.swift */,
+				CEF8858F1C69BCD800C7A793 /* GameMode.swift */,
 				CE7B44681C6281D000FCA46E /* NetMessage.swift */,
 				CE7B446D1C62848600FCA46E /* NetworkSinglton.swift */,
 			);
@@ -306,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */,
+				CEF8858B1C69B74E00C7A793 /* LogInRequestMsg.swift */,
 			);
 			name = MsgInst;
 			sourceTree = "<group>";
@@ -611,13 +620,16 @@
 				CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */,
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
 				CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */,
+				CEF8858E1C69B76600C7A793 /* GameRole.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
 				CE7B44691C6281D000FCA46E /* NetMessage.swift in Sources */,
 				CE7B446C1C6282FB00FCA46E /* LogInMsg.swift in Sources */,
+				CEF8858C1C69B74E00C7A793 /* LogInRequestMsg.swift in Sources */,
 				929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */,
 				CE1C89DF1C0EDA0F00522C4F /* FlagDown.swift in Sources */,
 				CED264FC1BE76EB30022C033 /* GridComponent.swift in Sources */,
+				CEF885901C69BCD800C7A793 /* GameMode.swift in Sources */,
 				CE8ED8C21C06437F008CB40B /* FancyPig.swift in Sources */,
 				929B649E1C0F45DB002D7E41 /* Troll.swift in Sources */,
 				CE1C89E41C0EDB1600522C4F /* FlagUp.swift in Sources */,

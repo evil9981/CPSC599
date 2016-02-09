@@ -7,32 +7,23 @@
 //
 
 import Foundation
-
-enum GameRole : String
-{
-    case attacker = "attacker"
-    case defender = "defender"
-}
+import SwiftyJSON
 
 class LogInMsg : NetMessage
 {
     var type: msgType
     
     var role: GameRole
-    var username: String
-    var uniqueId: String
     
-    init(role: GameRole, username: String, uniqueId: String)
+    init(role: String)
     {
         self.type = msgType.LogIn
-        
-        self.role = role
-        self.username = username
-        self.uniqueId = uniqueId
+        self.role = GameRole(rawValue: role)!
     }
     
     func toJSON() -> String
     {
-        return ""
+        let json = JSON(["role":role.rawValue])
+        return json.rawString()!
     }
 }

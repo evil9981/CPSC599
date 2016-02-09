@@ -10,8 +10,10 @@ import Foundation
 
 enum msgType: String
 {
+    case LogInRequest = "LogInRequest"
     case LogIn = "LogIn"
     case BuildTower = "BuildTower"
+    case SpawnCreature = "SpawnCreature"
 }
 
 protocol NetMessage

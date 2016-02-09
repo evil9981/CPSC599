@@ -9,109 +9,16 @@ import Foundation
 import SpriteKit
 import SwiftyJSON
 
-class GameScene: SKScene, NetworkableScene
+class NewGameScene: GameScene
 {
-    var lifeCount : Int = 3
-    var defenderGoldCount : Int = 5000
-    var attackerGoldCount : Int = 5000
-    var gameOver : Bool = false
-    
-    var sceneCamera : SKCameraNode = SKCameraNode()
-    
-    var max_x : CGFloat = 0.0
-    var min_x : CGFloat = 0.0
-    var max_y : CGFloat = 0.0
-    var min_y : CGFloat = 0.0
-    
-    var all_pigs : Dictionary<Int, Pig> = Dictionary<Int, Pig>()
-    var all_units : Dictionary<Int, Unit> = Dictionary<Int, Unit>()
-    var all_buildings : Dictionary<Int, Building> = Dictionary<Int, Building>()
-    
-    var gameStartTime : Int = 0
-    var prevGameTimeEplased : Int = 0
-    var totalGameTime : Int = 600
-    var currentGameTime : Int = 0
-    var gameTimeElapsed : Int = 0
-    var tempCount : Int = 0
-    
-    var startTimer : Bool = true
-    
-    var goldImageTexture : SKTexture!
-    var coinImageTexture : SKTexture!
-    var attackImageTexture : SKTexture!
-    var livesImageTexture : SKTexture!
-    var goldImage : SKSpriteNode!
-    var livesImage : SKSpriteNode!
-    
-    var goldLabel : SKLabelNode!
-    var attackerGoldLabel : SKLabelNode!
-    var livesLabel : SKLabelNode!
-    var timeLabel : SKLabelNode!
-    var endGameLabel : SKLabelNode!
-    
-    // Side panel stuff
-    var buyButton : SKSpriteNode!
-    var buyButton_attack: SKSpriteNode!
-    var sidePanel: SKShapeNode!
-    var sidePanel_attack: SKShapeNode!
-    
-    // Game menu stuff
-    var towerMenu : SKShapeNode!
-    var buildingMenu : SKShapeNode!
-    
-    var tileNums : [[Int]]!
-    var tiles : [[Tile]]!
-    
-    let debug = true
-    
-    // MARK: Placeholder stuff, used to support demo
-    
-    enum BuildMode : Int
-    {
-        case Orc = 0
-        case Goblin = 1
-        case Troll = 2
-        case None = 3
-        case RegularTower = 4
-        case FireTower = 5
-        case IceTower = 6
-        case DefenderPowerSource = 7
-        case OrcBuliding = 8
-        case GoblinBuilding = 9
-        case TrollBuilding = 10
-        case AttackerPowerSource = 11
-    }
-    var current_build_mode : BuildMode!
-    
-    var buttons: [Int:SKSpriteNode] = [:]
-    
-    enum ZPosition : CGFloat
-    {
-        case Map = 0
-        case MazeUnit = 1
-        case Tower = 2
-        case Ammo = 3
-        case GUI = 4
-        case Overlay = 5
-        case OverlayButton = 6
-    }
-    
-    // MARK: Moved to view (initializer)
-    
-    var camera_viewport_width : CGFloat = 0
-    var camera_viewport_height : CGFloat = 0
     var network_obj: NetworkSingleton!
-    var role: GameRole!
-    var mode: GameMode!
+    var isAttacker = false
     
     override func didMoveToView(view: SKView)
     {
-        // Get the network
+        // Get the network 
         network_obj = NetworkSingleton.getInst(self)
-        role = network_obj.role
-        mode = network_obj.mode
-        
-        debugPrint("Started!")
+        isAttacker = network_obj.isAttacker()
         
         // Initiate the camera and viewport sizes
         init_camera()
@@ -145,7 +52,7 @@ class GameScene: SKScene, NetworkableScene
             tile.building_on_tile = building!
         }
         
-        // Add teleporters 
+        // Add teleporters
         var tile = Tile.getTile(tiles, pos: int2(2,9))
         tile.moveOpt = TileOpts.Teleport
         tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,20))
@@ -155,7 +62,7 @@ class GameScene: SKScene, NetworkableScene
         tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,23))
     }
     
-    func spawn_pigs()
+    override func spawn_pigs()
     {
         let positions: [int2] = [int2(113, 27), int2(115, 24), int2(117, 20)]
         spawnDirtyPig( pointForCoordinate ( positions[0] ) )
@@ -164,7 +71,7 @@ class GameScene: SKScene, NetworkableScene
     }
     
     // Initiates the scene's camera
-    func init_camera()
+    override func init_camera()
     {
         sceneCamera.position = CGPointMake(frame.width/2, frame.height/2)
         self.addChild(sceneCamera)
@@ -188,34 +95,20 @@ class GameScene: SKScene, NetworkableScene
     }
     
     // Initiates the GUI labels
-    func init_GUI()
+    override func init_GUI()
     {
         // Give temp buttons names
-        temp_ok_button.name = "ok_building"
-        temp_cancel_button.name = "cancel_building"
+        self.temp_ok_button.name = "ok_building"
+        self.temp_cancel_button.name = "cancel_building"
         
-        if (role == GameRole.defender || mode == GameMode.SANDBOX)
-        {
-            // Add the 'Gold Label' to the camera view and place it in the top left corner
-            goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-            goldLabel.text = String(defenderGoldCount)
-            goldLabel.fontSize = 150
-            goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
-            goldLabel.position = CGPointMake(750, 1235)
-            goldLabel.zPosition = ZPosition.GUI.rawValue
-            sceneCamera.addChild(goldLabel)
-            
-            // Add the gold image texture
-            goldImageTexture = SKTexture(imageNamed: "GoldImage")
-            goldImage = SKSpriteNode(texture: goldImageTexture)
-            goldImage.position = CGPointMake(450, 1300)
-            goldImage.xScale = 8
-            goldImage.yScale = 8
-            goldImage.zPosition = ZPosition.GUI.rawValue
-            sceneCamera.addChild(goldImage)
-            
-            init_buy_panel()
-        }
+        // Add the 'Gold Label' to the camera view and place it in the top left corner
+        goldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
+        goldLabel.text = String(defenderGoldCount)
+        goldLabel.fontSize = 150
+        goldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
+        goldLabel.position = CGPointMake(750, 1235)
+        goldLabel.zPosition = ZPosition.GUI.rawValue
+        sceneCamera.addChild(goldLabel)
         
         // Add the 'Lives Label' to the camera view and place it in the top right corner
         livesLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
@@ -234,6 +127,15 @@ class GameScene: SKScene, NetworkableScene
         timeLabel.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(timeLabel)
         
+        // Add the gold image texture
+        goldImageTexture = SKTexture(imageNamed: "GoldImage")
+        goldImage = SKSpriteNode(texture: goldImageTexture)
+        goldImage.position = CGPointMake(450, 1300)
+        goldImage.xScale = 8
+        goldImage.yScale = 8
+        goldImage.zPosition = ZPosition.GUI.rawValue
+        sceneCamera.addChild(goldImage)
+        
         // Add the lives image texture
         livesImageTexture = SKTexture(imageNamed: "LivesImage")
         livesImage = SKSpriteNode(texture: livesImageTexture)
@@ -243,59 +145,26 @@ class GameScene: SKScene, NetworkableScene
         livesImage.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesImage)
         
-        
-        // Attacker's gold and gold label
-        if (role == GameRole.attacker || mode == GameMode.SANDBOX)
-        {
-            // Add the gold image texture
-            goldImageTexture = SKTexture(imageNamed: "GoldImage")
-            goldImage = SKSpriteNode(texture: goldImageTexture)
-            goldImage.position = CGPointMake(450, 1100)
-            goldImage.xScale = 8
-            goldImage.yScale = 8
-            goldImage.zPosition = ZPosition.GUI.rawValue
-            sceneCamera.addChild(goldImage)
-            
-            
-            // Add the 'Gold Label' to the camera view and place it in the top left corner
-            attackerGoldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
-            attackerGoldLabel.text = String(attackerGoldCount)
-            attackerGoldLabel.fontSize = 150
-            attackerGoldLabel.fontColor = UIColor.blueColor()
-            attackerGoldLabel.position = CGPointMake(750, 1035)
-            attackerGoldLabel.zPosition = ZPosition.GUI.rawValue
-            sceneCamera.addChild(attackerGoldLabel)
-            
-            init_buy_panel_attack()
-        }
-        
         // Init the orc and tower buttons
         init_buttons()
+        init_buy_panel()
+        init_buy_panel_attack()
         
         // Building and tower menus
         init_tower_menu()
     }
     
-    let buy_panel_width : CGFloat = 600 // This is how wide the buy panel is
-    func init_buy_panel()
+    override func init_buy_panel()
     {
-        debugPrint("Init defender panel")
-        
-        // This is the buy button for the side panel
-        buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
-        buyButton.xScale = 1
-        buyButton.yScale = 1
-        buyButton.position = CGPointMake(4000, -1000)
-        buyButton.name = "BuyButton"
-        buyButton.zPosition = ZPosition.OverlayButton.rawValue
-        sceneCamera.addChild(buyButton)
-        
         let frame = CGRect(x: camera_viewport_width, y: (-camera_viewport_height), width: buy_panel_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
         sidePanel = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
         sidePanel.zPosition = ZPosition.Overlay.rawValue
-            
+        
         sidePanel.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5) // This is the fill color, 0.5 is transperency
         sidePanel.strokeColor = UIColor.blackColor() // This is the border color
+        
+        
+        
         
         // Add regularTower Buy button
         let regularTower = SKSpriteNode(texture: SKTexture(imageNamed: "RegularTower"), size: CGSize(width: 400 ,height: 400))
@@ -391,18 +260,8 @@ class GameScene: SKScene, NetworkableScene
         sceneCamera.addChild(sidePanel) // Add child to the camera
     }
     
-    func init_buy_panel_attack()
+    override func init_buy_panel_attack()
     {
-        debugPrint("Init attacker panel")
-        
-        buyButton_attack = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
-        buyButton_attack.xScale = 1
-        buyButton_attack.yScale = 1
-        buyButton_attack.position = CGPointMake(450, -1000)
-        buyButton_attack.name = "Attacker BuyButton"
-        buyButton_attack.zPosition = ZPosition.OverlayButton.rawValue
-        sceneCamera.addChild(buyButton_attack)
-        
         let frame = CGRect(x: -920, y: (-camera_viewport_height), width: buy_panel_width, height: camera_viewport_height*2) // Use the camera_viewport that is calculated at the start to determine how big the frame is
         sidePanel_attack = SKShapeNode(rect: frame) // Create a SKShapeNode from the frame
         sidePanel_attack.zPosition = ZPosition.Overlay.rawValue
@@ -425,9 +284,13 @@ class GameScene: SKScene, NetworkableScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: RegularTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
+        
+        
         // Create Orc Image
         let orcImage = SKTexture(imageNamed: "orc_down_1")
         createNode(orcImage, scaleX: 6.5, scaleY: 6.5, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "orc_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
+        
         
         // Add goblinBuilding buy button
         let goblinBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Goblin_Building"), size: CGSize(width: 400 ,height: 400))
@@ -449,6 +312,9 @@ class GameScene: SKScene, NetworkableScene
         let goblinImage = SKTexture(imageNamed: "goblin_down_1")
         createNode(goblinImage, scaleX: 7, scaleY: 7, xPosition: x_buy_button + 210, yPosition: y_buy_button - 100, nodeName: "goblin_down_1", zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
+        
+        
+        
         // Add trollBuilding buy button
         let trollBuilding = SKSpriteNode(texture: SKTexture(imageNamed: "Troll_Building"), size: CGSize(width: 400 ,height: 400))
         x_buy_button = -920 + orcBuilding.frame.width - 200
@@ -464,6 +330,7 @@ class GameScene: SKScene, NetworkableScene
         
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: IceTower.towerCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 305, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
+        
         
         // Create Orc Image
         let trollImage = SKTexture(imageNamed: "troll_down_1")
@@ -486,6 +353,9 @@ class GameScene: SKScene, NetworkableScene
         // Create cost label
         createLableNode("Arial-BoldMT", labelText: DefenderPowerSource.buildingCost, labelColour: "Gold", labelFontSize: 75, xPosition: x_buy_button + 300, yPosition: y_buy_button + 75, zPosition: "OverlayButton", childOf: "AttackSidePanel")
         
+        
+        
+        
         sidePanel_attack.addChild(orcBuilding)
         sidePanel_attack.addChild(goblinBuilding)
         sidePanel_attack.addChild(trollBuilding)
@@ -493,10 +363,9 @@ class GameScene: SKScene, NetworkableScene
         
         sceneCamera.addChild(sidePanel_attack) // Add child to the camera
     }
-
+    
     // initialize tower menu
-    let tower_menu_height : CGFloat = 600  // how high the menu is
-    func init_tower_menu()
+    override func init_tower_menu()
     {
         let frame = CGRect(x: 0, y: 0, width: buy_panel_width, height: tower_menu_height)
         towerMenu = SKShapeNode(rect: frame)
@@ -510,14 +379,30 @@ class GameScene: SKScene, NetworkableScene
         // Colors
         towerMenu.fillColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
         towerMenu.strokeColor = UIColor.blackColor()
-
+        
         // Add to camera
         sceneCamera.addChild(towerMenu)
     }
     
-    let colorize = SKAction.colorizeWithColor(UIColor.redColor(), colorBlendFactor: 0.5, duration: 0.5)
-    func init_buttons()
+    override func init_buttons()
     {
+        // This is the buy button for the side panel
+        buyButton = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
+        buyButton.xScale = 1
+        buyButton.yScale = 1
+        buyButton.position = CGPointMake(4000, -1000)
+        buyButton.name = "BuyButton"
+        buyButton.zPosition = ZPosition.OverlayButton.rawValue
+        sceneCamera.addChild(buyButton)
+        
+        buyButton_attack = SKSpriteNode(texture: SKTexture(imageNamed: "BuyButton"))
+        buyButton_attack.xScale = 1
+        buyButton_attack.yScale = 1
+        buyButton_attack.position = CGPointMake(450, -1000)
+        buyButton_attack.name = "Attacker BuyButton"
+        buyButton_attack.zPosition = ZPosition.OverlayButton.rawValue
+        sceneCamera.addChild(buyButton_attack)
+        
         // These are the sandbox buttons, at the lower part of the screen
         buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
@@ -535,9 +420,6 @@ class GameScene: SKScene, NetworkableScene
     }
     
     // MARK: Update method
-
-    var seconds : Int = 0
-    var prevTime: NSTimeInterval = 0
     override func update(currentTime: NSTimeInterval)
     {
         var delta : NSTimeInterval
@@ -575,7 +457,7 @@ class GameScene: SKScene, NetworkableScene
             
             // Calculate and display time count
             updateTimerAndGold(Int(currentTime))
-
+            
             // Game ends when time reaches 10:00 minutes
             if (gameTimeElapsed == totalGameTime || lifeCount == 0)
             {
@@ -584,7 +466,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func updateTimerAndGold(currentTime: Int)
+    override func updateTimerAndGold(currentTime: Int)
     {
         // Update Timer
         if startTimer == true
@@ -620,18 +502,11 @@ class GameScene: SKScene, NetworkableScene
             //attackerGoldCount += 5
         }
         
-        if (role == GameRole.defender || mode == GameMode.SANDBOX)
-        {
-            goldLabel.text = String(defenderGoldCount)
-        }
-        
-        if (role == GameRole.attacker || mode == GameMode.SANDBOX)
-        {
-            attackerGoldLabel.text = String(attackerGoldCount)
-        }
+        goldLabel.text = String(defenderGoldCount)
+        attackerGoldLabel.text = String(attackerGoldCount)
     }
     
-    func doGameOver()
+    override func doGameOver()
     {
         endGameLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
         endGameLabel.fontSize = 150
@@ -650,8 +525,6 @@ class GameScene: SKScene, NetworkableScene
     }
     
     // MARK: Handle touches ( moved and begin ) methods
-    
-    var prevLocation: CGPoint = CGPointMake(0, 0)
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         for touch in touches
@@ -765,12 +638,12 @@ class GameScene: SKScene, NetworkableScene
                     if (can_build)
                     {
                         var building : Building?
-
+                        
                         switch (current_build_mode! )
                         {
                         case .RegularTower:
                             building = spawnRegularTower(temp_building!.visualComp.node.position)
-
+                            
                         case .FireTower:
                             building = spawnFireTower(temp_building!.visualComp.node.position)
                             
@@ -779,7 +652,7 @@ class GameScene: SKScene, NetworkableScene
                             
                         case .DefenderPowerSource:
                             building = spawnDefenderPowerSource(temp_building!.visualComp.node.position)
-                           
+                            
                         case .OrcBuliding:
                             building = spawnOrcBuilding(temp_building!.visualComp.node.position)
                             
@@ -897,7 +770,7 @@ class GameScene: SKScene, NetworkableScene
                         
                     case .None:
                         buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
-                
+                        
                     default:
                         break
                     }
@@ -919,7 +792,7 @@ class GameScene: SKScene, NetworkableScene
                 gui_element_clicked = true
                 place_temp_building(scenePoint)
             }
-
+            
             if (!gui_element_clicked && !entity_clicked)
             {
                 switch (current_build_mode! )
@@ -940,14 +813,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    var tileIndicators : [SKShapeNode] = []
-    var can_build = true
-    var temp_building : Building?
-    
-    let temp_ok_button = SKSpriteNode(texture: SKTexture(imageNamed: "buy_yes"), size: CGSize(width: 100,height: 100))
-    let temp_cancel_button = SKSpriteNode(texture: SKTexture(imageNamed: "buy_no"), size: CGSize(width: 100,height: 100))
-    
-    func place_temp_building(point : CGPoint)
+    override func place_temp_building(point : CGPoint)
     {
         can_build = true
         if (temp_building != nil)
@@ -1001,7 +867,7 @@ class GameScene: SKScene, NetworkableScene
             temp_building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: true)
             isAttacker = true
             isDefender = false
-    
+            
             
         default:
             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -1059,7 +925,7 @@ class GameScene: SKScene, NetworkableScene
                 {
                     can_build = false
                     temp_node.fillColor = UIColor.redColor().colorWithAlphaComponent(0.3)
-
+                    
                 }
                 
                 tileIndicators.append(temp_node)
@@ -1067,9 +933,9 @@ class GameScene: SKScene, NetworkableScene
             }
         }
     }
-
     
-    func destroy_temp_building()
+    
+    override func destroy_temp_building()
     {
         temp_building!.destroy()
         scene!.removeChildrenInArray(tileIndicators)
@@ -1081,7 +947,7 @@ class GameScene: SKScene, NetworkableScene
         current_build_mode! = .None
     }
     
-    func check_tile(tile: Tile) -> Bool
+    override func check_tile(tile: Tile) -> Bool
     {
         if !(tile is DefenderTile)
         {
@@ -1096,7 +962,7 @@ class GameScene: SKScene, NetworkableScene
         return tile.powerSourceInRange
     }
     
-    func check_tile_att(tile: Tile) -> Bool
+    override func check_tile_att(tile: Tile) -> Bool
     {
         if !(tile is AttackerTile)
         {
@@ -1111,14 +977,12 @@ class GameScene: SKScene, NetworkableScene
         return tile.powerSourceInRange
     }
     
-    var side_panel_open = false
-    var show_power_source_range = false
-    func buyButtonPushed()
+    override func buyButtonPushed()
     {
         if (!side_panel_open)
         {
             let slideIn = SKAction.moveByX(-buy_panel_width, y: 0, duration: 1.0) // Define the action to slide it 600 units to the left
-
+            
             sidePanel.runAction(slideIn) // Run the action
             
             side_panel_open = true // Set so that we don't open it multiple times
@@ -1135,8 +999,7 @@ class GameScene: SKScene, NetworkableScene
         PowerSource.visualizePowerSourceArea(self, show_shapes: side_panel_open)
     }
     
-    var attack_side_panel_open = false
-    func attBuyButtonPushed()
+    override func attBuyButtonPushed()
     {
         if (!attack_side_panel_open)
         {
@@ -1158,11 +1021,7 @@ class GameScene: SKScene, NetworkableScene
         PowerSource.visualizePowerSourceArea(self, show_shapes: show_power_source_range)
     }
     
-    // MARK: Building Menu
-    let slideUp = SKAction.moveBy(CGVector(dx: 0, dy: 600), duration: 1.0)
-    let slideDown = SKAction.moveBy(CGVector(dx: 0, dy: -600), duration: 1.0)
-    
-    func close_building_menu(building: Building)
+    override func close_building_menu(building: Building)
     {
         towerMenu.runAction(slideDown)
         building_menu_open = false
@@ -1183,7 +1042,7 @@ class GameScene: SKScene, NetworkableScene
         blue_positions.removeAll()
     }
     
-    func open_building_menu(building: Building)
+    override func open_building_menu(building: Building)
     {
         towerMenu.runAction(slideUp)
         building_menu_open = true
@@ -1202,9 +1061,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    var building_menu_open = false
-    var building_selected : Building?
-    func buildingMenuPushed(building: Building)
+    override func buildingMenuPushed(building: Building)
     {
         if (building_selected != nil)
         {
@@ -1218,7 +1075,7 @@ class GameScene: SKScene, NetworkableScene
         
         if (building_menu_open)
         {
-           close_building_menu(building)
+            close_building_menu(building)
         }
         else
         {
@@ -1226,7 +1083,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func add_tower_buttons()
+    override func add_tower_buttons()
     {
         let show_range = SKSpriteNode(imageNamed: "BuildingShowRange")
         show_range.xScale = 5
@@ -1238,7 +1095,7 @@ class GameScene: SKScene, NetworkableScene
         towerMenu.addChild(show_range)
     }
     
-    func add_spawner_buttons()
+    override func add_spawner_buttons()
     {
         let spawner = building_selected as! Spawner
         if (building_selected is OrcBuilding)
@@ -1269,7 +1126,7 @@ class GameScene: SKScene, NetworkableScene
             
             towerMenu.addChild(choose_spawn_point)
         }
-        
+            
         else if(building_selected is GoblinBuilding)
         {
             let spawn_goblin = SKSpriteNode(imageNamed: "goblin_down_1")
@@ -1327,7 +1184,7 @@ class GameScene: SKScene, NetworkableScene
             
             towerMenu.addChild(choose_spawn_point)
         }
-
+        
         
         for spawn_pos in Spawner.spawn_points
         {
@@ -1344,8 +1201,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    var flag_points: [Building] = []
-    func spawnFlagUp (point: CGPoint)
+    override func spawnFlagUp (point: CGPoint)
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1360,7 +1216,7 @@ class GameScene: SKScene, NetworkableScene
         flag_points.append( building )
     }
     
-    func spawnFlagDown (point: CGPoint)
+    override func spawnFlagDown (point: CGPoint)
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1374,9 +1230,9 @@ class GameScene: SKScene, NetworkableScene
         // Keep track of it
         flag_points.append( building )
     }
-
     
-    func changeSpawnButtonPushed()
+    
+    override func changeSpawnButtonPushed()
     {
         let spawner = building_selected as! Spawner
         
@@ -1399,8 +1255,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    var blue_positions : [SKShapeNode] = []
-    func spawn_blue_position(point: CGPoint)
+    override func spawn_blue_position(point: CGPoint)
     {
         let shape = SKShapeNode(rect: CGRect(origin: CGPointMake(0,0), size: CGSize(width: Tile.tileWidth, height: Tile.tileHeight)))
         
@@ -1413,9 +1268,9 @@ class GameScene: SKScene, NetworkableScene
         blue_positions.append(shape)
         scene?.addChild(shape)
     }
-
     
-    func add_power_source_buttons()
+    
+    override func add_power_source_buttons()
     {
         let show_range = SKSpriteNode(imageNamed: "BuildingShowRange")
         show_range.xScale = 5
@@ -1437,9 +1292,9 @@ class GameScene: SKScene, NetworkableScene
             
             let dx = currentLocation.x - prevLocation.x
             let dy = currentLocation.y - prevLocation.y
-
+            
             prevLocation = currentLocation
-
+            
             var new_x = sceneCamera.position.x - dx * 2.5
             var new_y = sceneCamera.position.y + dy * 2.5
             
@@ -1473,41 +1328,28 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func timeInMinutesSeconds (seconds : Int) -> (Int, Int)
+    override func timeInMinutesSeconds (seconds : Int) -> (Int, Int)
     {
         return ((seconds % 3600) / 60, (seconds % 3600) % 60)
     }
     
-    func coordinateForPointFromTemp(point: CGPoint) -> int2
+    override func coordinateForPointFromTemp(point: CGPoint) -> int2
     {
         return int2(Int32( (point.x + (Tile.tileWidth/2)) / Tile.tileWidth), Int32((point.y  + (Tile.tileHeight/2)) / Tile.tileHeight))
     }
     
-    func coordinateForPoint(point: CGPoint) -> int2
+    override func coordinateForPoint(point: CGPoint) -> int2
     {
         return int2(Int32( point.x / Tile.tileWidth), Int32(point.y / Tile.tileHeight))
     }
     
-    func pointForCoordinate(point: int2) -> CGPoint
+    override func pointForCoordinate(point: int2) -> CGPoint
     {
         return CGPointMake(CGFloat(point.x) * Tile.tileWidth, CGFloat(point.y) * Tile.tileHeight)
     }
     
     // MARK: Json map parsing.
-    
-    var map_height : Int = -1
-    var map_width : Int = -1
-    enum Layers: Int
-    {
-        case ATTACKER = 0
-        case DEFENDER = 1
-        case ROAD = 2
-        case DECO = 3
-        case WAYPOINT = 4
-        case GOAL = 5
-    }
-    
-    func getJSONFile()
+    override func getJSONFile()
     {
         let filePath = NSBundle.mainBundle().pathForResource("Map", ofType: "json")
         
@@ -1526,7 +1368,7 @@ class GameScene: SKScene, NetworkableScene
                 tileNums = [[Int]](count: map_height, repeatedValue: [Int](count: map_width, repeatedValue: 0))
                 
                 let layers = jsonContent["layers"] as! NSArray
-
+                
                 // Parse attacker layer
                 parseLayer(layers, layer: Layers.ATTACKER.rawValue)
                 
@@ -1567,7 +1409,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func parseWayPoints(layers: NSArray, layer: Int)
+    override func parseWayPoints(layers: NSArray, layer: Int)
     {
         // Fill it with tile direction events parsed from the JSON element directly
         let arrows_layer = layers[layer] as! NSDictionary
@@ -1589,7 +1431,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func parseLayer(layers: NSArray, layer: Int)
+    override func parseLayer(layers: NSArray, layer: Int)
     {
         let layer = layers[layer] as! NSDictionary
         let layer_data = layer["data"] as! NSArray
@@ -1611,7 +1453,7 @@ class GameScene: SKScene, NetworkableScene
     
     // MARK: Generalized node function to create and initialize nodes
     
-    func createNode(var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
+    override func createNode(var uiTexture: SKTexture, let scaleX: CGFloat, let scaleY: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let nodeName: String, let zPosition: String, let childOf: String)
     {
         
         uiTexture = SKTexture(imageNamed: nodeName)
@@ -1650,12 +1492,12 @@ class GameScene: SKScene, NetworkableScene
         
     }
     
-    func createLableNode(let labelFont: String, let labelText: Any, let labelColour: String, let labelFontSize: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let zPosition: String, let childOf: String)
+    override func createLableNode(let labelFont: String, let labelText: Any, let labelColour: String, let labelFontSize: CGFloat, let xPosition: CGFloat, let yPosition: CGFloat, let zPosition: String, let childOf: String)
     {
         let uiLabelNode = SKLabelNode(fontNamed: labelFont)
         uiLabelNode.text = String(labelText)
         uiLabelNode.fontSize = labelFontSize
-
+        
         uiLabelNode.position = CGPointMake(xPosition, yPosition)
         if (labelColour == "Gold")
         {
@@ -1702,7 +1544,7 @@ class GameScene: SKScene, NetworkableScene
     
     // MARK: Spawn methods for different units
     
-    func spawnOrc(point: CGPoint)
+    override func spawnOrc(point: CGPoint)
     {
         if (attackerGoldCount >= Orc.cost)
         {
@@ -1731,7 +1573,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnGoblin(point: CGPoint)
+    override func spawnGoblin(point: CGPoint)
     {
         if (attackerGoldCount >= Goblin.cost)
         {
@@ -1758,7 +1600,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnTroll(point: CGPoint)
+    override func spawnTroll(point: CGPoint)
     {
         if (attackerGoldCount >= Troll.cost)
         {
@@ -1784,11 +1626,11 @@ class GameScene: SKScene, NetworkableScene
             }
         }
     }
-
-
     
     
-    func spawnDirtyPig(point: CGPoint)
+    
+    
+    override func spawnDirtyPig(point: CGPoint)
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPoint(point)
@@ -1810,7 +1652,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnHatPig(point: CGPoint)
+    override func spawnHatPig(point: CGPoint)
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPoint(point)
@@ -1832,7 +1674,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnFancyPig(point: CGPoint)
+    override func spawnFancyPig(point: CGPoint)
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPoint(point)
@@ -1854,7 +1696,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnDefenderPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
+    override func spawnDefenderPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1884,7 +1726,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnRegularTower (point: CGPoint) -> Building?
+    override func spawnRegularTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1912,8 +1754,8 @@ class GameScene: SKScene, NetworkableScene
         
         
     }
-
-    func spawnFireTower (point: CGPoint) -> Building?
+    
+    override func spawnFireTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1940,7 +1782,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnIceTower (point: CGPoint) -> Building?
+    override func spawnIceTower (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1968,7 +1810,7 @@ class GameScene: SKScene, NetworkableScene
     }
     
     
-    func spawnAttackerPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
+    override func spawnAttackerPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1999,7 +1841,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnOrcBuilding (point: CGPoint) -> Building?
+    override func spawnOrcBuilding (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2026,8 +1868,8 @@ class GameScene: SKScene, NetworkableScene
         }
         
     }
-
-    func spawnGoblinBuilding (point: CGPoint) -> Building?
+    
+    override func spawnGoblinBuilding (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2055,7 +1897,7 @@ class GameScene: SKScene, NetworkableScene
         
     }
     
-    func spawnTrollBuilding (point: CGPoint) -> Building?
+    override func spawnTrollBuilding (point: CGPoint) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2083,7 +1925,7 @@ class GameScene: SKScene, NetworkableScene
         
     }
     
-    func take_one_life()
+    override func take_one_life()
     {
         let pigs = Array(all_pigs.values)
         
@@ -2097,14 +1939,14 @@ class GameScene: SKScene, NetworkableScene
             let animation = Animation(scene: self, textures: FancyPig.fancyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
             animation.run()
         }
-        
+            
         else if ( pig_to_kill is DirtyPig)
         {
             let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
             let animation = Animation(scene: self, textures: DirtyPig.dirtyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
             animation.run()
         }
-        
+            
         else if ( pig_to_kill is HatPig)
         {
             let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
@@ -2115,17 +1957,17 @@ class GameScene: SKScene, NetworkableScene
         pig_to_kill.destroy()
         
         // Pig to kill is the one we kill!
-
+        
         
         lifeCount = lifeCount - 1
     }
     
-    func updateFromNetwork(msg: String)
+    override func updateFromNetwork(msg: String)
     {
         
     }
     
-    func writeToNet(msg: NetMessage)
+    override func writeToNet(msg: NetMessage)
     {
         
     }

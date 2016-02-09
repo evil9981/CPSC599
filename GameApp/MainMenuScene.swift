@@ -8,6 +8,7 @@
 
 import SpriteKit
 import Starscream
+import SwiftyJSON
 
 class MainMenuScene: SKScene, NetworkableScene
 {
@@ -95,16 +96,7 @@ class MainMenuScene: SKScene, NetworkableScene
         scene!.addChild(multiplayer_button)
     }
     
-    enum PlayerSide
-    {
-        case ATTACKER
-        case DEFENDER
-    }
-    enum GameMode
-    {
-        case MULTIPLAYER
-        case SANDBOX
-    }
+
     
     let MAX_PIGS = 10
     let MAX_TIMER : UInt32 = 5
@@ -158,7 +150,7 @@ class MainMenuScene: SKScene, NetworkableScene
             {
                 //askPlayerSide()
                 this_game_mode = GameMode.SANDBOX
-                loadNextScene()
+                loadSandboxScene()
             }
             else if name == "multiplayer_button"
             {
@@ -168,16 +160,17 @@ class MainMenuScene: SKScene, NetworkableScene
             else if name == "attacker_button"
             {
                 debugPrint("Player chose to be an attacker!")
-
-                let log_in_msg = LogInMsg(role: GameRole.attacker, username: "Test", uniqueId: "UniqueTestID")
-                writeToNet(log_in_msg)
+                select_role(GameRole.attacker)
             }
             else if name == "defender_button"
             {
                 debugPrint("Player chose to be a defender!")
-                
-                let log_in_msg = LogInMsg(role: GameRole.attacker, username: "Test", uniqueId: "UniqueTestID")
-                writeToNet(log_in_msg)
+                select_role(GameRole.defender)
+            }
+            else if name == "fill_button"
+            {
+                debugPrint("Player chose to fill a role!")
+                select_role(GameRole.fill)
             }
             else if name == "back_button"
             {
@@ -225,11 +218,24 @@ class MainMenuScene: SKScene, NetworkableScene
         self.addChild(bg)
     }
     
+    func loadSandboxScene()
+    {
+        if let scene = GameScene(fileNamed:"GameScene")
+        {
+            scene.scaleMode = scaleMode
+            network_inst.mode = GameMode.SANDBOX
+            
+            let reveal = SKTransition.fadeWithDuration(1)
+            self.view?.presentScene(scene, transition: reveal)
+        }
+    }
+    
     func loadNextScene()
     {
         if let scene = GameScene(fileNamed:"GameScene")
         {
             scene.scaleMode = scaleMode
+            network_inst.mode = GameMode.MULTIPLAYER
             
             let reveal = SKTransition.fadeWithDuration(1)
             self.view?.presentScene(scene, transition: reveal)
@@ -342,10 +348,31 @@ class MainMenuScene: SKScene, NetworkableScene
     func updateFromNetwork(msg: String)
     {
         debugPrint(msg)
+        let data = (msg as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        let json = JSON(data: data! )
+        let type = json["type"].stringValue
+        debugPrint(json["type"].error)
+
+        debugPrint("Type was" + type)
+        
+        if (type == msgType.LogIn.rawValue)
+        {
+            let logIn = LogInMsg(role: json["role"].stringValue)
+            network_inst.update_role(logIn.role)
+            loadNextScene()
+        }
+    }
+    
+    func select_role(role: GameRole)
+    {
+        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "some_id")
+        network_inst.update_role(role)
+        writeToNet(log_in_req)
     }
     
     func writeToNet(msg: NetMessage)
     {
         network_inst.writeToNet(msg)
+        network_inst.ws.writeString(network_inst.role.rawValue)
     }
 }

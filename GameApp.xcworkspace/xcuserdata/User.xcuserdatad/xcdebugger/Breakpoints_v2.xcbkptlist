@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/MainMenuScene.swift"
-            timestampString = "476100001.458479"
+            timestampString = "476691881.012925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "update(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "475019261.49511"
+            timestampString = "476695923.10467"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1624"
-            endingLineNumber = "1624"
+            startingLineNumber = "1635"
+            endingLineNumber = "1635"
             landmarkName = "createNode(_:scaleX:scaleY:xPosition:yPosition:nodeName:zPosition:childOf:)"
             landmarkType = "5">
          </BreakpointContent>

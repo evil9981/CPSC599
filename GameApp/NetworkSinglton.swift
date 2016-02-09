@@ -6,11 +6,25 @@ class NetworkSingleton: WebSocketDelegate
     static let instance = NetworkSingleton()
     var ws: WebSocket!
     var scene: NetworkableScene!
+    var role : GameRole!
+    var mode: GameMode!
     
     private init()
     {
-        ws = WebSocket(url: NSURL(string: "ws://192.168.0.14:8005")!)
+        ws = WebSocket(url: NSURL(string: "ws://70.73.8.39:8005")!)
+        ws.delegate = self
         ws.connect()
+    }
+    
+    
+    func update_role(role : GameRole)
+    {
+        self.role = role
+    }
+    
+    func update_mode(mode: GameMode)
+    {
+        self.mode = mode
     }
     
     static func getInst(scene: NetworkableScene) -> NetworkSingleton
@@ -37,7 +51,7 @@ class NetworkSingleton: WebSocketDelegate
     
     func websocketDidReceiveMessage(socket: WebSocket, text: String)
     {
-        debugPrint("Message recieved: " + text)
+        self.scene.updateFromNetwork(text)
     }
     
     func writeToNet(msg: NetMessage)
