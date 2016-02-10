@@ -47,6 +47,7 @@
 		CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8C91C064604008CB40B /* ButtonManager.swift */; };
 		CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8CC1C0650C7008CB40B /* Pig.swift */; };
 		CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8CE1C0651A1008CB40B /* PigMoveComponent.swift */; };
+		CE98B4571C6BD83200C90E79 /* NewBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE98B4561C6BD83200C90E79 /* NewBuilding.swift */; };
 		CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A764C1BE702D100DDBF11 /* Tile.swift */; };
 		CE9A76541BE7547300DDBF11 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A76531BE7547300DDBF11 /* Unit.swift */; };
 		CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A76561BE754BF00DDBF11 /* MovementComponent.swift */; };
@@ -156,6 +157,7 @@
 		CE8ED8C91C064604008CB40B /* ButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
 		CE8ED8CC1C0650C7008CB40B /* Pig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pig.swift; sourceTree = "<group>"; };
 		CE8ED8CE1C0651A1008CB40B /* PigMoveComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PigMoveComponent.swift; sourceTree = "<group>"; };
+		CE98B4561C6BD83200C90E79 /* NewBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBuilding.swift; sourceTree = "<group>"; };
 		CE9A764C1BE702D100DDBF11 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		CE9A76531BE7547300DDBF11 /* Unit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		CE9A76561BE754BF00DDBF11 /* MovementComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */,
+				CE98B4561C6BD83200C90E79 /* NewBuilding.swift */,
 				CEF8858B1C69B74E00C7A793 /* LogInRequestMsg.swift */,
 			);
 			name = MsgInst;
@@ -653,6 +656,7 @@
 				A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */,
 				CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */,
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
+				CE98B4571C6BD83200C90E79 /* NewBuilding.swift in Sources */,
 				929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
 				CE7B44621C62813400FCA46E /* NetworkableScene.swift in Sources */,

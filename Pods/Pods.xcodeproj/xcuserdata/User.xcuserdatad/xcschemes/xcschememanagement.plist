@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PureJsonSerializer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Starscream.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +32,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0E420A68D255E97EAA07B12A6A5B601E</key>
+		<key>0D078D80868878340C736E11037FD62A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3BA2A74F43DE66EC3CDDC6E1AAD67E89</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -37,12 +47,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7671F5EB76F5EADE17F1F80696ED0F2C</key>
+		<key>968E6CBA5C76C38933374EAC7752DC13</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>827D584CC9B4463C8428365616288DC9</key>
+		<key>99E12FE1AF931D97B8E33EED890CB0CB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

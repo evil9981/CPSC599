@@ -85,11 +85,13 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-GameApp/Alamofire.framework"
+  install_framework "Pods-GameApp/PureJsonSerializer.framework"
   install_framework "Pods-GameApp/Starscream.framework"
   install_framework "Pods-GameApp/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-GameApp/Alamofire.framework"
+  install_framework "Pods-GameApp/PureJsonSerializer.framework"
   install_framework "Pods-GameApp/Starscream.framework"
   install_framework "Pods-GameApp/SwiftyJSON.framework"
 fi
