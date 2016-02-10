@@ -79,6 +79,13 @@
 			remoteGlobalIDString = 233BC83BBB48D1E9882D79E53D90913D;
 			remoteInfo = Starscream;
 		};
+		CE51C9CD1C6BEEBC000D5C91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE8ED8B11C040DED008CB40B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2E9F5BDB203C28C543410A72D5C6D1FA;
+			remoteInfo = PureJsonSerializer;
+		};
 		CE6EAE8D1BD889300004DAD8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE6EAE6C1BD889300004DAD8 /* Project object */;
@@ -327,6 +334,7 @@
 			children = (
 				CE8ED8B81C040DED008CB40B /* Alamofire.framework */,
 				CE8ED8BA1C040DED008CB40B /* Pods_GameApp.framework */,
+				CE51C9CE1C6BEEBC000D5C91 /* PureJsonSerializer.framework */,
 				CE1988141C60B14D00CB80F3 /* Starscream.framework */,
 				CE8ED8BC1C040DED008CB40B /* SwiftyJSON.framework */,
 			);
@@ -477,7 +485,7 @@
 				TargetAttributes = {
 					CE6EAE731BD889300004DAD8 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = C78K7F5GW8;
+						DevelopmentTeam = C83LCGDPF3;
 					};
 					CE6EAE8B1BD889300004DAD8 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -517,6 +525,13 @@
 			fileType = wrapper.framework;
 			path = Starscream.framework;
 			remoteRef = CE1988131C60B14D00CB80F3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE51C9CE1C6BEEBC000D5C91 /* PureJsonSerializer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PureJsonSerializer.framework;
+			remoteRef = CE51C9CD1C6BEEBC000D5C91 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CE8ED8B81C040DED008CB40B /* Alamofire.framework */ = {
@@ -805,7 +820,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GameApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = roger.sun.GameApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -820,7 +835,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GameApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = roger.sun.GameApp;
+				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

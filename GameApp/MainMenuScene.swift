@@ -351,7 +351,9 @@ class MainMenuScene: SKScene, NetworkableScene
         
         let data = (msg as NSString).dataUsingEncoding(NSUTF8StringEncoding)
         let json = JSON(data: data! )
-        let type = json["msg_type"].stringValue
+        let type = json["msgType"].stringValue
+        
+        debugPrint("Type was " + type)
         
         if (type == msgType.LogIn.rawValue)
         {
@@ -363,7 +365,7 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func select_role(role: GameRole)
     {
-        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "eric_is_awesome")
+        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "eric_is_awes1ome1454")
         debugPrint(log_in_req.toJSON())
         network_inst.update_role(role)
         writeToNet(log_in_req)
