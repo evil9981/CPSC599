@@ -363,14 +363,14 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func select_role(role: GameRole)
     {
-        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "some_id")
+        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "eric_is_awesome")
+        debugPrint(log_in_req.toJSON())
         network_inst.update_role(role)
         writeToNet(log_in_req)
     }
     
     func writeToNet(msg: NetMessage)
     {
-        debugPrint(msg)
         network_inst.writeToNet(msg)
     }
 }

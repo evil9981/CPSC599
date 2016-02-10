@@ -30,7 +30,7 @@ class LogInRequestMsg : NetMessage
     
     func toJSON() -> String
     {
-        let json = JSON(["msg_type":self.msg_type.rawValue, "role":role.rawValue, "username":self.username,"uniqueId":self.uniqueId])
+        let json = JSON(["msgType":self.msg_type.rawValue, "role":role.rawValue, "username":self.username,"uniqueId":self.uniqueId])
         return json.rawString()!
     }
 }

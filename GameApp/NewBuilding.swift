@@ -43,7 +43,7 @@ class NewBuilding : NetMessage
     {
         let str: String =
         "{" +
-            " \"msg_type\" : \(self.msg_type.rawValue)," +
+            " \"msgType\" : \(self.msg_type.rawValue)," +
             " \"type\" : \(type.rawValue)," +
             " \"entityID\" : \(self.entity_id)," +
             " \"location\" : { \"x\":\(self.location.x), \"y\":\(self.location.y) }," +
