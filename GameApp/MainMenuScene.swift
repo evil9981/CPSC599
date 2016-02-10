@@ -370,7 +370,7 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func writeToNet(msg: NetMessage)
     {
+        debugPrint(msg)
         network_inst.writeToNet(msg)
-        network_inst.ws.writeString(network_inst.role.rawValue)
     }
 }
