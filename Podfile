@@ -5,7 +5,5 @@ use_frameworks!
 
 target ’GameApp' do
    pod ’SwiftyJSON’, :git => ‘https://github.com/SwiftyJSON/SwiftyJSON.git'
-   pod ‘Alamofire’, ‘~> 3.0’	
    pod 'Starscream', '~> 1.1.1'
-   pod 'PureJsonSerializer'
 end

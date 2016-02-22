@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/MainMenuScene.swift"
-            timestampString = "476691881.012925"
+            timestampString = "477870055.014518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "update(_:)"
             landmarkType = "5">
          </BreakpointContent>

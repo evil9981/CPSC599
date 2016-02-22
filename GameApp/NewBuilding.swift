@@ -9,7 +9,6 @@
 import Foundation
 import SwiftyJSON
 import SpriteKit
-import PureJsonSerializer
 
 class NewBuilding : NetMessage
 {
@@ -43,7 +42,7 @@ class NewBuilding : NetMessage
     {
         let str: String =
         "{" +
-            " \"msgType\" : \(self.msg_type.rawValue)," +
+            " \"msgType\" : \"\(self.msg_type.rawValue)\"," +
             " \"type\" : \(type.rawValue)," +
             " \"entityID\" : \(self.entity_id)," +
             " \"location\" : { \"x\":\(self.location.x), \"y\":\(self.location.y) }," +

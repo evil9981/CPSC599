@@ -7,13 +7,14 @@
 //
 
 import SpriteKit
-import Starscream
 import SwiftyJSON
+import GameKit
 
 class MainMenuScene: SKScene, NetworkableScene
 {
     var sandbox_button: SKSpriteNode!
     var multiplayer_button: SKSpriteNode!
+    //var label_node: SKLabelNode!
     
     var all_pigs : Dictionary<Int, SKSpriteNode> = Dictionary<Int, SKSpriteNode>()
     
@@ -48,6 +49,7 @@ class MainMenuScene: SKScene, NetworkableScene
         }
         
         network_inst = NetworkSingleton.getInst(self)
+        getPlayerInfo()
         
         add_title()
         init_game_buttons()
@@ -94,6 +96,20 @@ class MainMenuScene: SKScene, NetworkableScene
         multiplayer_button.position = CGPointMake(button_x, button_y)
         
         scene!.addChild(multiplayer_button)
+        
+        /*
+        label_node = SKLabelNode(text : "Welcome ")
+        label_node.xScale = 2
+        label_node.yScale = 2
+        label_node.name = "label_node"
+        label_node.zPosition = ZPositions.Button.rawValue
+        
+        button_x = self.frame.width/2
+        button_y = self.frame.height/2 + 20.0 + sandbox_button.frame.height
+        label_node.position = CGPointMake(button_x, button_y)
+        
+        scene!.addChild(label_node)
+        */
     }
     
 
@@ -345,6 +361,8 @@ class MainMenuScene: SKScene, NetworkableScene
         all_pigs[num] = pig
     }
     
+    // MARK: Network functions
+    
     func updateFromNetwork(msg: String)
     {
         debugPrint("Raw message: " + msg)
@@ -365,8 +383,8 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func select_role(role: GameRole)
     {
-        let log_in_req = LogInRequestMsg(role: role, username: "some_name", uniqueId: "eric_is_awes1ome1454")
-        debugPrint(log_in_req.toJSON())
+        let log_in_req = LogInRequestMsg(role: role, username: self.alias, uniqueId: self.player_id)
+        
         network_inst.update_role(role)
         writeToNet(log_in_req)
     }
@@ -375,4 +393,48 @@ class MainMenuScene: SKScene, NetworkableScene
     {
         network_inst.writeToNet(msg)
     }
+    
+    // MARK: EGC functions
+    var alias = ""
+    var player_id = ""
+    let use_game_center = false
+    
+    func getPlayerInfo()
+    {
+        if (use_game_center)
+        {
+            let localPlayer = GKLocalPlayer.localPlayer()
+            
+            localPlayer.authenticateHandler =
+                {
+                    (viewController, error) -> Void in
+                    if (viewController != nil)
+                    {
+                        self.view!.window?.rootViewController?.presentViewController(viewController!, animated: true, completion: nil)
+                    }
+                    else
+                    {
+                        debugPrint((GKLocalPlayer().authenticated))
+                        
+                        self.alias = localPlayer.alias!
+                        self.player_id = localPlayer.playerID!
+                        
+                        debugPrint("Local player name: \(self.alias)")
+                        debugPrint("Player id: \(self.player_id)")
+                    }
+            }
+        }
+        else
+        {
+            let num = arc4random_uniform(1000000)
+            self.alias = "simulator_\(num)"
+            self.player_id = "simulator_id_\(num)"
+            
+            debugPrint("Local player name: \(self.alias)")
+            debugPrint("Player id: \(self.player_id)")
+        }
+        
+
+    }
+    
 }
