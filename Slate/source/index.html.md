@@ -22,9 +22,9 @@ Welcome to the Swincide API documentation. As mentioned, there are three types o
 3. Messages to update the Server of the game status: these messages are meant for the server to keep a state of the match and help analyze game data in later stages.
 
 # Start/End match messages
-## LogInRequestMsg
+## LogInRequest
 
-> An example of a valid LogInRequestMsg:
+> An example of a valid LogInRequest:
 
 ```json
 {
@@ -44,9 +44,9 @@ role | [Valid role](#role)
 username | String, Game Center name
 uniqueId | String, Game Center Unique ID
 
-## LogInMsg
+## LogIn
 
-> An example of a valid LogInMsg:
+> An example of a valid LogIn:
 
 ```json
 {
@@ -86,21 +86,48 @@ msgType | [Valid msgType](#msgtype)
 winner | [Valid role](#role)
 
 # Relayed Messages
-## NewBuilding
-
-> An example of a valid NewBuilding:
+## RequestEntity
+> An example of a valid RequestEntity:
 
 ```json
 {
-    "msgType": "NewBuilding",
+    "msgType": "RequestEntity",
+    "type": 1,
+    "location": 
+    {
+        "x": 1,
+        "y": 55 
+    }
+}
+```
+
+This message is sent from a client to the server to request a building to be placed. The sending client then plays a "building in progress" animation. The server starts a timer for the given building and allocates a unique entity ID for that building and creatures for this match. 
+
+The first allocated entity ID should be 2 - the defender's initial powersource will be automatically assigned the value 0 to it's entity ID and the attacker's first powersrouce will be given an entity ID of 1.
+
+Upon reciecving the message, the server also relays it to the oposite side - this way the other client will know to build the temp entity.
+Finally, when the server's timer for the given request ends, a [NewEntity](#newentity) message is sent to both sides to "activate" an actual entity instead of the temp ones. 
+
+Field | Value 
+-------------- | -------------- 
+msgType | [Valid msgType](#msgtype) 
+type | [Valid Type](#type)
+Location | Has an x and y property that indicates location on the game's logic grid.
+
+## NewEntity
+
+> An example of a valid NewEntity:
+
+```json
+{
+    "msgType": "NewEntity",
     "type": 1,
     "entityID": 35,
     "location": 
     {
         "x": 1,
         "y": 55 
-    },
-    "timeToFinish": "5:55"
+    }
 }
 ```
 
@@ -112,42 +139,9 @@ msgType | [Valid msgType](#msgtype)
 type | [Valid Type](#type)
 entityID | A Unique integer a client has for a given entity. Two clients might give different Entity ID's to the same creature.
 Location | Has an x and y property that indicates location on the game's logic grid.
-timeToFinish | String, indicates at what time in the game timer should this unit be finished.
 
 <aside class="notice">
-Currently, it is identical in structure to <a href="#newcreature">NewCreature</a>, but the appropriate one should be used for future compatibility.
-</aside>
-
-## NewCreature
-
-> An example of a valid NewCreature:
-
-```json
-{
-    "msgType": "NewCreature",
-    "type": 1,
-    "entityID": 35,
-    "location": 
-    {
-        "x": 1,
-        "y": 55 
-    },
-    "timeToFinish": "5:55"
-}
-```
-
-This message is sent from a client to the server to be relayed to the matched client. It indicates one of the clients has preformed an action that resulted in a new creature. 
-
-Field | Value 
--------------- | -------------- 
-msgType | [Valid msgType](#msgtype) 
-type | [Valid Type](#type)
-entityID | A Unique integer a client has for a given entity. Two clients might give different Entity ID's to the same creature.
-location | Has an x and y property that indicates location on the game's logic grid.
-timeToFinish | String, indicates at what time in the game timer should this unit be finished.
-
-<aside class="notice">
-Currently, it is identical in structure to <a href="#newbuilding">NewBuilding</a>, but the appropriate one should be used for future compatibility.
+This message is identical between buildings and creatures. The distinguishing element is the type field.
 </aside>
 
 # Update Server Game State
