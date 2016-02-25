@@ -97,7 +97,8 @@ winner | [Valid role](#role)
     {
         "x": 1,
         "y": 55 
-    }
+    },
+    "parent_id":1
 }
 ```
 
@@ -112,7 +113,8 @@ Field | Value
 -------------- | -------------- 
 msgType | [Valid msgType](#msgtype) 
 type | [Valid Type](#type)
-Location | Has an x and y property that indicates location on the game's logic grid.
+location | Has an x and y property that indicates location on the game's logic grid. For buildings, this is where we build the building. For creatures, this is the location at which they will spawn.
+parent_id | This is only relevant to creatures. Buildings have this set to -1. This represents which building is spawning this creature and is used to display the "busy" animation on that building.
 
 ## NewEntity
 
@@ -127,7 +129,8 @@ Location | Has an x and y property that indicates location on the game's logic g
     {
         "x": 1,
         "y": 55 
-    }
+    },
+    "parent_id":1
 }
 ```
 
@@ -138,7 +141,8 @@ Field | Value
 msgType | [Valid msgType](#msgtype) 
 type | [Valid Type](#type)
 entityID | A Unique integer a client has for a given entity. Two clients might give different Entity ID's to the same creature.
-Location | Has an x and y property that indicates location on the game's logic grid.
+location | Has an x and y property that indicates location on the game's logic grid.
+parent_id | This is only relevant to creatures. Buildings have this set to -1. This represents which building is spawning this creature and is used to stop the "busy" animation on that building.
 
 <aside class="notice">
 This message is identical between buildings and creatures. The distinguishing element is the type field.
@@ -211,8 +215,8 @@ MsgType | Fields | Sender | Intended for
 LogInRequest | Side, Username, UserID | Client | Server
 LogIn | Side | Server | Client
 EndGame | Winner | Server | Both clients
-NewBuilding | Type, EntityId, Location, TimeToFinish | Client | Matched Client, relayed by Server
-NewCreature | Type, EntityId, Location, TimeToFinish | Client | Matched Client, relayed by Server
+RequestEntity | Type, EntityId, Location, Parent_ID | Client | Matched Client, relayed by Server
+NewEntity | Type, EntityId, Location, Parent_ID | Client | Matched Client, relayed by Server
 CreatureDied | Type, EntityId, Location, Time | Client | Server, will be sent by both Clients
 LifeReduced | LivesLeft, Time | Client | Server, will be sent by both Clients
 
