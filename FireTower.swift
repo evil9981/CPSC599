@@ -19,6 +19,8 @@ class FireTower : Tower
     static let towerDamage : Int = 30
     static let towerSpeed: NSTimeInterval = 1.0 // Once a second
     
+    static let fireT_Building = [SKTexture(imageNamed: "FireT_In_Progress_01"), SKTexture(imageNamed: "FireT_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)

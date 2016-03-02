@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>PureJsonSerializer.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>5</integer>
+		</dict>
 		<key>Starscream.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -27,6 +32,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>03318E4369A38F54E654E6CA75FA2875</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0D078D80868878340C736E11037FD62A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0E420A68D255E97EAA07B12A6A5B601E</key>
 		<dict>
 			<key>primary</key>
@@ -37,7 +52,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>3BA2A74F43DE66EC3CDDC6E1AAD67E89</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>486FEB38148598B74134381CF2A08DDC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>644FC335BC6FB60A7D35357D3AB28496</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -48,6 +78,16 @@
 			<true/>
 		</dict>
 		<key>827D584CC9B4463C8428365616288DC9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>968E6CBA5C76C38933374EAC7752DC13</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>99E12FE1AF931D97B8E33EED890CB0CB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

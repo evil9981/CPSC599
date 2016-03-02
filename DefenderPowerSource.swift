@@ -15,6 +15,8 @@ class DefenderPowerSource : PowerSource
     let tower_texture : SKTexture = SKTexture(imageNamed: "DefenderPowerSource")
     static let buildingCost = 50
     
+    static let dps_Building = [SKTexture(imageNamed: "DPS_In_Progress_01"), SKTexture(imageNamed: "DPS_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)
