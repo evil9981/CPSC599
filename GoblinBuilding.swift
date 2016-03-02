@@ -16,6 +16,8 @@ class GoblinBuilding: Spawner
     static let towerCost : Int = 100
     static let unitCooldown : Float = 1.5 // second
     
+    static let goblinB_Building = [SKTexture(imageNamed: "GoblinB_In_Progress_01"), SKTexture(imageNamed: "GoblinB_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)

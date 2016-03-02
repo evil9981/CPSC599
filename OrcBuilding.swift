@@ -17,6 +17,8 @@ class OrcBuilding: Spawner
     static let towerCost : Int = 75
     static let unitCooldown : Float = 1.0 //second
     
+    static let orcB_Building = [SKTexture(imageNamed: "OrcB_In_Progress_01"), SKTexture(imageNamed: "OrcB_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)

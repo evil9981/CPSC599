@@ -17,6 +17,8 @@ class RegularTower : Tower
     static let towerDamage : Int = 25
     static let towerSpeed: NSTimeInterval = 1.0 // Once a second
     
+    static let baseT_Building = [SKTexture(imageNamed: "BaseT_In_Progress_01"), SKTexture(imageNamed: "BaseT_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)

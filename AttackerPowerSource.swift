@@ -15,6 +15,8 @@ class AttackerPowerSource : PowerSource
     let tower_texture : SKTexture = SKTexture(imageNamed: "AttackerPowerSource")
     static let buildingCost = 50
     
+    static let aps_Building = [SKTexture(imageNamed: "APS_In_Progress_01"), SKTexture(imageNamed: "APS_In_Progress_02")]
+    
     init(scene: GameScene, grid_position: int2, world_position: CGPoint, temp: Bool = false)
     {
         let gridSize = int2(2,2)
