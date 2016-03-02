@@ -1852,7 +1852,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnDefenderPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
+    func spawnDefenderPowerSource (point: CGPoint, spawn_free: Bool = false, temp: Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -1863,7 +1863,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is DefenderTile)
         {
             // Init the tower
-            let building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = DefenderPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
@@ -1890,28 +1890,28 @@ class GameScene: SKScene, NetworkableScene
         switch ( build_mode )
         {
         case .RegularTower:
-            building = spawnRegularTower(position)
+            building = spawnRegularTower(position, temp: true)
             
         case .FireTower:
-            building = spawnFireTower(position)
+            building = spawnFireTower(position, temp: true)
             
         case .IceTower:
-            building = spawnIceTower(position)
+            building = spawnIceTower(position, temp: true)
             
         case .DefenderPowerSource:
-            building = spawnDefenderPowerSource(position)
+            building = spawnDefenderPowerSource(position, temp: true)
             
         case .OrcBuliding:
-            building = spawnOrcBuilding(position)
+            building = spawnOrcBuilding(position, temp: true)
             
         case .GoblinBuilding:
-            building = spawnGoblinBuilding(position)
+            building = spawnGoblinBuilding(position, temp: true)
             
         case .TrollBuilding:
-            building = spawnTrollBuilding(position)
+            building = spawnTrollBuilding(position, temp: true)
             
         case .AttackerPowerSource:
-            building = spawnAttackerPowerSource(position)
+            building = spawnAttackerPowerSource(position, temp: true)
 
         default:
             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -1926,8 +1926,8 @@ class GameScene: SKScene, NetworkableScene
             for pos in temp_tiles
             {
                 //let pos = coordinateForPoint(pos_on_grid)
-                let tile = Tile.getTile(tiles, pos: pos)
-                tile.building_on_tile = building!
+                //let tile = Tile.getTile(tiles, pos: pos)
+                //tile.building_on_tile = building!
             }
 
             destroy_temp_building()
@@ -2013,7 +2013,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnRegularTower (point: CGPoint) -> Building?
+    func spawnRegularTower (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2024,7 +2024,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is DefenderTile)
         {
             // Init the tower
-            let tower = RegularTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let tower = RegularTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
@@ -2042,7 +2042,7 @@ class GameScene: SKScene, NetworkableScene
         
     }
 
-    func spawnFireTower (point: CGPoint) -> Building?
+    func spawnFireTower (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2053,7 +2053,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is DefenderTile)
         {
             // Init the tower
-            let tower = FireTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let tower = FireTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
@@ -2069,7 +2069,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnIceTower (point: CGPoint) -> Building?
+    func spawnIceTower (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2080,7 +2080,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is DefenderTile)
         {
             // Init the tower
-            let tower = IceTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let tower = IceTower(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[tower.entity_id] = tower
@@ -2097,7 +2097,7 @@ class GameScene: SKScene, NetworkableScene
     }
     
     
-    func spawnAttackerPowerSource (point: CGPoint, spawn_free: Bool = false) -> Building?
+    func spawnAttackerPowerSource (point: CGPoint, spawn_free: Bool = false, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2108,7 +2108,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is AttackerTile)
         {
             // Init the tower
-            let building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = AttackerPowerSource(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
@@ -2128,7 +2128,7 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
-    func spawnOrcBuilding (point: CGPoint) -> Building?
+    func spawnOrcBuilding (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2139,7 +2139,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is AttackerTile)
         {
             // Init the tower
-            let building = OrcBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = OrcBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
@@ -2156,7 +2156,7 @@ class GameScene: SKScene, NetworkableScene
         
     }
 
-    func spawnGoblinBuilding (point: CGPoint) -> Building?
+    func spawnGoblinBuilding (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2167,7 +2167,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is AttackerTile)
         {
             // Init the tower
-            let building = GoblinBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = GoblinBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building
@@ -2184,7 +2184,7 @@ class GameScene: SKScene, NetworkableScene
         
     }
     
-    func spawnTrollBuilding (point: CGPoint) -> Building?
+    func spawnTrollBuilding (point: CGPoint, temp:Bool = false) -> Building?
     {
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPointFromTemp(point)
@@ -2195,7 +2195,7 @@ class GameScene: SKScene, NetworkableScene
         if (tile is AttackerTile)
         {
             // Init the tower
-            let building = TrollBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos)
+            let building = TrollBuilding(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, temp: temp)
             
             // Keep track of it in a dictionary
             all_buildings[building.entity_id] = building

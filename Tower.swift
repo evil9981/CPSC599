@@ -67,6 +67,9 @@ class Tower: Building
     
     override func update(delta: NSTimeInterval)
     {
-        towerComp.update(delta)
+        if (towerComp != nil)
+        {
+            towerComp.update(delta)
+        }
     }
 }

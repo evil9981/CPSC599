@@ -401,7 +401,7 @@ class MainMenuScene: SKScene, NetworkableScene
     // MARK: EGC functions
     var alias = ""
     var player_id = ""
-    let use_game_center = true
+    let use_game_center = false
     
     func getPlayerInfo()
     {
