@@ -42,60 +42,62 @@ class Building: GameEntity
         let world_position: CGPoint = visualComp.node.position
         
         visualComp.scene.removeChildrenInArray([visualComp.node])
+        let fixed_pos = CGPointMake(world_position.x + 85 , world_position.y + 85)
         
         if (self is RegularTower)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: RegularTower.baseT_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: RegularTower.baseT_Building, speed: 10, visSize: size , worldPos: fixed_pos , death_anim: false)
             animation.run()
         }
         
         else if (self is FireTower)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: FireTower.fireT_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: FireTower.fireT_Building, speed: 10, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
         
         else if(self is IceTower)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: IceTower.iceT_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: IceTower.iceT_Building, speed: 10, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
         
         else if(self is OrcBuilding)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: OrcBuilding.orcB_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: OrcBuilding.orcB_Building, speed: 5, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
         
         else if(self is GoblinBuilding)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: GoblinBuilding.goblinB_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: GoblinBuilding.goblinB_Building, speed: 5, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
 
         else if(self is TrollBuilding)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: TrollBuilding.trollB_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: TrollBuilding.trollB_Building, speed: 5, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
 
         else if(self is DefenderPowerSource)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: DefenderPowerSource.dps_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: DefenderPowerSource.dps_Building, speed: 10, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
         
         else if(self is AttackerPowerSource)
         {
-            let size = CGSize(width: 1.2 * Tile.tileWidth,height: 1.2 * Tile.tileHeight)
-            let animation = Animation(scene: scene, textures: AttackerPowerSource.aps_Building, speed: 3, visSize: size , worldPos: world_position, death_anim: false)
+            let size = CGSize(width: 2.5 * Tile.tileWidth,height: 2.5 * Tile.tileHeight)
+            let animation = Animation(scene: scene, textures: AttackerPowerSource.aps_Building, speed: 5, visSize: size , worldPos: fixed_pos, death_anim: false)
             animation.run()
         }
         
