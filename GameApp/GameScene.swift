@@ -1706,7 +1706,7 @@ class GameScene: SKScene, NetworkableScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1)
+                let orc = Orc(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.4)
                 
                 // Keep track of it in a dictionary
                 all_units[orc.entity_id] = orc
@@ -1737,7 +1737,7 @@ class GameScene: SKScene, NetworkableScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.6)
+                let goblin = Goblin(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.2)
                 
                 // Keep track of it in a dictionary
                 all_units[goblin.entity_id] = goblin
@@ -1768,7 +1768,7 @@ class GameScene: SKScene, NetworkableScene
             if (tile is MazeTile)
             {
                 // Init the orc
-                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 1.2)
+                let troll = Troll(scene: self, grid_position: pos_on_grid, world_position: fixed_pos, speed: 0.6)
                 
                 // Keep track of it in a dictionary
                 all_units[troll.entity_id] = troll
