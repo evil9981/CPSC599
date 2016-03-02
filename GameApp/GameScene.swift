@@ -785,10 +785,9 @@ class GameScene: SKScene, NetworkableScene
                         //debugPrint("Point: \(point) , pos_on_grid: \(pos_on_grid)")
                         
                         let request_entity = RequestEntity(type: current_build_mode!, location: pos_on_grid, parent_id: -1)
-                        writeToNet( request_entity );
-                        
-                        destroy_temp_building();
-                        // Show temp animation
+                        writeToNet( request_entity )
+                    
+                        do_progress_build(pos_on_grid, build_mode: current_build_mode!)
                     }
                 }
                 else if name == "cancel_building"
@@ -1692,7 +1691,7 @@ class GameScene: SKScene, NetworkableScene
     
     // MARK: Spawn methods for different units
     
-    func spawnOrc(point: CGPoint)
+    func spawnOrc(point: CGPoint) -> Unit?
     {
         if (attackerGoldCount >= Orc.cost)
         {
@@ -1713,15 +1712,19 @@ class GameScene: SKScene, NetworkableScene
                 all_units[orc.entity_id] = orc
                 
                 attackerGoldCount -= Orc.cost
+                
+                return orc;
             }
             else
             {
                 debugPrint("Not a maze tile!")
             }
         }
+        
+        return nil;
     }
     
-    func spawnGoblin(point: CGPoint)
+    func spawnGoblin(point: CGPoint) -> Unit?
     {
         if (attackerGoldCount >= Goblin.cost)
         {
@@ -1740,15 +1743,19 @@ class GameScene: SKScene, NetworkableScene
                 all_units[goblin.entity_id] = goblin
                 
                 attackerGoldCount -= Goblin.cost
+                
+                return goblin;
             }
             else
             {
                 debugPrint("Not a maze tile!")
             }
         }
+        
+        return nil;
     }
     
-    func spawnTroll(point: CGPoint)
+    func spawnTroll(point: CGPoint) -> Unit?
     {
         if (attackerGoldCount >= Troll.cost)
         {
@@ -1767,12 +1774,16 @@ class GameScene: SKScene, NetworkableScene
                 all_units[troll.entity_id] = troll
                 
                 attackerGoldCount -= Troll.cost
+                
+                return troll;
             }
             else
             {
                 debugPrint("Not a maze tile!")
             }
         }
+        
+        return nil;
     }
     
     func spawnDirtyPig(point: CGPoint)
@@ -1871,15 +1882,75 @@ class GameScene: SKScene, NetworkableScene
         }
     }
     
+    func do_progress_build(grid_pos: int2, build_mode: BuildMode)
+    {
+        let position = pointForCoordinate(grid_pos)
+        var building : Building?
+        
+        switch ( build_mode )
+        {
+        case .RegularTower:
+            building = spawnRegularTower(position)
+            
+        case .FireTower:
+            building = spawnFireTower(position)
+            
+        case .IceTower:
+            building = spawnIceTower(position)
+            
+        case .DefenderPowerSource:
+            building = spawnDefenderPowerSource(position)
+            
+        case .OrcBuliding:
+            building = spawnOrcBuilding(position)
+            
+        case .GoblinBuilding:
+            building = spawnGoblinBuilding(position)
+            
+        case .TrollBuilding:
+            building = spawnTrollBuilding(position)
+            
+        case .AttackerPowerSource:
+            building = spawnAttackerPowerSource(position)
+
+        default:
+            debugPrint("Wrong Build Mode: \(current_build_mode)")
+            break
+        }
+        
+        if (building != nil)
+        {
+            // All positions on the grid
+            let temp_tiles : [int2] = [grid_pos, int2(grid_pos.x+1,grid_pos.y), int2(grid_pos.x,grid_pos.y+1), int2(grid_pos.x+1,grid_pos.y+1)]
+            
+            for pos in temp_tiles
+            {
+                //let pos = coordinateForPoint(pos_on_grid)
+                let tile = Tile.getTile(tiles, pos: pos)
+                tile.building_on_tile = building!
+            }
+
+            destroy_temp_building()
+            building!.buildInProgress()
+        }
+
+    }
+    
     func BuildEntity(new_entity : NewEntity)
     {
+        // Destroy the in process building
+        let tile = Tile.getTile(tiles, pos: new_entity.location)
+        
+        if (tile.building_on_tile != nil)
+        {
+            tile.building_on_tile?.destroy()
+        }
         
         let position = pointForCoordinate(new_entity.location)
+        let entity_id = new_entity.entity_id
         
-        //debugPrint("FROM NET: Point - \(position) , pos_on_grid - \(new_entity.location)")
-        
-        //debugPrint("FROM NET: Point - \(position) , pos_on_grid - \(new_entity.location)")
         var building : Building?
+        var unit: Unit?
         
         switch (new_entity.type )
         {
@@ -1908,13 +1979,13 @@ class GameScene: SKScene, NetworkableScene
             building = spawnAttackerPowerSource(position)
             
         case .Orc:
-            spawnOrc(position)
+            unit = spawnOrc(position)
             
         case .Goblin:
-            spawnGoblin(position)
+            unit = spawnGoblin(position)
             
         case .Troll:
-            spawnTroll(position)
+            unit = spawnTroll(position)
             
         default:
             debugPrint("Wrong Build Mode: \(current_build_mode)")
@@ -1932,6 +2003,13 @@ class GameScene: SKScene, NetworkableScene
                 let tile = Tile.getTile(tiles, pos: pos)
                 tile.building_on_tile = building!
             }
+            
+            building?.entity_id = entity_id
+        }
+        
+        if (unit != nil)
+        {
+            unit?.entity_id = entity_id
         }
     }
     

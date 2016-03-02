@@ -37,8 +37,11 @@ class Building: GameEntity
         }
     }
     
-    func buildInProgress(world_position: CGPoint)
+    func buildInProgress()
     {
+        let world_position: CGPoint = visualComp.node.position
+        
+        visualComp.scene.removeChildrenInArray([visualComp.node])
         
         if (self is RegularTower)
         {
