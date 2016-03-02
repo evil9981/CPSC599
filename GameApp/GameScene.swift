@@ -104,6 +104,8 @@ class GameScene: SKScene, NetworkableScene
     var role: GameRole!
     var mode: GameMode!
     
+    var network_inst: NetworkSingleton!
+    
     override func didMoveToView(view: SKView)
     {
         // Get the network
@@ -153,6 +155,8 @@ class GameScene: SKScene, NetworkableScene
         tile = Tile.getTile(tiles, pos: int2(2,6))
         tile.moveOpt = TileOpts.Teleport
         tile.teleportDestination = Tile.getTile(tiles, pos: int2(146,23))
+        
+        network_inst = NetworkSingleton.getInst(self)
     }
     
     func spawn_pigs()
@@ -702,23 +706,31 @@ class GameScene: SKScene, NetworkableScene
                 else if name == "spawn_orc"
                 {
                     let spawner = building_selected as! Spawner
-                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point )
-                    spawnOrc(scene_spawn_point)
+                    
+                    let request_entity = RequestEntity(type: BuildMode.Orc, location: spawner.selected_spawn_point, parent_id: spawner.entity_id)
+
+                    writeToNet( request_entity );
                     
                     gui_element_clicked = true
                 }
                 else if name == "spawn_troll"
                 {
                     let spawner = building_selected as! Spawner
-                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
-                    spawnTroll(scene_spawn_point)
+                    
+                    let request_entity = RequestEntity(type: BuildMode.Troll, location: spawner.selected_spawn_point, parent_id: spawner.entity_id)
+                    
+                    writeToNet( request_entity );
+                    
                     gui_element_clicked = true
                 }
                 else if name == "spawn_goblin"
                 {
                     let spawner = building_selected as! Spawner
-                    let scene_spawn_point = pointForCoordinate( spawner.selected_spawn_point)
-                    spawnGoblin(scene_spawn_point)
+                    
+                    let request_entity = RequestEntity(type: BuildMode.Goblin, location: spawner.selected_spawn_point, parent_id: spawner.entity_id)
+                    
+                    writeToNet( request_entity );
+                    
                     gui_element_clicked = true
                 }
                 else if name == "change_spawn_point"
@@ -764,47 +776,19 @@ class GameScene: SKScene, NetworkableScene
                     gui_element_clicked = true
                     if (can_build)
                     {
-                        var building : Building?
-
-                        switch (current_build_mode! )
-                        {
-                        case .RegularTower:
-                            building = spawnRegularTower(temp_building!.visualComp.node.position)
-
-                        case .FireTower:
-                            building = spawnFireTower(temp_building!.visualComp.node.position)
-                            
-                        case .IceTower:
-                            building = spawnIceTower(temp_building!.visualComp.node.position)
-                            
-                        case .DefenderPowerSource:
-                            building = spawnDefenderPowerSource(temp_building!.visualComp.node.position)
-                           
-                        case .OrcBuliding:
-                            building = spawnOrcBuilding(temp_building!.visualComp.node.position)
-                            
-                        case .GoblinBuilding:
-                            building = spawnGoblinBuilding(temp_building!.visualComp.node.position)
-                            
-                        case .TrollBuilding:
-                            building = spawnTrollBuilding(temp_building!.visualComp.node.position)
-                            
-                        case .AttackerPowerSource:
-                            building = spawnAttackerPowerSource(temp_building!.visualComp.node.position)
-                            
-                        default:
-                            debugPrint("Wrong Build Mode: \(current_build_mode)")
-                            break
-                        }
+                        //debugPrint(temp_building!)
+                        let position = temp_building!.visualComp.node.position
+                        var pos_on_grid = coordinateForPoint(position)
+                        pos_on_grid = int2(pos_on_grid.x + 1, pos_on_grid.y + 1)
                         
-                        for temp_node in tileIndicators
-                        {
-                            let pos = coordinateForPoint(temp_node.position)
-                            let tile = Tile.getTile(tiles, pos: pos)
-                            tile.building_on_tile = building!
-                        }
+                        //let point = pointForCoordinate(pos_on_grid)
+                        //debugPrint("Point: \(point) , pos_on_grid: \(pos_on_grid)")
                         
-                        destroy_temp_building()
+                        let request_entity = RequestEntity(type: current_build_mode!, location: pos_on_grid, parent_id: -1)
+                        writeToNet( request_entity );
+                        
+                        destroy_temp_building();
+                        // Show temp animation
                     }
                 }
                 else if name == "cancel_building"
@@ -922,6 +906,8 @@ class GameScene: SKScene, NetworkableScene
 
             if (!gui_element_clicked && !entity_clicked)
             {
+                
+                
                 switch (current_build_mode! )
                 {
                 case .Orc:
@@ -959,9 +945,13 @@ class GameScene: SKScene, NetworkableScene
         
         // Find the location on the grid (int2 [2 Int32s] in the underlying grid)
         let pos_on_grid = coordinateForPoint(point)
+        //debugPrint("Placed temp on pos_on_grid: \(pos_on_grid)")
         
         // Fix the position to be on the grid
         let fixed_pos = pointForCoordinate(pos_on_grid)
+        
+        //debugPrint("Placed temp on fixed_pos: \(fixed_pos)")
+        
         var isAttacker = false
         var isDefender = false
         
@@ -1712,7 +1702,7 @@ class GameScene: SKScene, NetworkableScene
             // Fix the position to be on the grid
             let fixed_pos = pointForCoordinate(pos_on_grid)
             let tile = Tile.getTile(tiles, pos: pos_on_grid)
-            debugPrint(tile.position)
+            //debugPrint(tile.position)
             
             if (tile is MazeTile)
             {
@@ -1784,9 +1774,6 @@ class GameScene: SKScene, NetworkableScene
             }
         }
     }
-
-
-    
     
     func spawnDirtyPig(point: CGPoint)
     {
@@ -1881,6 +1868,70 @@ class GameScene: SKScene, NetworkableScene
         {
             debugPrint("Not a defender tile!")
             return nil
+        }
+    }
+    
+    func BuildEntity(new_entity : NewEntity)
+    {
+        
+        let position = pointForCoordinate(new_entity.location)
+        
+        //debugPrint("FROM NET: Point - \(position) , pos_on_grid - \(new_entity.location)")
+        
+        //debugPrint("FROM NET: Point - \(position) , pos_on_grid - \(new_entity.location)")
+        var building : Building?
+        
+        switch (new_entity.type )
+        {
+        case .RegularTower:
+            building = spawnRegularTower(position)
+            
+        case .FireTower:
+            building = spawnFireTower(position)
+            
+        case .IceTower:
+            building = spawnIceTower(position)
+            
+        case .DefenderPowerSource:
+            building = spawnDefenderPowerSource(position)
+            
+        case .OrcBuliding:
+            building = spawnOrcBuilding(position)
+            
+        case .GoblinBuilding:
+            building = spawnGoblinBuilding(position)
+            
+        case .TrollBuilding:
+            building = spawnTrollBuilding(position)
+            
+        case .AttackerPowerSource:
+            building = spawnAttackerPowerSource(position)
+            
+        case .Orc:
+            spawnOrc(position)
+            
+        case .Goblin:
+            spawnGoblin(position)
+            
+        case .Troll:
+            spawnTroll(position)
+            
+        default:
+            debugPrint("Wrong Build Mode: \(current_build_mode)")
+            break
+        }
+        
+        if (building != nil)
+        {
+            // All positions on the grid
+            let temp_tiles : [int2] = [new_entity.location, int2(new_entity.location.x+1,new_entity.location.y), int2(new_entity.location.x,new_entity.location.y+1), int2(new_entity.location.x+1,new_entity.location.y+1)]
+            
+            for pos in temp_tiles
+            {
+                //let pos = coordinateForPoint(pos_on_grid)
+                let tile = Tile.getTile(tiles, pos: pos)
+                tile.building_on_tile = building!
+            }
         }
     }
     
@@ -2122,11 +2173,26 @@ class GameScene: SKScene, NetworkableScene
     
     func updateFromNetwork(msg: String)
     {
+        debugPrint("------- IN -------" )
+        debugPrint("Raw message: " + msg)
         
+        let data = (msg as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        let json = JSON(data: data! )
+        let type = json["msgType"].stringValue
+        
+        debugPrint("Type was " + type)
+        
+        if (type == msgType.NewEntity.rawValue)
+        {
+            let new_entity = NewEntity(json: json)
+            BuildEntity(new_entity)
+        }
     }
     
     func writeToNet(msg: NetMessage)
     {
-        
+        debugPrint("------- OUT -------" )
+        debugPrint(msg.toJSON())
+        network_inst.writeToNet(msg)
     }
 }

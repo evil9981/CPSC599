@@ -9,6 +9,7 @@
 import SpriteKit
 import SwiftyJSON
 import GameKit
+import UIKit
 
 class MainMenuScene: SKScene, NetworkableScene
 {
@@ -30,6 +31,9 @@ class MainMenuScene: SKScene, NetworkableScene
     var network_inst: NetworkSingleton!
     override func didMoveToView(view: SKView)
     {
+        // Don't auto lock screen on time out - this'll disconnect user!
+        UIApplication.sharedApplication().idleTimerDisabled = true
+        
         let rgbValue = 0xADD8E6
         let r = CGFloat((rgbValue & 0xFF0000) >> 16)/255.0
         let g = CGFloat((rgbValue & 0xFF00) >> 8)/255.0

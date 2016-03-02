@@ -10,34 +10,26 @@ import Foundation
 import SwiftyJSON
 import SpriteKit
 
-class NewBuilding : NetMessage
+class NewEntity : NetMessage
 {
     var msg_type: msgType
     var type : GameScene.BuildMode
     var entity_id: Int
     var location: int2
-    var time_to_spawn: String
+    var parent_id: Int
     
     init(json: JSON)
     {
-        self.msg_type = msgType(rawValue: json["msg_type"].stringValue)!
+        self.msg_type = msgType(rawValue: json["msgType"].stringValue)!
         self.type = GameScene.BuildMode(rawValue: json["type"].intValue)!
         self.entity_id = json["entity_id"].intValue
-        let x = json["location"]["x"].intValue
-        let y = json["location"]["y"].intValue
-        self.location = int2(Int32(x),Int32(y))
-        self.time_to_spawn = json["msg_type"].stringValue
+        let x = Int32(json["location"]["x"].floatValue)
+        let y = Int32(json["location"]["y"].floatValue)
+        self.location = int2(x, y)
+        self.parent_id = json["parent_id"].intValue
     }
     
-    init(type: GameScene.BuildMode, entity_id: Int, location: int2, time_to_spawn: String)
-    {
-        self.msg_type = msgType.NewBuilding
-        self.type = type
-        self.entity_id = entity_id
-        self.location = location
-        self.time_to_spawn = time_to_spawn
-    }
-    
+    // Not really used?
     func toJSON() -> String
     {
         let str: String =
@@ -46,7 +38,7 @@ class NewBuilding : NetMessage
             " \"type\" : \(type.rawValue)," +
             " \"entityID\" : \(self.entity_id)," +
             " \"location\" : { \"x\":\(self.location.x), \"y\":\(self.location.y) }," +
-            " \"time\" : \(self.time_to_spawn)" +
+            " \"parent_id\" : \(self.parent_id)" +
         "}"
         
         return str

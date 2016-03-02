@@ -12,8 +12,8 @@ enum msgType: String
 {
     case LogInRequest = "LogInRequest"
     case LogIn = "LogIn"
-    case NewBuilding = "NewBuilding"
-    case NewCreature = "NewCreature"
+    case RequestEntity = "RequestEntity"
+    case NewEntity = "NewEntity"
     case CreatureDied = "CreatureDied"
     case LifeReduced = "LifeReduced"
     case EndGame = "EndGame"

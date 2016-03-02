@@ -28,6 +28,9 @@
 		CE1C89E41C0EDB1600522C4F /* FlagUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89E31C0EDB1600522C4F /* FlagUp.swift */; };
 		CE1C89EB1C0F4F9E00522C4F /* PowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */; };
 		CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C89EC1C0F97D600522C4F /* Animation.swift */; };
+		CE51C9DB1C866290000D5C91 /* CreatureDied.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51C9DA1C866290000D5C91 /* CreatureDied.swift */; };
+		CE51C9E11C86C49C000D5C91 /* RequestEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51C9E01C86C49C000D5C91 /* RequestEntity.swift */; };
+		CE51C9E61C86C5B0000D5C91 /* LifeReduced.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE51C9E51C86C5B0000D5C91 /* LifeReduced.swift */; };
 		CE6BF5B91C0D285800E7A79F /* Map.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6BF5B81C0D285800E7A79F /* Map.json */; };
 		CE6EAE781BD889300004DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6EAE771BD889300004DAD8 /* AppDelegate.swift */; };
 		CE6EAE7A1BD889300004DAD8 /* MainMenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CE6EAE791BD889300004DAD8 /* MainMenuScene.sks */; };
@@ -47,7 +50,7 @@
 		CE8ED8CA1C064604008CB40B /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8C91C064604008CB40B /* ButtonManager.swift */; };
 		CE8ED8CD1C0650C7008CB40B /* Pig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8CC1C0650C7008CB40B /* Pig.swift */; };
 		CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8ED8CE1C0651A1008CB40B /* PigMoveComponent.swift */; };
-		CE98B4571C6BD83200C90E79 /* NewBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE98B4561C6BD83200C90E79 /* NewBuilding.swift */; };
+		CE98B4571C6BD83200C90E79 /* NewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE98B4561C6BD83200C90E79 /* NewEntity.swift */; };
 		CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A764C1BE702D100DDBF11 /* Tile.swift */; };
 		CE9A76541BE7547300DDBF11 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A76531BE7547300DDBF11 /* Unit.swift */; };
 		CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9A76561BE754BF00DDBF11 /* MovementComponent.swift */; };
@@ -126,6 +129,9 @@
 		CE1C89E31C0EDB1600522C4F /* FlagUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagUp.swift; sourceTree = "<group>"; };
 		CE1C89EA1C0F4F9E00522C4F /* PowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerSource.swift; sourceTree = "<group>"; };
 		CE1C89EC1C0F97D600522C4F /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		CE51C9DA1C866290000D5C91 /* CreatureDied.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatureDied.swift; sourceTree = "<group>"; };
+		CE51C9E01C86C49C000D5C91 /* RequestEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestEntity.swift; sourceTree = "<group>"; };
+		CE51C9E51C86C5B0000D5C91 /* LifeReduced.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifeReduced.swift; sourceTree = "<group>"; };
 		CE6BF5B81C0D285800E7A79F /* Map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Map.json; path = ../Map.json; sourceTree = "<group>"; };
 		CE6EAE741BD889300004DAD8 /* GameApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6EAE771BD889300004DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +156,7 @@
 		CE8ED8C91C064604008CB40B /* ButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
 		CE8ED8CC1C0650C7008CB40B /* Pig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pig.swift; sourceTree = "<group>"; };
 		CE8ED8CE1C0651A1008CB40B /* PigMoveComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PigMoveComponent.swift; sourceTree = "<group>"; };
-		CE98B4561C6BD83200C90E79 /* NewBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBuilding.swift; sourceTree = "<group>"; };
+		CE98B4561C6BD83200C90E79 /* NewEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEntity.swift; sourceTree = "<group>"; };
 		CE9A764C1BE702D100DDBF11 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		CE9A76531BE7547300DDBF11 /* Unit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		CE9A76561BE754BF00DDBF11 /* MovementComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
@@ -309,7 +315,10 @@
 			isa = PBXGroup;
 			children = (
 				CE7B446B1C6282FB00FCA46E /* LogInMsg.swift */,
-				CE98B4561C6BD83200C90E79 /* NewBuilding.swift */,
+				CE51C9DA1C866290000D5C91 /* CreatureDied.swift */,
+				CE51C9E51C86C5B0000D5C91 /* LifeReduced.swift */,
+				CE51C9E01C86C49C000D5C91 /* RequestEntity.swift */,
+				CE98B4561C6BD83200C90E79 /* NewEntity.swift */,
 				CEF8858B1C69B74E00C7A793 /* LogInRequestMsg.swift */,
 			);
 			name = MsgInst;
@@ -607,6 +616,7 @@
 				A378E0771C0BB28100791979 /* DefenderPowerSource.swift in Sources */,
 				CE0F00DB1C0E23C3003EA598 /* IceBolt.swift in Sources */,
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
+				CE51C9E61C86C5B0000D5C91 /* LifeReduced.swift in Sources */,
 				CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */,
 				CEF8858E1C69B76600C7A793 /* GameRole.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
@@ -630,6 +640,7 @@
 				CE6EAE7C1BD889300004DAD8 /* MainMenuScene.swift in Sources */,
 				A378E07D1C0CEDF900791979 /* IceTower.swift in Sources */,
 				CED265041BE772C30022C033 /* NonUsableTile.swift in Sources */,
+				CE51C9DB1C866290000D5C91 /* CreatureDied.swift in Sources */,
 				929B649C1C0E7D16002D7E41 /* TrollBuilding.swift in Sources */,
 				CE0F00D41C0E23AE003EA598 /* CannonBall.swift in Sources */,
 				929B64981C0E7C80002D7E41 /* AttackerPowerSource.swift in Sources */,
@@ -641,7 +652,7 @@
 				A378E07B1C0CEDAB00791979 /* FireTower.swift in Sources */,
 				CE9A76571BE754BF00DDBF11 /* MovementComponent.swift in Sources */,
 				CE9A764D1BE702D100DDBF11 /* Tile.swift in Sources */,
-				CE98B4571C6BD83200C90E79 /* NewBuilding.swift in Sources */,
+				CE98B4571C6BD83200C90E79 /* NewEntity.swift in Sources */,
 				929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
 				CE7B44621C62813400FCA46E /* NetworkableScene.swift in Sources */,
@@ -656,6 +667,7 @@
 				CED2651C1BE93A990022C033 /* Tower.swift in Sources */,
 				CED2651A1BE934C60022C033 /* TowerShootComponent.swift in Sources */,
 				CED265081BE774040022C033 /* TileOpts.swift in Sources */,
+				CE51C9E11C86C49C000D5C91 /* RequestEntity.swift in Sources */,
 				CE9A76591BE755EC00DDBF11 /* VisualComponent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
