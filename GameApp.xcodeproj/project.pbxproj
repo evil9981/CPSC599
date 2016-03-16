@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		3BA7BF2F220FCFA5A714ED7A /* Pods_GameApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */; };
+		921C16BE1C9A0A2B00D5E771 /* LightningTower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921C16BD1C9A0A2B00D5E771 /* LightningTower.swift */; };
+		921C16C31C9A0AC300D5E771 /* HarpyBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921C16C21C9A0AC300D5E771 /* HarpyBuilding.swift */; };
+		921C16C51C9A0B7C00D5E771 /* Harpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921C16C41C9A0B7C00D5E771 /* Harpy.swift */; };
 		929B64941C0E7B4F002D7E41 /* OrcBuilding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */; };
 		929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64951C0E7BE2002D7E41 /* Spawner.swift */; };
 		929B64981C0E7C80002D7E41 /* AttackerPowerSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */; };
@@ -109,6 +112,9 @@
 		48476AA86ED0656B97F1DE63 /* Pods-GameApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.debug.xcconfig"; sourceTree = "<group>"; };
 		56A704EA20C919B5C0A9879B /* Pods-GameApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GameApp/Pods-GameApp.release.xcconfig"; sourceTree = "<group>"; };
 		8BE4A1211120E05C0FDB2A04 /* Pods_GameApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GameApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		921C16BD1C9A0A2B00D5E771 /* LightningTower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightningTower.swift; sourceTree = "<group>"; };
+		921C16C21C9A0AC300D5E771 /* HarpyBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HarpyBuilding.swift; sourceTree = "<group>"; };
+		921C16C41C9A0B7C00D5E771 /* Harpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Harpy.swift; sourceTree = "<group>"; };
 		929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrcBuilding.swift; sourceTree = "<group>"; };
 		929B64951C0E7BE2002D7E41 /* Spawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spawner.swift; sourceTree = "<group>"; };
 		929B64971C0E7C80002D7E41 /* AttackerPowerSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackerPowerSource.swift; sourceTree = "<group>"; };
@@ -223,6 +229,7 @@
 				929B64931C0E7B4F002D7E41 /* OrcBuilding.swift */,
 				929B64991C0E7CE7002D7E41 /* GoblinBuilding.swift */,
 				929B649B1C0E7D16002D7E41 /* TrollBuilding.swift */,
+				921C16C21C9A0AC300D5E771 /* HarpyBuilding.swift */,
 			);
 			name = Spawners;
 			sourceTree = "<group>";
@@ -242,6 +249,7 @@
 				A378E0781C0CE5C300791979 /* RegularTower.swift */,
 				A378E07A1C0CEDAB00791979 /* FireTower.swift */,
 				A378E07C1C0CEDF900791979 /* IceTower.swift */,
+				921C16BD1C9A0A2B00D5E771 /* LightningTower.swift */,
 			);
 			name = Towers;
 			sourceTree = "<group>";
@@ -395,6 +403,7 @@
 				CED264F91BE765420022C033 /* Orc.swift */,
 				929B649D1C0F45DB002D7E41 /* Troll.swift */,
 				929B649F1C0F4665002D7E41 /* Goblin.swift */,
+				921C16C41C9A0B7C00D5E771 /* Harpy.swift */,
 			);
 			name = MazeUnits;
 			sourceTree = "<group>";
@@ -478,7 +487,7 @@
 				TargetAttributes = {
 					CE6EAE731BD889300004DAD8 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = F694LY6WDW;
+						DevelopmentTeam = C78K7F5GW8;
 					};
 					CE6EAE8B1BD889300004DAD8 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -618,6 +627,7 @@
 				CE07140A1C065BE50062EEBF /* DirtyPig.swift in Sources */,
 				CE51C9E61C86C5B0000D5C91 /* LifeReduced.swift in Sources */,
 				CE1C89ED1C0F97D600522C4F /* Animation.swift in Sources */,
+				921C16C51C9A0B7C00D5E771 /* Harpy.swift in Sources */,
 				CEF8858E1C69B76600C7A793 /* GameRole.swift in Sources */,
 				CED264FE1BE772940022C033 /* AttackerTile.swift in Sources */,
 				CE0F00D91C0E23B6003EA598 /* FireBall.swift in Sources */,
@@ -655,7 +665,9 @@
 				CE98B4571C6BD83200C90E79 /* NewEntity.swift in Sources */,
 				929B64961C0E7BE2002D7E41 /* Spawner.swift in Sources */,
 				CED264FA1BE765420022C033 /* Orc.swift in Sources */,
+				921C16C31C9A0AC300D5E771 /* HarpyBuilding.swift in Sources */,
 				CE7B44621C62813400FCA46E /* NetworkableScene.swift in Sources */,
+				921C16BE1C9A0A2B00D5E771 /* LightningTower.swift in Sources */,
 				CE7B446E1C62848600FCA46E /* NetworkSinglton.swift in Sources */,
 				CE8ED8CF1C0651A1008CB40B /* PigMoveComponent.swift in Sources */,
 				CED265121BE92B880022C033 /* Building.swift in Sources */,
@@ -802,7 +814,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GameApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -818,7 +830,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GameApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Swincide.1.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
