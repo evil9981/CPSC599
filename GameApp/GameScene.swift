@@ -523,19 +523,19 @@ class GameScene: SKScene, NetworkableScene
     func init_buttons()
     {
         // These are the sandbox buttons, at the lower part of the screen
-        buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
+        //buttons[BuildMode.Orc.rawValue] = ButtonManager.init_button(camera!, img_name: "orc_left_0", button_name: "orcButton", index: BuildMode.Orc.rawValue)
         
         // These are the sandbox buttons, at the lower part of the screen
-        buttons[BuildMode.Goblin.rawValue] = ButtonManager.init_button(camera!, img_name: "goblin_left_0", button_name: "goblinButton", index: BuildMode.Goblin.rawValue)
+        //buttons[BuildMode.Goblin.rawValue] = ButtonManager.init_button(camera!, img_name: "goblin_left_0", button_name: "goblinButton", index: BuildMode.Goblin.rawValue)
         
         // These are the sandbox buttons, at the lower part of the screen
-        buttons[BuildMode.Troll.rawValue] = ButtonManager.init_button(camera!, img_name: "troll_left_0", button_name: "trollButton", index: BuildMode.Troll.rawValue)
+        //buttons[BuildMode.Troll.rawValue] = ButtonManager.init_button(camera!, img_name: "troll_left_0", button_name: "trollButton", index: BuildMode.Troll.rawValue)
         
-        buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
+        //buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
         
         // Start in Orc mode
         self.current_build_mode = .Orc
-        buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
+        //buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
     }
     
     // MARK: Update method

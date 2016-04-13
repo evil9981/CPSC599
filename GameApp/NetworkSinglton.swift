@@ -11,7 +11,7 @@ class NetworkSingleton: WebSocketDelegate
     
     private init()
     {
-        ws = WebSocket(url: NSURL(string: "ws://70.73.254.121:8005")!)
+        ws = WebSocket(url: NSURL(string: "ws://10.13.152.1:8005")!)
         ws.delegate = self
         ws.connect()
     }

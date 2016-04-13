@@ -181,11 +181,14 @@ class MainMenuScene: SKScene, NetworkableScene
             {
                 debugPrint("Player chose to be an attacker!")
                 select_role(GameRole.attacker)
+                touchedNode.alpha = 0.5
+
             }
             else if name == "defender_button"
             {
                 debugPrint("Player chose to be a defender!")
                 select_role(GameRole.defender)
+                touchedNode.alpha = 0.5
             }
             else if name == "fill_button"
             {
@@ -207,8 +210,8 @@ class MainMenuScene: SKScene, NetworkableScene
     {
         scene!.removeChildrenInArray([sandbox_button, multiplayer_button])
         
-        let bg_width = 400
-        let bg_height = 150
+        let bg_width = 550
+        let bg_height = 185
         let bg_x = Int(self.frame.width/2) - bg_width/2
         let bg_y = Int(self.frame.height/2) - bg_height/2
         let bg_rect = CGRect(x: bg_x, y: bg_y , width: bg_width, height: bg_height)
@@ -218,16 +221,20 @@ class MainMenuScene: SKScene, NetworkableScene
         bg.zPosition = ZPositions.OverlayButton.rawValue
         
         let attacker_button = SKSpriteNode(texture: SKTexture(imageNamed: "attacker_button"))
+        attacker_button.xScale = 2
+        attacker_button.yScale = 2
         attacker_button.name = "attacker_button"
         
         let defender_button = SKSpriteNode(texture: SKTexture(imageNamed: "defender_button"))
+        defender_button.xScale = 2
+        defender_button.yScale = 2
         defender_button.name = "defender_button"
         
         let back_button = SKSpriteNode(texture: SKTexture(imageNamed: "back_button"))
         back_button.name = "back_button"
         
-        attacker_button.position = CGPointMake( CGFloat(bg_x + bg_width/2) - attacker_button.frame.width, CGFloat(bg_y + bg_height) - attacker_button.frame.height - 6.0)
-        defender_button.position = CGPointMake( CGFloat(bg_x + bg_width/2) + attacker_button.frame.width + 70.0 - defender_button.frame.width, CGFloat(bg_y + bg_height) - defender_button.frame.height - 6.0)
+        attacker_button.position = CGPointMake( CGFloat(bg_x + bg_width/2) - attacker_button.frame.width + 35.0, CGFloat(bg_y + bg_height) - attacker_button.frame.height - 30.0)
+        defender_button.position = CGPointMake( CGFloat(bg_x + bg_width/2) + attacker_button.frame.width + 140.0 - defender_button.frame.width, CGFloat(bg_y + bg_height) - defender_button.frame.height - 30.0)
 
         back_button.position = CGPointMake( CGFloat(bg_x + bg_width/2) - back_button.frame.width  + 47.0, CGFloat(bg_y) + 15.0)
         
