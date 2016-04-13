@@ -254,7 +254,7 @@ class GameScene: SKScene, NetworkableScene
             // Add the gold image texture
             goldImageTexture = SKTexture(imageNamed: "GoldImage")
             goldImage = SKSpriteNode(texture: goldImageTexture)
-            goldImage.position = CGPointMake(450, 1100)
+            goldImage.position = CGPointMake(450, 1300)
             goldImage.xScale = 8
             goldImage.yScale = 8
             goldImage.zPosition = ZPosition.GUI.rawValue
