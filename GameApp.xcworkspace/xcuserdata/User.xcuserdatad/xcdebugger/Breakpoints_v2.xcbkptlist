@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GameApp/GameScene.swift"
-            timestampString = "478648051.492836"
+            timestampString = "482279828.501758"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1949"
-            endingLineNumber = "1949"
+            startingLineNumber = "1930"
+            endingLineNumber = "1930"
             landmarkName = "BuildEntity(_:)"
             landmarkType = "5">
          </BreakpointContent>

@@ -247,7 +247,7 @@ class GameScene: SKScene, NetworkableScene
         livesImage.zPosition = ZPosition.GUI.rawValue
         sceneCamera.addChild(livesImage)
         
-        
+    
         // Attacker's gold and gold label
         if (role == GameRole.attacker || mode == GameMode.SANDBOX)
         {
@@ -534,7 +534,7 @@ class GameScene: SKScene, NetworkableScene
         //buttons[BuildMode.None.rawValue] = ButtonManager.init_button(camera!, img_name: "buy_no", button_name: "NoneButton", index: BuildMode.None.rawValue)
         
         // Start in Orc mode
-        self.current_build_mode = .Orc
+        self.current_build_mode = .None
         //buttons[BuildMode.Orc.rawValue]!.runAction(colorize)
     }
     
@@ -903,25 +903,6 @@ class GameScene: SKScene, NetworkableScene
                 place_temp_building(scenePoint)
             }
 
-            if (!gui_element_clicked && !entity_clicked)
-            {
-                
-                
-                switch (current_build_mode! )
-                {
-                case .Orc:
-                    spawnOrc(scenePoint)
-                    
-                case .Troll:
-                    spawnTroll(scenePoint)
-                    
-                case .Goblin:
-                    spawnGoblin(scenePoint)
-                    
-                default:
-                    break
-                }
-            }
         }
     }
     
