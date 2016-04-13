@@ -98,7 +98,7 @@ class Unit: GameEntity
             
             // Kill unit!
             scene.attackerGoldCount += self.unit_worth
-            scene.defenderGoldCount += Unit.MAX_GOLD - self.unit_worth
+            scene.defenderGoldCount += self.unit_worth
             self.destroy()
         }
     }

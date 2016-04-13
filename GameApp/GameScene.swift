@@ -265,8 +265,8 @@ class GameScene: SKScene, NetworkableScene
             attackerGoldLabel = SKLabelNode(fontNamed: "Arial-BoldMT")
             attackerGoldLabel.text = String(attackerGoldCount)
             attackerGoldLabel.fontSize = 150
-            attackerGoldLabel.fontColor = UIColor.blueColor()
-            attackerGoldLabel.position = CGPointMake(750, 1035)
+            attackerGoldLabel.fontColor = UIColor(red: 248/255, green: 200/255, blue: 0, alpha: 1)
+            attackerGoldLabel.position = CGPointMake(750, 1235)
             attackerGoldLabel.zPosition = ZPosition.GUI.rawValue
             sceneCamera.addChild(attackerGoldLabel)
             
@@ -2214,39 +2214,42 @@ class GameScene: SKScene, NetworkableScene
     
     func take_one_life()
     {
-        let pigs = Array(all_pigs.values)
-        
-        let pig_index = Int(arc4random_uniform( UInt32(pigs.count) ))
-        let pig_to_kill = pigs[pig_index]
-        
-        
-        if ( pig_to_kill is FancyPig)
+        if lifeCount > 0
         {
-            let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-            let animation = Animation(scene: self, textures: FancyPig.fancyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
-            animation.run()
+            let pigs = Array(all_pigs.values)
+            
+            let pig_index = Int(arc4random_uniform( UInt32(pigs.count) ))
+            let pig_to_kill = pigs[pig_index]
+            
+            
+            if ( pig_to_kill is FancyPig)
+            {
+                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+                let animation = Animation(scene: self, textures: FancyPig.fancyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+                
+            else if ( pig_to_kill is DirtyPig)
+            {
+                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+                let animation = Animation(scene: self, textures: DirtyPig.dirtyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+                
+            else if ( pig_to_kill is HatPig)
+            {
+                let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
+                let animation = Animation(scene: self, textures: HatPig.hatDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
+                animation.run()
+            }
+            
+            pig_to_kill.destroy()
+            
+            // Pig to kill is the one we kill!
+            
+            
+            lifeCount = lifeCount - 1
         }
-        
-        else if ( pig_to_kill is DirtyPig)
-        {
-            let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-            let animation = Animation(scene: self, textures: DirtyPig.dirtyDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
-            animation.run()
-        }
-        
-        else if ( pig_to_kill is HatPig)
-        {
-            let size = CGSize(width: Tile.tileWidth,height: Tile.tileHeight)
-            let animation = Animation(scene: self, textures: HatPig.hatDeath, speed: 1.0, visSize: size , worldPos: pig_to_kill.visualComp.node.position, death_anim: true)
-            animation.run()
-        }
-        
-        pig_to_kill.destroy()
-        
-        // Pig to kill is the one we kill!
-
-        
-        lifeCount = lifeCount - 1
     }
     
     func updateFromNetwork(msg: String)
