@@ -13,9 +13,7 @@ import UIKit
 
 class MainMenuScene: SKScene, NetworkableScene
 {
-    var sandbox_button: SKSpriteNode!
     var multiplayer_button: SKSpriteNode!
-    //var label_node: SKLabelNode!
     
     var all_pigs : Dictionary<Int, SKSpriteNode> = Dictionary<Int, SKSpriteNode>()
     
@@ -77,17 +75,8 @@ class MainMenuScene: SKScene, NetworkableScene
     
     func init_game_buttons()
     {
-        sandbox_button = SKSpriteNode(texture: SKTexture(imageNamed: "sandbox_button"))
-        sandbox_button.xScale = 2
-        sandbox_button.yScale = 2
-        sandbox_button.name = "sandbox_button"
-        sandbox_button.zPosition = ZPositions.Button.rawValue
-        
-        var button_x = self.frame.width/2
-        var button_y = self.frame.height/2
-        sandbox_button.position = CGPointMake(button_x, button_y)
-        
-        scene!.addChild(sandbox_button)
+        let button_x = self.frame.width/2
+        let button_y = self.frame.height/2
         
         multiplayer_button = SKSpriteNode(texture: SKTexture(imageNamed: "multiplayer_button"))
         multiplayer_button.xScale = 2
@@ -95,25 +84,12 @@ class MainMenuScene: SKScene, NetworkableScene
         multiplayer_button.name = "multiplayer_button"
         multiplayer_button.zPosition = ZPositions.Button.rawValue
         
-        button_x = self.frame.width/2
-        button_y = self.frame.height/2 - 20.0 - sandbox_button.frame.height
+        //button_x = self.frame.width/2
+        //button_y = self.frame.height/2 - 20.0 - sandbox_button.frame.height
         multiplayer_button.position = CGPointMake(button_x, button_y)
         
         scene!.addChild(multiplayer_button)
-        
-        /*
-        label_node = SKLabelNode(text : "Welcome ")
-        label_node.xScale = 2
-        label_node.yScale = 2
-        label_node.name = "label_node"
-        label_node.zPosition = ZPositions.Button.rawValue
-        
-        button_x = self.frame.width/2
-        button_y = self.frame.height/2 + 20.0 + sandbox_button.frame.height
-        label_node.position = CGPointMake(button_x, button_y)
-        
-        scene!.addChild(label_node)
-        */
+
     }
     
 
@@ -166,13 +142,7 @@ class MainMenuScene: SKScene, NetworkableScene
         
         if let name = touchedNode.name
         {
-            if name == "sandbox_button"
-            {
-                //askPlayerSide()
-                this_game_mode = GameMode.SANDBOX
-                loadSandboxScene()
-            }
-            else if name == "multiplayer_button"
+            if name == "multiplayer_button"
             {
                 askPlayerSide()
                 this_game_mode = GameMode.MULTIPLAYER
@@ -198,8 +168,6 @@ class MainMenuScene: SKScene, NetworkableScene
             else if name == "back_button"
             {
                 self.removeChildrenInArray([bg])
-                self.addChild(sandbox_button)
-                self.addChild(multiplayer_button)
             }
 
         }
@@ -208,8 +176,6 @@ class MainMenuScene: SKScene, NetworkableScene
     var bg: SKShapeNode!
     func askPlayerSide()
     {
-        scene!.removeChildrenInArray([sandbox_button, multiplayer_button])
-        
         let bg_width = 550
         let bg_height = 185
         let bg_x = Int(self.frame.width/2) - bg_width/2
