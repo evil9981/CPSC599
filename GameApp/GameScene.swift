@@ -1003,16 +1003,20 @@ class GameScene: SKScene, NetworkableScene
         
         // Add the buy and cancel buttons
         let x_dist = (Tile.tileWidth * (CGFloat(num_horizontal_tiles))/2)
-        let y_dist = (Tile.tileHeight * (CGFloat(num_vert_tiles)-0.25)/2)
+        //let y_dist = (Tile.tileHeight * (CGFloat(num_vert_tiles)-0.25)/2)
         
         scene!.addChild(temp_ok_button)
-        temp_ok_button.position = CGPointMake(node.position.x - x_dist + 0.5 * Tile.tileWidth, node.position.y - y_dist)
+        temp_ok_button.xScale = 1.5
+        temp_ok_button.yScale = 1.5
+        temp_ok_button.position = CGPointMake(node.position.x - 3.2 * x_dist + Tile.tileWidth, node.position.y)
         temp_ok_button.zPosition = ZPosition.Tower.rawValue + 0.5
         temp_ok_button.anchorPoint = CGPointMake(0,0)
         
         scene!.addChild(temp_cancel_button)
+        temp_cancel_button.xScale = 1.5
+        temp_cancel_button.yScale = 1.5
         temp_cancel_button.position = node.position
-        temp_cancel_button.position = CGPointMake(node.position.x + x_dist + 0.5 * Tile.tileWidth, node.position.y - y_dist)
+        temp_cancel_button.position = CGPointMake(node.position.x + 1.5 * x_dist + Tile.tileWidth, node.position.y)
         temp_cancel_button.zPosition = ZPosition.Tower.rawValue + 0.5
         temp_cancel_button.anchorPoint = CGPointMake(0,0)
         
