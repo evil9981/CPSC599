@@ -1009,7 +1009,7 @@ class GameScene: SKScene, NetworkableScene
         temp_ok_button.xScale = 1.5
         temp_ok_button.yScale = 1.5
         temp_ok_button.position = CGPointMake(node.position.x - 3.2 * x_dist + Tile.tileWidth, node.position.y)
-        temp_ok_button.zPosition = ZPosition.Tower.rawValue + 0.5
+        temp_ok_button.zPosition = ZPosition.OverlayButton.rawValue + 0.5
         temp_ok_button.anchorPoint = CGPointMake(0,0)
         
         scene!.addChild(temp_cancel_button)
@@ -1017,7 +1017,7 @@ class GameScene: SKScene, NetworkableScene
         temp_cancel_button.yScale = 1.5
         temp_cancel_button.position = node.position
         temp_cancel_button.position = CGPointMake(node.position.x + 1.5 * x_dist + Tile.tileWidth, node.position.y)
-        temp_cancel_button.zPosition = ZPosition.Tower.rawValue + 0.5
+        temp_cancel_button.zPosition = ZPosition.OverlayButton.rawValue + 0.5
         temp_cancel_button.anchorPoint = CGPointMake(0,0)
         
         // Add the tiles indicating if you can build
